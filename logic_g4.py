@@ -5,6 +5,9 @@ import json
 from datetime import date, timedelta
 from utils import compute_holidays, easter_date
 from constants import *
+from logger import get_logger
+
+logger = get_logger('logic')
 
 def parse_unavail_or_req(unav_list, is_unavail=True):
     unav_set = set()
@@ -502,17 +505,24 @@ def _add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assig
 def _solve_and_extract_results(model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats):
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
-    solver.parameters.log_search_progress = True  # Enables detailed search logs (output to console)
+    solver.parameters.log_search_progress = False  # Disable verbose solver output
 
+    logger.info("Starting schedule optimization...")
     status = solver.Solve(model)
 
-    # After solve, capture and print/log stats
-    print(solver.ResponseStats())  # Summary: wall time, branches, conflicts, objective bounds, etc.
-    # Or access individually:
-    wall_time = solver.WallTime()  # Total solve time in seconds
-    branches = solver.NumBranches()  # Branches explored
-    conflicts = solver.NumConflicts()  # Conflicts encountered
+    # Log solver statistics
+    wall_time = solver.WallTime()
+    branches = solver.NumBranches()
+    conflicts = solver.NumConflicts()
     objective_value = solver.ObjectiveValue() if status in [cp_model.OPTIMAL, cp_model.FEASIBLE] else None
+    
+    status_names = {cp_model.OPTIMAL: 'OPTIMAL', cp_model.FEASIBLE: 'FEASIBLE', 
+                    cp_model.INFEASIBLE: 'INFEASIBLE', cp_model.MODEL_INVALID: 'MODEL_INVALID'}
+    status_str = status_names.get(status, f'UNKNOWN({status})')
+    
+    logger.info(f"Solver finished: status={status_str}, time={wall_time:.2f}s, branches={branches}, conflicts={conflicts}")
+    if objective_value is not None:
+        logger.info(f"Objective value: {objective_value:.2f}")
 
     # Log or save these (e.g., to a file or dict for comparison)
     stats = {

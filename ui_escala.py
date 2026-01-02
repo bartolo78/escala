@@ -16,6 +16,9 @@ import matplotlib.pyplot as plt
 from logic_g4 import generate_schedule, update_history, _compute_past_stats
 from utils import Tooltip, compute_holidays, easter_date
 from constants import EQUITY_WEIGHTS, DOW_EQUITY_WEIGHT, EQUITY_STATS
+from logger import get_logger
+
+logger = get_logger('ui')
 
 # Configuration file path
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
@@ -26,9 +29,11 @@ def load_config():
     if os.path.exists(CONFIG_FILE):
         try:
             with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                return yaml.safe_load(f)
+                config = yaml.safe_load(f)
+                logger.info(f"Configuration loaded from {CONFIG_FILE}")
+                return config
         except Exception as e:
-            print(f"Warning: Could not load config file: {e}")
+            logger.warning(f"Could not load config file: {e}")
     return None
 
 
@@ -37,9 +42,10 @@ def save_config(config):
     try:
         with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
             yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        logger.info(f"Configuration saved to {CONFIG_FILE}")
         return True
     except Exception as e:
-        print(f"Warning: Could not save config file: {e}")
+        logger.error(f"Could not save config file: {e}")
         return False
 
 
@@ -428,6 +434,7 @@ class ShiftSchedulerApp:
         self.root.after(100, lambda: self._run_generate_schedule(year, month, all_holidays))
 
     def _run_generate_schedule(self, year, month, all_holidays):
+        logger.info(f"Generating schedule for {month}/{year} with {len(self.workers)} workers")
         schedule, weekly, assignments, stats, self.current_stats_computed = generate_schedule(
             year, month, self.unavail, self.req, self.history, self.workers, holidays=all_holidays,
             equity_weights=self.equity_weights, dow_equity_weight=self.dow_equity_weight
@@ -440,10 +447,12 @@ class ShiftSchedulerApp:
         self.status_var.set("Schedule generated")
 
         if schedule:
+            logger.info(f"Schedule generated successfully with {len(assignments)} assignments")
             self.update_schedule_display(schedule, all_holidays)
             self.check_imbalances()
             self.generate_report()
         else:
+            logger.warning("No feasible schedule found")
             messagebox.showerror("Error", "No feasible schedule found")
 
         if assignments:
@@ -458,6 +467,7 @@ class ShiftSchedulerApp:
             threshold = self.thresholds.get(stat, 5)
             if imb > threshold:
                 alerts.append(f"{stat}: imbalance {imb} > {threshold}")
+                logger.warning(f"Fairness imbalance detected: {stat} = {imb} (threshold: {threshold})")
         if alerts:
             messagebox.showwarning("Fairness Alert", "\n".join(alerts))
 
@@ -696,9 +706,11 @@ class ShiftSchedulerApp:
     def import_workers(self):
         file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if file:
+            logger.info(f"Importing workers from {file}")
             with open(file, 'r') as f:
                 reader = csv.reader(f)
                 new_names = [row[0] for row in reader if row]
+            added_count = 0
             for name in new_names:
                 if not any(w['name'] == name for w in self.workers):
                     next_num = max((int(w['id'][2:]) for w in self.workers), default=0) + 1
