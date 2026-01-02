@@ -1,10 +1,13 @@
-import calendar
-import datetime
 from ortools.sat.python import cp_model
-import json
 from datetime import date, timedelta
-from utils import compute_holidays, easter_date
-from constants import *
+from utils import compute_holidays
+from constants import (
+    DOW_EQUITY_WEIGHT,
+    EQUITY_WEIGHTS,
+    OBJECTIVE_FLEX_WEIGHTS,
+    OBJECTIVE_WEIGHT_LOAD,
+    SHIFT_TYPES,
+)
 from scheduler_builders import (
     setup_holidays_and_days as _setup_holidays_and_days_pure,
     create_shifts as _create_shifts_pure,
@@ -95,6 +98,24 @@ def _setup_holidays_and_days(year, month, holidays):
     Days include all days in ISO weeks that contain any day of the selected month.
     """
     holiday_set, days = _setup_holidays_and_days_pure(year, month, holidays)
+
+    # RULES.md: For equity/objective accounting, holidays on weekdays should be
+    # treated as weekend days. When scheduling a month, the model operates on a
+    # full ISO-week window which may include days outside the selected month.
+    # If holidays are auto-provided (None or day-of-month ints), extend the
+    # holiday set to cover all months present in the window so overlap days are
+    # classified correctly.
+    should_auto_extend = holidays is None or (
+        isinstance(holidays, list) and holidays and all(isinstance(h, int) for h in holidays)
+    )
+    if should_auto_extend:
+        months_in_window = {(d.year, d.month) for d in days}
+        for y, m in months_in_window:
+            for hd in compute_holidays(y, m):
+                try:
+                    holiday_set.add(date(y, m, hd))
+                except ValueError:
+                    pass
     first_monday = days[0]
     last_sunday = days[-1]
     logger.info(f"Scheduling {len(days)} days from {first_monday} to {last_sunday} for {year}-{month:02d}")
@@ -226,16 +247,16 @@ def _add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, 
     return _mo.add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers)
 
 
-def _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts):
+def _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers):
     """
-    Deterministic Tie-Break: Add a tiny penalty based on worker index.
-    This ensures that when multiple assignments have equal cost, workers with
-    lower indices are preferred, producing stable results across runs.
+    Deterministic Tie-Break: Add a tiny penalty based on a stable worker order.
+    This ensures that when multiple assignments have equal cost, workers are
+    preferred deterministically (by id, then name), producing stable results.
     
     The weight is extremely small (1e-9) to not affect actual optimization decisions,
     only to break ties deterministically.
     """
-    return _mo.add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts)
+    return _mo.add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
 
 
 def _add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assigned, num_workers, shifts, unav_parsed,
@@ -317,7 +338,7 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
     obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
                                            num_workers)
     # Deterministic tie-break: add tiny penalty based on worker index to ensure stable ordering
-    obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts)
+    obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
     model.Minimize(obj)
     schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
         model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats

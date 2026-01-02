@@ -293,11 +293,29 @@ def add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, n
     return obj
 
 
-def add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts):
+def add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers):
+    """Add a deterministic, stable tie-break term.
+
+    RULES.md requires stable tie-breaks to avoid oscillations across runs.
+    We rank workers by (id, name) and add a tiny penalty proportional to the
+    rank so the solver prefers earlier workers when costs are otherwise equal.
+
+    This is intentionally tiny so it should only affect true ties.
+    """
+
+    def _worker_key(worker: dict) -> tuple[str, str]:
+        worker_id = worker.get("id")
+        worker_name = worker.get("name")
+        return (str(worker_id) if worker_id is not None else "", str(worker_name) if worker_name is not None else "")
+
+    order = sorted(range(num_workers), key=lambda i: _worker_key(workers[i]))
+    rank_by_index = {idx: rank for rank, idx in enumerate(order)}
+
     tiebreak_weight = 1e-9
     for w in range(num_workers):
+        rank = rank_by_index[w]
         for s in range(num_shifts):
-            obj += tiebreak_weight * w * assigned[w][s]
+            obj += tiebreak_weight * rank * assigned[w][s]
     return obj
 
 

@@ -107,3 +107,33 @@ _tkinter.TclError: no display name and no $DISPLAY environment variable
 2026-01-02 18:27:15 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
 2026-01-02 18:27:16 - escala.logic - INFO - Starting schedule optimization...
 2026-01-02 18:27:16 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.18s, branches=2058, conflicts=1
+2026-01-02 21:20:19 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:20:20 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:20:50 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=30.12s, branches=353691, conflicts=170
+2026-01-02 21:20:50 - escala.logic - INFO - Objective value: 26512.10
+2026-01-02 21:20:50 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:20:50 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:20:50 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 21:20:50 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-02 21:20:50 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:20:50 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.18s, branches=2058, conflicts=1
+2026-01-02 21:24:50 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:24:51 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:25:21 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=30.00s, branches=212223, conflicts=164
+2026-01-02 21:25:21 - escala.logic - INFO - Objective value: 26318.10
+2026-01-02 21:25:21 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:25:21 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:25:21 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 21:25:21 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-02 21:25:21 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:25:21 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.18s, branches=2058, conflicts=1
+2026-01-02 21:27:10 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:27:11 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:27:41 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=30.00s, branches=212275, conflicts=202
+2026-01-02 21:27:41 - escala.logic - INFO - Objective value: 26222.10
+2026-01-02 21:27:41 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:27:41 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 21:27:41 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 21:27:41 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-02 21:27:41 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 21:27:41 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.18s, branches=2058, conflicts=1
