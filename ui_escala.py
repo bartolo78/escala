@@ -22,6 +22,7 @@ logger = get_logger('ui')
 
 # Configuration file path
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
+RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RULES.md")
 
 
 def load_config():
@@ -362,6 +363,10 @@ class ShiftSchedulerApp:
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
 
+        help_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Help", menu=help_menu)
+        help_menu.add_command(label="Rules", command=self.open_rules)
+
     def create_control_frame(self):
         control_frame = ttk.LabelFrame(self.main_frame, text="Schedule Controls", padding="10")
         control_frame.grid(row=0, column=0, sticky="ew", pady=10)
@@ -405,6 +410,34 @@ class ShiftSchedulerApp:
         ttk.Label(control_frame, text="Holidays:").grid(row=1, column=0, padx=10, pady=5)
         self.holidays_var = tk.StringVar()
         ttk.Label(control_frame, textvariable=self.holidays_var).grid(row=1, column=1, columnspan=3, sticky="w", padx=10, pady=5)
+
+    def open_rules(self):
+        """Open a window displaying the scheduling rules from RULES.md."""
+        try:
+            if not os.path.exists(RULES_FILE):
+                messagebox.showwarning("Rules", "Rules file not found: RULES.md")
+                return
+            with open(RULES_FILE, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            logger.error(f"Could not read RULES.md: {e}", exc_info=True)
+            messagebox.showerror("Rules", f"Could not read rules file: {e}")
+            return
+
+        win = tk.Toplevel(self.root)
+        win.title("Scheduling Rules")
+        win.geometry("800x600")
+        frame = ttk.Frame(win, padding=10)
+        frame.pack(fill="both", expand=True)
+
+        text = tk.Text(frame, wrap="word")
+        vsb = ttk.Scrollbar(frame, orient="vertical", command=text.yview)
+        text.configure(yscrollcommand=vsb.set)
+        text.pack(side="left", fill="both", expand=True)
+        vsb.pack(side="right", fill="y")
+
+        text.insert("1.0", content)
+        text.config(state="disabled")
 
     def create_tabbed_content(self):
         self.notebook = ttk.Notebook(self.main_frame)

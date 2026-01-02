@@ -725,7 +725,21 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
         equity_weights = EQUITY_WEIGHTS
     if dow_equity_weight is None:
         dow_equity_weight = DOW_EQUITY_WEIGHT
-    holiday_set, days = _setup_holidays_and_days(year, month, holidays)
+    # Build full visualization window (all days from first Monday to last Sunday around month)
+    holiday_set, all_days = _setup_holidays_and_days(year, month, holidays)
+
+    # Determine which ISO weeks within the visualization window are already scheduled
+    scheduled_weeks = get_scheduled_iso_weeks(history)
+    overlap_week_keys = set()
+    for d in all_days:
+        iso = d.isocalendar()
+        overlap_week_keys.add((iso[0], iso[1]))
+    excluded_week_keys = scheduled_weeks.intersection(overlap_week_keys)
+
+    # Filter days to schedule: exclude all days in previously scheduled ISO weeks
+    days = [d for d in all_days if d.isocalendar()[:2] not in excluded_week_keys]
+
+    # Proceed with model only for unscheduled weeks/days
     shifts, num_shifts = _create_shifts(days)
     shifts_by_day = _group_shifts_by_day(num_shifts, shifts)
     iso_weeks = _setup_iso_weeks(days, shifts, holiday_set)
@@ -765,4 +779,80 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
     obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
                                            num_workers)
     model.Minimize(obj)
-    return _solve_and_extract_results(model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats)
+    schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
+        model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
+    )
+
+    # Merge previously scheduled (excluded) ISO weeks into results for visualization
+    schedule, weekly, assignments = _merge_excluded_weeks_into_results(
+        schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, month
+    )
+
+    return schedule, weekly, assignments, stats, current_stats_computed
+
+
+def _merge_excluded_weeks_into_results(schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, selected_month):
+    """
+    Integrate prior assignments for ISO weeks that were excluded from optimization
+    (because they were already scheduled previously). Ensures visualization for the
+    selected month shows these fixed assignments and weekly summaries include them.
+    """
+    # Build a quick lookup of history assignments by date
+    history_by_date = {}
+    for w_name, months in history.items():
+        for my, ass_list in months.items():
+            for ass in ass_list:
+                d = ass.get('date')
+                sh = ass.get('shift')
+                if not d or not sh:
+                    continue
+                history_by_date.setdefault(d, []).append({'worker': w_name, 'shift': sh, 'dur': ass.get('dur', 0)})
+
+    # Merge daily schedule for days in excluded weeks that fall in the selected calendar month
+    for d in all_days:
+        iso_key = d.isocalendar()[:2]
+        if iso_key in excluded_week_keys and d.month == selected_month:
+            d_str = str(d)
+            # Initialize entry if missing
+            if d_str not in schedule:
+                schedule[d_str] = {}
+            # Fill each shift type from history if present
+            for entry in history_by_date.get(d_str, []):
+                schedule[d_str][entry['shift']] = entry['worker']
+                # Also include in assignments list for completeness
+                assignments.append({
+                    'worker': entry['worker'],
+                    'date': d_str,
+                    'shift': entry['shift'],
+                    'dur': entry.get('dur', 0)
+                })
+
+    # Merge weekly summaries for excluded ISO weeks
+    # Build mapping from iso week key to its days within visualization window
+    iso_week_days = {}
+    for d in all_days:
+        key = d.isocalendar()[:2]
+        iso_week_days.setdefault(key, []).append(d)
+
+    # Map worker name to standard weekly load
+    worker_loads = {w['name']: w.get('weekly_load', 0) for w in workers}
+
+    for key in excluded_week_keys:
+        # Initialize weekly entry if missing
+        if key not in weekly:
+            weekly[key] = {}
+        # Compute totals per worker from history for this iso week
+        days_in_week = {str(d) for d in iso_week_days.get(key, [])}
+        # Aggregate hours per worker
+        hours_by_worker = {}
+        for d_str in days_in_week:
+            for entry in history_by_date.get(d_str, []):
+                hours_by_worker[entry['worker']] = hours_by_worker.get(entry['worker'], 0) + entry.get('dur', 0)
+        # Fill weekly summary using workers' standard loads
+        for wk_name, wk_hours in hours_by_worker.items():
+            load = worker_loads.get(wk_name, 0)
+            overtime = max(0, wk_hours - load)
+            undertime = max(0, load - wk_hours)
+            weekly[key][wk_name] = {'hours': wk_hours, 'overtime': overtime, 'undertime': undertime}
+
+    return schedule, weekly, assignments
