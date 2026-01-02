@@ -42,3 +42,9 @@ _tkinter.TclError: no display name and no $DISPLAY environment variable
 2026-01-02 17:04:05 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
 2026-01-02 17:04:05 - escala.logic - INFO - Starting schedule optimization...
 2026-01-02 17:04:05 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.23s, branches=2058, conflicts=1
+2026-01-02 17:48:32 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 17:48:32 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 17:48:32 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 17:48:32 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-02 17:48:32 - escala.logic - INFO - Starting schedule optimization...
+2026-01-02 17:48:32 - escala.logic - INFO - Solver finished: status=INFEASIBLE, time=0.26s, branches=2058, conflicts=1

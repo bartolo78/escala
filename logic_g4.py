@@ -163,16 +163,33 @@ def _setup_iso_weeks(days, shifts, holiday_set):
         iso = day.isocalendar()
         key = (iso[0], iso[1])
         if key not in iso_weeks:
-            iso_weeks[key] = {'days': [], 'weekdays': [], 'shifts': [], 'weekday_shifts': [], 'monday': day - timedelta(days=day.weekday())}
+            iso_weeks[key] = {
+                'days': [],
+                'weekdays': [],  # Mon-Fri excluding holidays (for equity/vacation checks)
+                'weekdays_for_distribution': [],  # Mon-Fri including holidays (for shift distribution rule)
+                'shifts': [],
+                'weekday_shifts': [],  # Shifts on Mon-Fri excluding holidays (for equity)
+                'weekday_shifts_for_distribution': [],  # Shifts on Mon-Fri including holidays
+                'monday': day - timedelta(days=day.weekday())
+            }
         iso_weeks[key]['days'].append(day)
+        # Weekdays excluding holidays (for equity metrics and vacation determination)
         if day.weekday() < 5 and day not in holiday_set:
             iso_weeks[key]['weekdays'].append(day)
+        # Weekdays including holidays (for weekday shift distribution rule)
+        if day.weekday() < 5:
+            iso_weeks[key]['weekdays_for_distribution'].append(day)
         iso_weeks[key]['shifts'].append([shift['index'] for shift in shifts if shift['day'] == day])
+        # Weekday shifts excluding holidays (for equity)
         if day.weekday() < 5 and day not in holiday_set:
             iso_weeks[key]['weekday_shifts'].append([shift['index'] for shift in shifts if shift['day'] == day])
+        # Weekday shifts including holidays (for distribution rule)
+        if day.weekday() < 5:
+            iso_weeks[key]['weekday_shifts_for_distribution'].append([shift['index'] for shift in shifts if shift['day'] == day])
     for key in iso_weeks:
         iso_weeks[key]['shifts'] = [item for sublist in iso_weeks[key]['shifts'] for item in sublist]
         iso_weeks[key]['weekday_shifts'] = [item for sublist in iso_weeks[key]['weekday_shifts'] for item in sublist]
+        iso_weeks[key]['weekday_shifts_for_distribution'] = [item for sublist in iso_weeks[key]['weekday_shifts_for_distribution'] for item in sublist]
     return iso_weeks
 
 def _define_stat_indices(shifts, num_shifts, holiday_set):
@@ -280,15 +297,18 @@ def _add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parse
         week = iso_weeks[key]
         relevant = []
         for w in range(num_workers):
-            avail_weekdays = [wd for wd in week['weekdays'] if (wd, None) not in unav_parsed[w]]
+            # Use weekdays_for_distribution (Mon-Fri including holidays) to determine eligibility
+            avail_weekdays = [wd for wd in week['weekdays_for_distribution'] if (wd, None) not in unav_parsed[w]]
             if len(avail_weekdays) >= 1:
                 relevant.append(w)
         num_relevant = len(relevant)
-        total_weekday_shifts = len(week['weekday_shifts'])
+        # Use weekday_shifts_for_distribution (includes holidays on Mon-Fri) for distribution rule
+        total_weekday_shifts = len(week['weekday_shifts_for_distribution'])
         for w in relevant:
             num_shifts_week = sum(assigned[w][s] for s in week['shifts'])
             model.Add(num_shifts_week >= 1)
-        num_weekday = [sum(assigned[w][s] for s in week['weekday_shifts']) for w in range(num_workers)]
+        # Count weekday shifts using distribution list (holidays on Mon-Fri count as weekday shifts)
+        num_weekday = [sum(assigned[w][s] for s in week['weekday_shifts_for_distribution']) for w in range(num_workers)]
         has_at_least_one = [model.NewBoolVar(f'has1_w{w}_wk{key[0]}_{key[1]}') for w in range(num_workers)]
         for ww in range(num_workers):
             model.Add(num_weekday[ww] >= 1).OnlyEnforceIf(has_at_least_one[ww])
@@ -481,14 +501,30 @@ def _add_weekend_shift_limits_objective(model, obj, weight_flex, iso_weeks, holi
     return obj
 
 
-def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_weeks, holiday_set, history, workers, assigned, num_workers, shifts):
+def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_weeks, holiday_set, history, workers, assigned, num_workers, shifts, year, month):
     """
     Flexible Rule 4: Consecutive Weekend Shift Avoidance
     Avoid assigning a worker shifts on consecutive weekends if there are other workers
     who have not yet worked a weekend shift in that month.
+    
+    "In that month" refers strictly to the current calendar month being scheduled.
     """
     # Sort iso_weeks by key to process in order
     sorted_keys = sorted(iso_weeks.keys())
+    
+    # Compute which workers have already worked a weekend shift in history for this month
+    current_month_str = f'{year}-{month:02d}'
+    workers_with_weekend_in_month = set()
+    for w_name, months_data in history.items():
+        if current_month_str in months_data:
+            for ass in months_data[current_month_str]:
+                try:
+                    d = date.fromisoformat(ass['date'])
+                    if d.weekday() >= 5:  # Saturday or Sunday
+                        workers_with_weekend_in_month.add(w_name)
+                        break
+                except (ValueError, TypeError):
+                    continue
     
     for i, key in enumerate(sorted_keys):
         week = iso_weeks[key]
@@ -499,10 +535,22 @@ def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_we
         if not weekend_shifts_this:
             continue
         
+        # Build a variable to track which workers get weekend shifts this week
+        # This will be used to update "has worked weekend this month" dynamically
+        has_weekend_this_week = []
+        for w_idx in range(num_workers):
+            var = model.NewBoolVar(f'has_wknd_w{w_idx}_k{key}')
+            if weekend_shifts_this:
+                model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) >= 1).OnlyEnforceIf(var)
+                model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) == 0).OnlyEnforceIf(var.Not())
+            else:
+                model.Add(var == 0)
+            has_weekend_this_week.append(var)
+        
         for w_idx, worker in enumerate(workers):
             w_name = worker['name']
             
-            # Check if worker worked previous weekend (from history or previous week in schedule)
+            # Check if worker worked previous weekend (from history)
             worked_prev = False
             weekend_prev_days = [monday - timedelta(days=2), monday - timedelta(days=1)]  # Prev Sat, Sun
             
@@ -518,11 +566,23 @@ def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_we
                     break
             
             if worked_prev:
-                # Penalize working this weekend too
-                has_weekend_this = model.NewBoolVar(f'consec_wknd_w{w_idx}_k{key}')
-                model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) >= 1).OnlyEnforceIf(has_weekend_this)
-                model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) == 0).OnlyEnforceIf(has_weekend_this.Not())
-                obj += weight_flex * has_weekend_this
+                # Only penalize if there are other workers who haven't worked a weekend this month
+                # Count workers without weekend shifts in this month (from history + prior weeks in schedule)
+                other_workers_without_weekend = []
+                for other_idx, other_w in enumerate(workers):
+                    if other_idx == w_idx:
+                        continue
+                    # Check if this other worker has NOT worked a weekend in history for this month
+                    other_has_weekend_in_history = other_w['name'] in workers_with_weekend_in_month
+                    if not other_has_weekend_in_history:
+                        other_workers_without_weekend.append(other_idx)
+                
+                # If there are other workers without weekend shifts, penalize consecutive weekend
+                if other_workers_without_weekend:
+                    has_weekend_this = model.NewBoolVar(f'consec_wknd_w{w_idx}_k{key}')
+                    model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) >= 1).OnlyEnforceIf(has_weekend_this)
+                    model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) == 0).OnlyEnforceIf(has_weekend_this.Not())
+                    obj += weight_flex * has_weekend_this
     
     return obj
 
@@ -585,6 +645,23 @@ def _add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, 
                     model.Add(violate <= assigned[w][j])
                     model.Add(violate >= assigned[w][i] + assigned[w][j] - 1)
                     obj += weight_flex * violate
+    return obj
+
+
+def _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts):
+    """
+    Deterministic Tie-Break: Add a tiny penalty based on worker index.
+    This ensures that when multiple assignments have equal cost, workers with
+    lower indices are preferred, producing stable results across runs.
+    
+    The weight is extremely small (1e-9) to not affect actual optimization decisions,
+    only to break ties deterministically.
+    """
+    tiebreak_weight = 1e-9
+    for w in range(num_workers):
+        for s in range(num_shifts):
+            # Higher worker index = slightly higher penalty
+            obj += tiebreak_weight * w * assigned[w][s]
     return obj
 
 
@@ -855,7 +932,7 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
                                               num_workers, shifts)
     # Rule 4: Consecutive Weekend Avoidance
     obj = _add_consecutive_weekend_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[3], iso_weeks, holiday_set,
-                                                       history, workers, assigned, num_workers, shifts)
+                                                       history, workers, assigned, num_workers, shifts, year, month)
     # Rule 5: M2 Priority
     obj = _add_m2_priority_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[4], shifts, num_shifts, assigned, workers)
     # Rules 6-10: Equity objectives
@@ -864,6 +941,8 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
     # Rule 11: Consecutive Shifts >48h preference
     obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
                                            num_workers)
+    # Deterministic tie-break: add tiny penalty based on worker index to ensure stable ordering
+    obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts)
     model.Minimize(obj)
     schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
         model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
