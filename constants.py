@@ -52,15 +52,15 @@ DOW_EQUITY_WEIGHT = 1
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
 OBJECTIVE_WEIGHT_LOAD = 1
 
-OBJECTIVE_FLEX_WEIGHTS = [10000, 1000, 100, 10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001]  # Removed [0]:100000 (redundant Sat night penalty)
-# Specific uses (based on code indices, now shifted down by 1):
-# [0]: Penalizes assigning shifts during 3-day weekend periods created by holidays.
-# [1]: Penalizes workers having both Saturday and Sunday shifts in non-3-day weeks.
-# [2]: Penalizes consecutive weekends (working a weekend after working the previous one).
-# [3]: Penalizes assigning M1 shifts to workers with 18-hour weekly loads (prefers longer shifts for them).
-# [4-8]: Unused in current code (placeholders for future objectives).
-# [9]: Penalizes consecutive shifts with rest periods between 24-48 hours.
-# [10]: Saturday preference penalty (from new _add_saturday_preference_objective)
+OBJECTIVE_FLEX_WEIGHTS = [100000, 10000, 1000, 100, 10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
+# Flexible rule weights in order of importance (higher index = lower priority):
+# [0]: Saturday Preference - prioritize weekday (Mon-Fri) as first shift, else Saturday M1/M2 over Sunday/N.
+# [1]: Three-Day Weekend Worker Minimization - minimize unique workers during 3-day weekends.
+# [2]: Weekend Shift Limits - penalizes workers having both Saturday and Sunday shifts in non-3-day weeks.
+# [3]: Consecutive Weekend Avoidance - penalizes consecutive weekends worked.
+# [4]: M2 Priority - penalizes M1 shifts for 18-hour workers (prefers longer shifts).
+# [5-9]: Unused in current code (placeholders for future objectives).
+# [10]: Consecutive Shifts 48h - penalizes shifts with rest periods between 24-48 hours.
 
 # Solver and constraint parameters
 SOLVER_TIMEOUT_SECONDS = 30.0

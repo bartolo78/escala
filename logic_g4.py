@@ -590,27 +590,36 @@ def _add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, 
 
 def _add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assigned, num_workers, shifts, unav_parsed,
                                        holiday_set):
+    """
+    Flexible Rule 1: Saturday Priority for First Shift
+    Priority should be given to assigning each worker's first shift of the ISO week on a weekday
+    (Monday to Friday), even if it's a holiday. If this is not possible, prioritize Saturday M1/M2
+    over Sunday or Night shifts.
+    """
     for key in iso_weeks:
         week = iso_weeks[key]
         sat = week['monday'] + timedelta(days=5)  # Saturday of this ISO week
-        if sat not in week[
-            'days'] or sat in holiday_set:  # Skip if Saturday not in schedule or is holiday (treat as weekend but no pref)
+        if sat not in week['days']:  # Skip if Saturday not in schedule
             continue
 
+        # Get all Mon-Fri shifts INCLUDING holidays (rule says "even if it's a holiday")
+        weekday_shifts_with_holidays = [s for s in week['shifts'] if shifts[s]['day'].weekday() < 5]
+        
         sat_day_shifts = [s for s in week['shifts'] if
                           shifts[s]['day'] == sat and shifts[s]['type'] in ['M1', 'M2']]  # M1 or M2 on Sat
 
         for w in range(num_workers):
-            # Skip if unavailable on all weekdays or on Saturday
-            avail_weekdays = [wd for wd in week['weekdays'] if (wd, None) not in unav_parsed[w]]
+            # Skip if unavailable on all weekdays (Mon-Fri, including holidays)
+            weekday_dates = [d for d in week['days'] if d.weekday() < 5]
+            avail_weekdays = [wd for wd in weekday_dates if (wd, None) not in unav_parsed[w]]
             if not avail_weekdays:
                 continue
             if (sat, None) in unav_parsed[w] or all((sat, shifts[s]['type']) in unav_parsed[w] for s in sat_day_shifts):
                 continue
 
-            # Detect if worker has a weekday shift
+            # Detect if worker has a weekday shift (Mon-Fri INCLUDING holidays)
             has_weekday = model.NewBoolVar(f'has_weekday_pref_w{w}_k{key}')
-            sum_weekday = sum(assigned[w][s] for s in week['weekday_shifts'])
+            sum_weekday = sum(assigned[w][s] for s in weekday_shifts_with_holidays)
             model.Add(sum_weekday >= 1).OnlyEnforceIf(has_weekday)
             model.Add(sum_weekday == 0).OnlyEnforceIf(has_weekday.Not())
 
@@ -734,19 +743,26 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
     current_stats, current_dow = _define_current_stats_vars(model, assigned, stat_indices, num_workers)
     obj = 0
     obj = _add_load_balancing_objective(model, obj, iso_weeks, shifts, assigned, workers, OBJECTIVE_WEIGHT_LOAD)
-    # Removed: obj = _add_sat_priority_objective(...)  # Redundant due to hard no-multi-shift-per-day constraint
-    obj = _add_three_day_weekend_min_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[0], iso_weeks, holiday_set,
+    # Flexible rules in order of importance (Rule 1 = highest priority)
+    # Rule 1: Saturday Preference for First Shift
+    obj = _add_saturday_preference_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[0], iso_weeks, assigned, num_workers,
+                                             shifts, unav_parsed, holiday_set)
+    # Rule 2: Three-Day Weekend Worker Minimization
+    obj = _add_three_day_weekend_min_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[1], iso_weeks, holiday_set,
                                                shifts_by_day, assigned, num_workers)
-    obj = _add_weekend_shift_limits_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[1], iso_weeks, holiday_set, assigned,
+    # Rule 3: Weekend Shift Limits
+    obj = _add_weekend_shift_limits_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[2], iso_weeks, holiday_set, assigned,
                                               num_workers, shifts)
-    obj = _add_consecutive_weekend_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[2], iso_weeks, holiday_set,
+    # Rule 4: Consecutive Weekend Avoidance
+    obj = _add_consecutive_weekend_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[3], iso_weeks, holiday_set,
                                                        history, workers, assigned, num_workers, shifts)
-    obj = _add_m2_priority_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[3], shifts, num_shifts, assigned, workers)
+    # Rule 5: M2 Priority
+    obj = _add_m2_priority_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[4], shifts, num_shifts, assigned, workers)
+    # Rules 6-10: Equity objectives
     obj = _add_equity_objective(model, obj, equity_weights, past_stats, current_stats, workers, num_workers)
     obj = _add_dow_equity_objective(model, obj, dow_equity_weight, past_stats, current_dow, workers, num_workers)
-    obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[9], assigned, shifts, num_shifts,
+    # Rule 11: Consecutive Shifts >48h preference
+    obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
                                            num_workers)
-    obj = _add_saturday_preference_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], iso_weeks, assigned, num_workers,
-                                             shifts, unav_parsed, holiday_set)
     model.Minimize(obj)
     return _solve_and_extract_results(model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats)
