@@ -6,6 +6,8 @@ from datetime import datetime, timedelta, date
 import tkinter.font as tkfont
 import csv
 import json  # For potential saves
+import yaml
+import os
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
@@ -14,6 +16,52 @@ import matplotlib.pyplot as plt
 from logic_g4 import generate_schedule, update_history, _compute_past_stats
 from utils import Tooltip, compute_holidays, easter_date
 from constants import EQUITY_WEIGHTS, DOW_EQUITY_WEIGHT, EQUITY_STATS
+
+# Configuration file path
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
+
+
+def load_config():
+    """Load configuration from YAML file."""
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            print(f"Warning: Could not load config file: {e}")
+    return None
+
+
+def save_config(config):
+    """Save configuration to YAML file."""
+    try:
+        with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+            yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        return True
+    except Exception as e:
+        print(f"Warning: Could not save config file: {e}")
+        return False
+
+
+def get_default_workers():
+    """Return default workers if config file is missing."""
+    return [
+        {"name": "Tome", "id": "ID001", "color": "#ff0000", "can_night": True, "weekly_load": 12},
+        {"name": "Rosa", "id": "ID002", "color": "#ff5400", "can_night": True, "weekly_load": 18},
+        {"name": "Lucas", "id": "ID003", "color": "#ffaa00", "can_night": True, "weekly_load": 18},
+        {"name": "Bartolo", "id": "ID004", "color": "#ffff00", "can_night": True, "weekly_load": 18},
+        {"name": "Gilberto", "id": "ID005", "color": "#aaff00", "can_night": True, "weekly_load": 18},
+        {"name": "Pego", "id": "ID006", "color": "#ff0055", "can_night": True, "weekly_load": 18},
+        {"name": "Celeste", "id": "ID007", "color": "#00ff55", "can_night": True, "weekly_load": 12},
+        {"name": "Sofia", "id": "ID008", "color": "#00ffa9", "can_night": True, "weekly_load": 18},
+        {"name": "Lucilia", "id": "ID009", "color": "#00ffff", "can_night": True, "weekly_load": 12},
+        {"name": "Teresa", "id": "ID010", "color": "#00a9ff", "can_night": True, "weekly_load": 18},
+        {"name": "Fernando", "id": "ID011", "color": "#0054ff", "can_night": False, "weekly_load": 12},
+        {"name": "Rosario", "id": "ID012", "color": "#0000ff", "can_night": True, "weekly_load": 12},
+        {"name": "Nuno", "id": "ID013", "color": "#5400ff", "can_night": True, "weekly_load": 18},
+        {"name": "Filomena", "id": "ID014", "color": "#aa00ff", "can_night": False, "weekly_load": 12},
+        {"name": "Angela", "id": "ID015", "color": "#ff00ff", "can_night": True, "weekly_load": 18}
+    ]
 
 class WorkerTab(ttk.Frame):
     def __init__(self, parent, app):
@@ -235,23 +283,40 @@ class ShiftSchedulerApp:
 
     def setup_data(self):
         self.manual_holidays = []
-        self.workers = [
-            {"name": "Tome", "id": "ID001", "color": "#ff0000", "can_night": True, "weekly_load": 12},
-            {"name": "Rosa", "id": "ID002", "color": "#ff5400", "can_night": True, "weekly_load": 18},
-            {"name": "Lucas", "id": "ID003", "color": "#ffaa00", "can_night": True, "weekly_load": 18},
-            {"name": "Bartolo", "id": "ID004", "color": "#ffff00", "can_night": True, "weekly_load": 18},
-            {"name": "Gilberto", "id": "ID005", "color": "#aaff00", "can_night": True, "weekly_load": 18},
-            {"name": "Pego", "id": "ID006", "color": "#ff0055", "can_night": True, "weekly_load": 18},
-            {"name": "Celeste", "id": "ID007", "color": "#00ff55", "can_night": True, "weekly_load": 12},
-            {"name": "Sofia", "id": "ID008", "color": "#00ffa9", "can_night": True, "weekly_load": 18},
-            {"name": "Lucilia", "id": "ID009", "color": "#00ffff", "can_night": True, "weekly_load": 12},
-            {"name": "Teresa", "id": "ID010", "color": "#00a9ff", "can_night": True, "weekly_load": 18},
-            {"name": "Fernando", "id": "ID011", "color": "#0054ff", "can_night": False, "weekly_load": 12},
-            {"name": "Rosario", "id": "ID012", "color": "#0000ff", "can_night": True, "weekly_load": 12},
-            {"name": "Nuno", "id": "ID013", "color": "#5400ff", "can_night": True, "weekly_load": 18},
-            {"name": "Filomena", "id": "ID014", "color": "#aa00ff", "can_night": False, "weekly_load": 12},
-            {"name": "Angela", "id": "ID015", "color": "#ff00ff", "can_night": True, "weekly_load": 18}
-        ]
+        
+        # Load configuration from file
+        self.config = load_config()
+        if self.config and 'workers' in self.config:
+            self.workers = self.config['workers']
+            # Ensure all workers have required fields with defaults
+            for i, w in enumerate(self.workers):
+                if 'id' not in w:
+                    w['id'] = f"ID{i+1:03d}"
+                if 'color' not in w:
+                    w['color'] = "#000000"
+                if 'can_night' not in w:
+                    w['can_night'] = True
+                if 'weekly_load' not in w:
+                    w['weekly_load'] = 18
+        else:
+            self.workers = get_default_workers()
+        
+        # Load thresholds from config or use defaults
+        if self.config and 'thresholds' in self.config:
+            self.thresholds = self.config['thresholds']
+        else:
+            self.thresholds = {
+                'weekend_shifts': 2,
+                'sat_shifts': 1,
+                'sun_shifts': 1,
+                'weekend_day': 3,
+                'weekend_night': 1,
+                'weekday_day': 5,
+                'weekday_night': 2,
+                'total_night': 2,
+                'fri_night': 1
+            }
+        
         self.unavail = {w['name']: [] for w in self.workers}
         self.req = {w['name']: [] for w in self.workers}
         self.history = {}
@@ -264,17 +329,6 @@ class ShiftSchedulerApp:
         self.holidays_var = None  # Initialize to None
         self.equity_weights = EQUITY_WEIGHTS.copy()
         self.dow_equity_weight = DOW_EQUITY_WEIGHT
-        self.thresholds = {
-            'weekend_shifts': 2,
-            'sat_shifts': 1,
-            'sun_shifts': 1,
-            'weekend_day': 3,
-            'weekend_night': 1,
-            'weekday_day': 5,
-            'weekday_night': 2,
-            'total_night': 2,
-            'fri_night': 1
-        }
         self.current_stats_computed = None
         self.past_stats = None
 
@@ -297,6 +351,8 @@ class ShiftSchedulerApp:
         file_menu.add_command(label="Import Holidays", command=self.import_holidays)
         file_menu.add_command(label="Save Schedule", command=self.save_schedule)
         file_menu.add_command(label="Export Schedule", command=self.export_schedule)
+        file_menu.add_separator()
+        file_menu.add_command(label="Save Configuration", command=self.save_workers_config)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
 
@@ -619,6 +675,23 @@ class ShiftSchedulerApp:
             self.status_var.set("Schedule saved successfully")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save file: {str(e)}")
+
+    def save_workers_config(self):
+        """Save current workers and thresholds to config.yaml file."""
+        config = {
+            'settings': {
+                'solver_timeout_seconds': 30,
+                'past_report_weeks': 52
+            },
+            'workers': self.workers,
+            'thresholds': self.thresholds
+        }
+        
+        if save_config(config):
+            self.status_var.set("Configuration saved to config.yaml")
+            messagebox.showinfo("Success", "Configuration saved successfully to config.yaml")
+        else:
+            messagebox.showerror("Error", "Failed to save configuration file")
 
     def import_workers(self):
         file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])

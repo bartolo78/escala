@@ -1,0 +1,113 @@
+# Shift Scheduler Configuration
+# Edit this file to customize workers and settings
+
+# Application settings
+settings:
+  solver_timeout_seconds: 30
+  past_report_weeks: 52
+
+# Worker definitions
+# Each worker must have: name, can_night, weekly_load
+# Optional: id, color
+workers:
+  - name: "Tome"
+    id: "ID001"
+    color: "#ff0000"
+    can_night: true
+    weekly_load: 12
+
+  - name: "Rosa"
+    id: "ID002"
+    color: "#ff5400"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Lucas"
+    id: "ID003"
+    color: "#ffaa00"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Bartolo"
+    id: "ID004"
+    color: "#ffff00"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Gilberto"
+    id: "ID005"
+    color: "#aaff00"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Pego"
+    id: "ID006"
+    color: "#ff0055"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Celeste"
+    id: "ID007"
+    color: "#00ff55"
+    can_night: true
+    weekly_load: 12
+
+  - name: "Sofia"
+    id: "ID008"
+    color: "#00ffa9"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Lucilia"
+    id: "ID009"
+    color: "#00ffff"
+    can_night: true
+    weekly_load: 12
+
+  - name: "Teresa"
+    id: "ID010"
+    color: "#00a9ff"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Fernando"
+    id: "ID011"
+    color: "#0054ff"
+    can_night: false
+    weekly_load: 12
+
+  - name: "Rosario"
+    id: "ID012"
+    color: "#0000ff"
+    can_night: true
+    weekly_load: 12
+
+  - name: "Nuno"
+    id: "ID013"
+    color: "#5400ff"
+    can_night: true
+    weekly_load: 18
+
+  - name: "Filomena"
+    id: "ID014"
+    color: "#aa00ff"
+    can_night: false
+    weekly_load: 12
+
+  - name: "Angela"
+    id: "ID015"
+    color: "#ff00ff"
+    can_night: true
+    weekly_load: 18
+
+# Fairness thresholds for imbalance alerts
+thresholds:
+  weekend_shifts: 2
+  sat_shifts: 1
+  sun_shifts: 1
+  weekend_day: 3
+  weekend_night: 1
+  weekday_day: 5
+  weekday_night: 2
+  total_night: 2
+  fri_night: 1

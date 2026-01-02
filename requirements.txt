@@ -1,0 +1,7 @@
+# Shift Scheduler Dependencies
+tkcalendar>=1.6.1
+matplotlib>=3.5.0
+reportlab>=4.0.0
+openpyxl>=3.0.0
+ortools>=9.0.0
+PyYAML>=6.0

@@ -11,17 +11,8 @@ def parse_unavail_or_req(unav_list, is_unavail=True):
     for item in unav_list:
         parts = item.split()
         if len(parts) == 1:
-            # Single date or range
-            if ' to ' in item:
-                start, end = item.split(' to ')
-                start_d = date.fromisoformat(start)
-                end_d = date.fromisoformat(end)
-                d = start_d
-                while d <= end_d:
-                    unav_set.add((d, None))
-                    d += timedelta(days=1)
-            else:
-                unav_set.add((date.fromisoformat(item), None))
+            # Single date only (no range, no shift)
+            unav_set.add((date.fromisoformat(item), None))
         elif len(parts) == 2:
             # date shift
             d = date.fromisoformat(parts[0])
@@ -31,6 +22,14 @@ def parse_unavail_or_req(unav_list, is_unavail=True):
             else:
                 # Invalid, ignore
                 pass
+        elif len(parts) == 3 and parts[1] == 'to':
+            # Date range: "YYYY-MM-DD to YYYY-MM-DD"
+            start_d = date.fromisoformat(parts[0])
+            end_d = date.fromisoformat(parts[2])
+            d = start_d
+            while d <= end_d:
+                unav_set.add((d, None))
+                d += timedelta(days=1)
     return unav_set
 
 def update_history(assignments, history):
@@ -565,7 +564,7 @@ def _solve_and_extract_results(model, shifts, num_shifts, days, month, shifts_by
 
         return schedule, weekly, assignments, stats, current_stats_computed
     else:
-        return {}, {}, [], stats
+        return {}, {}, [], stats, {}
 
 def generate_schedule(year, month, unavail_data, required_data, history, workers, holidays=None, equity_weights=None, dow_equity_weight=None):
     if equity_weights is None:
