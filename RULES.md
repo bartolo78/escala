@@ -85,3 +85,60 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 
 11. **Consecutive Shifts:**
     - Aim to schedule shifts such that the time interval between the end of one shift and the start of the next shift for the same worker is greater than 48 hours, whenever this does not conflict with any critical rules or higher-priority flexible rules (like the "Three-Day Weekend Worker Minimization").
+
+## Implementation Clarifications
+
+To avoid ambiguity, the following clarifications define how the rules should be operationalized in the application:
+
+- **Holidays Treatment:**
+   - For equity metrics: holidays that fall on weekdays are counted as weekend days.
+   - For first-shift preference and availability checks: holidays that fall on weekdays are treated as weekdays.
+
+- **Weekly Participation:**
+   - Applies only to workers who have at least one available weekday (Mon–Fri) in the ISO week.
+   - Workers with zero weekday availability are exempt from weekly participation, but may still be assigned weekend shifts if needed to satisfy critical rules.
+
+- **First-Shift Preference Fallback Order (highest to lowest):**
+   1) Weekday day shift (M1/M2), even if it’s a holiday.
+   2) Weekday night shift (N), even if it’s a holiday.
+   3) Saturday day shift (M1/M2).
+   4) Saturday night shift (N).
+   5) Sunday day shift (M1/M2).
+   6) Sunday night shift (N).
+
+- **24-Hour Interval Calculation:**
+   - The interval is measured from the actual end time of one shift to the start time of the next shift for the same worker.
+   - Examples:
+      - N (20:00–08:00) → next-day M1/M2/N is allowed (≥24h rest).
+      - M1 (08:00–20:00) → next-day N (20:00–08:00) is allowed (exactly 24h rest).
+      - M1 (08:00–20:00) → next-day M1/M2 is not allowed (12–15h rest).
+
+- **Overlapping ISO Weeks:**
+   - “Already scheduled” means any assignment exists for an ISO week (year, week) in persistent history.
+   - Such weeks are excluded from optimization and their historical assignments are merged into the output for visualization within the selected month.
+
+- **Equity Scope and Accounting:**
+   - Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
+   - Holidays on weekdays contribute to weekend-equity counters.
+
+- **M2 Priority:**
+   - Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible.
+   - This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
+
+- **Vacation Week Determination:**
+   - A worker’s vacation week is when they have zero available weekdays (Mon–Fri) in that ISO week.
+   - Holidays on weekdays are still considered weekdays for this determination.
+
+- **Infeasibility Handling:**
+   - If critical rules cannot be satisfied (e.g., insufficient available workers), the solver reports the instance as infeasible rather than violating critical rules. Flexible rules may be relaxed, but critical rules must always hold.
+
+- **Deterministic Tie-Breaks:**
+   - When multiple assignments have equal cost, prefer a stable tie-break (e.g., fixed worker order by `id`, then by `name`) to avoid oscillations across runs.
+
+- **Timezone and DST:**
+   - Assume local timezone and fixed shift durations. Ignore DST anomalies (e.g., 23- or 25-hour nights); treat N as 12 hours consistently.
+
+- **Data Schema Recommendations:**
+   - Worker: { id, name, weekly_load: 12|18, can_night: bool, unavailable_dates: Set[YYYY-MM-DD] }
+   - Shift: { date: YYYY-MM-DD, type: M1|M2|N, start: HH:MM, end: HH:MM }
+   - History: keyed by (iso_year, iso_week), storing assigned shifts per day and per worker, plus weekly hour totals, overtime, and undertime.

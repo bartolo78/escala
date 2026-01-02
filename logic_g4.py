@@ -591,58 +591,144 @@ def _add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, 
 def _add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assigned, num_workers, shifts, unav_parsed,
                                        holiday_set):
     """
-    Flexible Rule 1: Saturday Priority for First Shift
-    Priority should be given to assigning each worker's first shift of the ISO week on a weekday
-    (Monday to Friday), even if it's a holiday. If this is not possible, prioritize Saturday M1/M2
-    over Sunday or Night shifts.
+    Flexible Rule 1: First-Shift Preference Fallback Order
+    Priority for each worker's first shift of the ISO week (highest to lowest):
+      1) Weekday day shift (M1/M2), even if it's a holiday
+      2) Weekday night shift (N), even if it's a holiday
+      3) Saturday day shift (M1/M2)
+      4) Saturday night shift (N)
+      5) Sunday day shift (M1/M2)
+      6) Sunday night shift (N)
+    Uses tiered penalties to enforce strict ordering.
     """
     for key in iso_weeks:
         week = iso_weeks[key]
-        sat = week['monday'] + timedelta(days=5)  # Saturday of this ISO week
-        if sat not in week['days']:  # Skip if Saturday not in schedule
-            continue
+        sat = week['monday'] + timedelta(days=5)
+        sun = week['monday'] + timedelta(days=6)
 
-        # Get all Mon-Fri shifts INCLUDING holidays (rule says "even if it's a holiday")
-        weekday_shifts_with_holidays = [s for s in week['shifts'] if shifts[s]['day'].weekday() < 5]
-        
-        sat_day_shifts = [s for s in week['shifts'] if
-                          shifts[s]['day'] == sat and shifts[s]['type'] in ['M1', 'M2']]  # M1 or M2 on Sat
+        # Categorize shifts by preference tier (Mon-Fri uses calendar weekday, not holiday status)
+        weekday_day_shifts = [s for s in week['shifts'] if shifts[s]['day'].weekday() < 5 and not shifts[s]['night']]
+        weekday_night_shifts = [s for s in week['shifts'] if shifts[s]['day'].weekday() < 5 and shifts[s]['night']]
+        sat_day_shifts = [s for s in week['shifts'] if shifts[s]['day'] == sat and not shifts[s]['night']]
+        sat_night_shifts = [s for s in week['shifts'] if shifts[s]['day'] == sat and shifts[s]['night']]
+        sun_day_shifts = [s for s in week['shifts'] if shifts[s]['day'] == sun and not shifts[s]['night']]
+        sun_night_shifts = [s for s in week['shifts'] if shifts[s]['day'] == sun and shifts[s]['night']]
 
         for w in range(num_workers):
-            # Skip if unavailable on all weekdays (Mon-Fri, including holidays)
+            # Skip if worker has no available weekdays (vacation week - exempt from participation)
             weekday_dates = [d for d in week['days'] if d.weekday() < 5]
             avail_weekdays = [wd for wd in weekday_dates if (wd, None) not in unav_parsed[w]]
             if not avail_weekdays:
                 continue
-            if (sat, None) in unav_parsed[w] or all((sat, shifts[s]['type']) in unav_parsed[w] for s in sat_day_shifts):
-                continue
 
-            # Detect if worker has a weekday shift (Mon-Fri INCLUDING holidays)
-            has_weekday = model.NewBoolVar(f'has_weekday_pref_w{w}_k{key}')
-            sum_weekday = sum(assigned[w][s] for s in weekday_shifts_with_holidays)
-            model.Add(sum_weekday >= 1).OnlyEnforceIf(has_weekday)
-            model.Add(sum_weekday == 0).OnlyEnforceIf(has_weekday.Not())
-
-            # Detect if worker has a Saturday day shift (M1/M2)
+            # Detect presence in each tier
+            has_weekday_day = model.NewBoolVar(f'has_wd_day_w{w}_k{key}')
+            has_weekday_night = model.NewBoolVar(f'has_wd_night_w{w}_k{key}')
             has_sat_day = model.NewBoolVar(f'has_sat_day_w{w}_k{key}')
-            sum_sat_day = sum(assigned[w][s] for s in sat_day_shifts)
-            model.Add(sum_sat_day >= 1).OnlyEnforceIf(has_sat_day)
-            model.Add(sum_sat_day == 0).OnlyEnforceIf(has_sat_day.Not())
+            has_sat_night = model.NewBoolVar(f'has_sat_night_w{w}_k{key}')
+            has_sun_day = model.NewBoolVar(f'has_sun_day_w{w}_k{key}')
+            has_sun_night = model.NewBoolVar(f'has_sun_night_w{w}_k{key}')
+            has_any_shift = model.NewBoolVar(f'has_any_w{w}_k{key}')
 
-            # Detect if worker has any shift this week (to avoid penalizing no-shifters)
-            has_any_shift = model.NewBoolVar(f'has_any_shift_w{w}_k{key}')
-            sum_shifts = sum(assigned[w][s] for s in week['shifts'])
-            model.Add(sum_shifts >= 1).OnlyEnforceIf(has_any_shift)
-            model.Add(sum_shifts == 0).OnlyEnforceIf(has_any_shift.Not())
+            # Link bool vars to actual assignments
+            if weekday_day_shifts:
+                model.Add(sum(assigned[w][s] for s in weekday_day_shifts) >= 1).OnlyEnforceIf(has_weekday_day)
+                model.Add(sum(assigned[w][s] for s in weekday_day_shifts) == 0).OnlyEnforceIf(has_weekday_day.Not())
+            else:
+                model.Add(has_weekday_day == 0)
 
-            # Penalty only if: no weekday, no Sat day, but has some shift (e.g., penalize Sunday or Sat night instead)
-            violate_pref = model.NewBoolVar(f'v_sat_pref_w{w}_k{key}')
-            model.Add(violate_pref <= has_weekday.Not())
-            model.Add(violate_pref <= has_sat_day.Not())
-            model.Add(violate_pref <= has_any_shift)
-            model.Add(violate_pref >= has_weekday.Not() + has_sat_day.Not() + has_any_shift - 2)
+            if weekday_night_shifts:
+                model.Add(sum(assigned[w][s] for s in weekday_night_shifts) >= 1).OnlyEnforceIf(has_weekday_night)
+                model.Add(sum(assigned[w][s] for s in weekday_night_shifts) == 0).OnlyEnforceIf(has_weekday_night.Not())
+            else:
+                model.Add(has_weekday_night == 0)
 
-            obj += weight_flex * violate_pref  # Add to objective; solver minimizes this
+            if sat_day_shifts:
+                model.Add(sum(assigned[w][s] for s in sat_day_shifts) >= 1).OnlyEnforceIf(has_sat_day)
+                model.Add(sum(assigned[w][s] for s in sat_day_shifts) == 0).OnlyEnforceIf(has_sat_day.Not())
+            else:
+                model.Add(has_sat_day == 0)
+
+            if sat_night_shifts:
+                model.Add(sum(assigned[w][s] for s in sat_night_shifts) >= 1).OnlyEnforceIf(has_sat_night)
+                model.Add(sum(assigned[w][s] for s in sat_night_shifts) == 0).OnlyEnforceIf(has_sat_night.Not())
+            else:
+                model.Add(has_sat_night == 0)
+
+            if sun_day_shifts:
+                model.Add(sum(assigned[w][s] for s in sun_day_shifts) >= 1).OnlyEnforceIf(has_sun_day)
+                model.Add(sum(assigned[w][s] for s in sun_day_shifts) == 0).OnlyEnforceIf(has_sun_day.Not())
+            else:
+                model.Add(has_sun_day == 0)
+
+            if sun_night_shifts:
+                model.Add(sum(assigned[w][s] for s in sun_night_shifts) >= 1).OnlyEnforceIf(has_sun_night)
+                model.Add(sum(assigned[w][s] for s in sun_night_shifts) == 0).OnlyEnforceIf(has_sun_night.Not())
+            else:
+                model.Add(has_sun_night == 0)
+
+            sum_all = sum(assigned[w][s] for s in week['shifts'])
+            model.Add(sum_all >= 1).OnlyEnforceIf(has_any_shift)
+            model.Add(sum_all == 0).OnlyEnforceIf(has_any_shift.Not())
+
+            # Tiered penalties (only apply if worker has any shift this week)
+            # Penalty increases as we go down the fallback order
+            # Tier 1: Weekday day → 0 penalty (best)
+            # Tier 2: Weekday night (no weekday day) → penalty 1
+            # Tier 3: Saturday day (no weekday) → penalty 2
+            # Tier 4: Saturday night (no weekday, no sat day) → penalty 3
+            # Tier 5: Sunday day (no weekday, no sat) → penalty 4
+            # Tier 6: Sunday night (no weekday, no sat, no sun day) → penalty 5
+
+            # Penalty for tier 2: has weekday night but no weekday day
+            tier2 = model.NewBoolVar(f't2_w{w}_k{key}')
+            model.Add(tier2 <= has_weekday_day.Not())
+            model.Add(tier2 <= has_weekday_night)
+            model.Add(tier2 <= has_any_shift)
+            model.Add(tier2 >= has_weekday_day.Not() + has_weekday_night + has_any_shift - 2)
+            obj += (weight_flex * 0.01) * tier2
+
+            # Penalty for tier 3: has sat day but no weekday shifts
+            tier3 = model.NewBoolVar(f't3_w{w}_k{key}')
+            model.Add(tier3 <= has_weekday_day.Not())
+            model.Add(tier3 <= has_weekday_night.Not())
+            model.Add(tier3 <= has_sat_day)
+            model.Add(tier3 <= has_any_shift)
+            model.Add(tier3 >= has_weekday_day.Not() + has_weekday_night.Not() + has_sat_day + has_any_shift - 3)
+            obj += (weight_flex * 0.02) * tier3
+
+            # Penalty for tier 4: has sat night but no weekday, no sat day
+            tier4 = model.NewBoolVar(f't4_w{w}_k{key}')
+            model.Add(tier4 <= has_weekday_day.Not())
+            model.Add(tier4 <= has_weekday_night.Not())
+            model.Add(tier4 <= has_sat_day.Not())
+            model.Add(tier4 <= has_sat_night)
+            model.Add(tier4 <= has_any_shift)
+            model.Add(tier4 >= has_weekday_day.Not() + has_weekday_night.Not() + has_sat_day.Not() + has_sat_night + has_any_shift - 4)
+            obj += (weight_flex * 0.03) * tier4
+
+            # Penalty for tier 5: has sun day but no weekday, no sat
+            tier5 = model.NewBoolVar(f't5_w{w}_k{key}')
+            model.Add(tier5 <= has_weekday_day.Not())
+            model.Add(tier5 <= has_weekday_night.Not())
+            model.Add(tier5 <= has_sat_day.Not())
+            model.Add(tier5 <= has_sat_night.Not())
+            model.Add(tier5 <= has_sun_day)
+            model.Add(tier5 <= has_any_shift)
+            model.Add(tier5 >= has_weekday_day.Not() + has_weekday_night.Not() + has_sat_day.Not() + has_sat_night.Not() + has_sun_day + has_any_shift - 5)
+            obj += (weight_flex * 0.04) * tier5
+
+            # Penalty for tier 6: only sun night (worst case)
+            tier6 = model.NewBoolVar(f't6_w{w}_k{key}')
+            model.Add(tier6 <= has_weekday_day.Not())
+            model.Add(tier6 <= has_weekday_night.Not())
+            model.Add(tier6 <= has_sat_day.Not())
+            model.Add(tier6 <= has_sat_night.Not())
+            model.Add(tier6 <= has_sun_day.Not())
+            model.Add(tier6 <= has_sun_night)
+            model.Add(tier6 <= has_any_shift)
+            model.Add(tier6 >= has_weekday_day.Not() + has_weekday_night.Not() + has_sat_day.Not() + has_sat_night.Not() + has_sun_day.Not() + has_sun_night + has_any_shift - 6)
+            obj += (weight_flex * 0.05) * tier6
 
     return obj
 
