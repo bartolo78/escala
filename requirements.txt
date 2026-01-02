@@ -5,3 +5,7 @@ reportlab>=4.0.0
 openpyxl>=3.0.0
 ortools>=9.0.0
 PyYAML>=6.0
+
+# Development/Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
