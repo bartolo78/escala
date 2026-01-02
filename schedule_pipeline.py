@@ -11,6 +11,7 @@ Behavior is intended to remain identical to the original implementation.
 
 from __future__ import annotations
 
+import time
 from datetime import date
 
 from ortools.sat.python import cp_model
@@ -19,13 +20,80 @@ from constants import EQUITY_STATS, SHIFT_TYPES, SOLVER_TIMEOUT_SECONDS
 from history_view import HistoryView
 
 
-def solve_and_extract_results(logger, model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats):
-    solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
-    solver.parameters.log_search_progress = False  # Disable verbose solver output
+def solve_and_extract_results(
+    logger,
+    model,
+    shifts,
+    num_shifts,
+    days,
+    month,
+    shifts_by_day,
+    iso_weeks,
+    workers,
+    assigned,
+    current_stats,
+    stage_objectives: list[tuple[str, cp_model.IntVar]] | None = None,
+):
+    # One shared time budget for either single-shot or staged solves.
+    start_t = time.time()
 
     logger.info("Starting schedule optimization...")
-    status = solver.Solve(model)
+
+    stage_values: dict[str, int] = {}
+    status = None
+    solver = None
+
+    if stage_objectives:
+        best_solver = None
+        best_status = None
+
+        for idx, (stage_name, obj_var) in enumerate(stage_objectives):
+            elapsed = time.time() - start_t
+            remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
+            stages_left = max(1, len(stage_objectives) - idx)
+            per_stage = max(0.5, remaining / stages_left)
+
+            stage_solver = cp_model.CpSolver()
+            stage_solver.parameters.max_time_in_seconds = per_stage
+            stage_solver.parameters.log_search_progress = False
+
+            model.Minimize(obj_var)
+            stage_status = stage_solver.Solve(model)
+            if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                # Preserve the last feasible solution, if any.
+                solver = best_solver
+                status = best_status
+                break
+
+            v = int(stage_solver.Value(obj_var))
+            stage_values[stage_name] = v
+            logger.info(f"Stage {stage_name}: value={v}")
+
+            # Fix the optimal value for the next stage.
+            model.Add(obj_var == v)
+
+            best_solver = stage_solver
+            best_status = stage_status
+            solver = stage_solver
+            status = stage_status
+    else:
+        solver = cp_model.CpSolver()
+        solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
+        solver.parameters.log_search_progress = False
+        status = solver.Solve(model)
+
+    # If staged solving failed before any feasible stage, fall back to an empty result.
+    if solver is None or status is None:
+        stats = {
+            "wall_time": 0.0,
+            "branches": 0,
+            "conflicts": 0,
+            "objective_value": None,
+            "status": cp_model.UNKNOWN,
+        }
+        if stage_values:
+            stats["stage_values"] = stage_values
+        return {}, {}, [], stats, {}
 
     wall_time = solver.WallTime()
     branches = solver.NumBranches()
@@ -56,6 +124,8 @@ def solve_and_extract_results(logger, model, shifts, num_shifts, days, month, sh
         "objective_value": objective_value,
         "status": status,
     }
+    if stage_values:
+        stats["stage_values"] = stage_values
 
     current_stats_computed = {
         stat: [solver.Value(current_stats[stat][w]) for w in range(len(workers))] for stat in EQUITY_STATS

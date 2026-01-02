@@ -274,12 +274,46 @@ def _add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assig
     """
     return _mo.add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assigned, num_workers, shifts, unav_parsed, holiday_set)
 
-def _solve_and_extract_results(model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats):
+def _solve_and_extract_results(
+    model,
+    shifts,
+    num_shifts,
+    days,
+    month,
+    shifts_by_day,
+    iso_weeks,
+    workers,
+    assigned,
+    current_stats,
+    stage_objectives=None,
+):
     return _sp.solve_and_extract_results(
-        logger, model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
+        logger,
+        model,
+        shifts,
+        num_shifts,
+        days,
+        month,
+        shifts_by_day,
+        iso_weeks,
+        workers,
+        assigned,
+        current_stats,
+        stage_objectives=stage_objectives,
     )
 
-def generate_schedule(year, month, unavail_data, required_data, history, workers, holidays=None, equity_weights=None, dow_equity_weight=None):
+def generate_schedule(
+    year,
+    month,
+    unavail_data,
+    required_data,
+    history,
+    workers,
+    holidays=None,
+    equity_weights=None,
+    dow_equity_weight=None,
+    lexicographic: bool = True,
+):
     if equity_weights is None:
         equity_weights = EQUITY_WEIGHTS
     if dow_equity_weight is None:
@@ -314,35 +348,78 @@ def generate_schedule(year, month, unavail_data, required_data, history, workers
     model = _fix_previous_assignments(model, assigned, history, workers, days, shifts_by_day, shifts)
     past_stats = _compute_past_stats(history, workers)
     current_stats, current_dow = _define_current_stats_vars(model, assigned, stat_indices, num_workers)
-    obj = 0
-    obj = _add_load_balancing_objective(model, obj, iso_weeks, shifts, assigned, workers, OBJECTIVE_WEIGHT_LOAD)
-    # Flexible rules in order of importance (Rule 1 = highest priority)
-    # Rule 1: Saturday Preference for First Shift
-    obj = _add_saturday_preference_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[0], iso_weeks, assigned, num_workers,
-                                             shifts, unav_parsed, holiday_set)
-    # Rule 2: Three-Day Weekend Worker Minimization
-    obj = _add_three_day_weekend_min_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[1], iso_weeks, holiday_set,
-                                               shifts_by_day, assigned, num_workers)
-    # Rule 3: Weekend Shift Limits
-    obj = _add_weekend_shift_limits_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[2], iso_weeks, holiday_set, assigned,
-                                              num_workers, shifts)
-    # Rule 4: Consecutive Weekend Avoidance
-    obj = _add_consecutive_weekend_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[3], iso_weeks, holiday_set,
-                                                       history, workers, assigned, num_workers, shifts, year, month)
-    # Rule 5: M2 Priority
-    obj = _add_m2_priority_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[4], shifts, num_shifts, assigned, workers)
-    # Rules 6-10: Equity objectives
-    obj = _add_equity_objective(model, obj, equity_weights, past_stats, current_stats, workers, num_workers)
-    obj = _add_dow_equity_objective(model, obj, dow_equity_weight, past_stats, current_dow, workers, num_workers)
-    # Rule 11: Consecutive Shifts >48h preference
-    obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
-                                           num_workers)
-    # Deterministic tie-break: add tiny penalty based on worker index to ensure stable ordering
-    obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
-    model.Minimize(obj)
-    schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
-        model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
-    )
+    if lexicographic:
+        # Build integer-valued stage objectives and solve lexicographically in RULES.md order.
+        sat_pref_cost = _mo.build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed)
+        three_day_cost = _mo.build_three_day_weekend_unique_workers_cost(
+            model, iso_weeks, holiday_set, shifts_by_day, assigned, num_workers
+        )
+        weekend_limits_cost = _mo.build_weekend_shift_limits_cost(model, iso_weeks, holiday_set, assigned, num_workers, shifts)
+        consec_weekend_cost = _mo.build_consecutive_weekend_avoidance_cost(
+            model, iso_weeks, holiday_set, history, workers, assigned, num_workers, shifts, year, month
+        )
+        m2_cost = _mo.build_m2_priority_cost(model, shifts, assigned, workers)
+
+        # Rule 6-10 (equity) + load balancing are treated as a combined fairness stage.
+        load_cost = _mo.build_load_balancing_cost(model, iso_weeks, shifts, assigned, workers)
+        equity_cost = _mo.build_equity_cost_scaled(model, equity_weights, past_stats, current_stats, workers, num_workers)
+        dow_cost = _mo.build_dow_equity_cost_scaled(model, dow_equity_weight, past_stats, current_dow, workers, num_workers)
+        # Generous upper bound; exact tightness isn't required.
+        fairness_cost = model.NewIntVar(0, 10_000_000, "fairness_cost")
+        model.Add(fairness_cost == load_cost + equity_cost + dow_cost)
+
+        # Rule 11: prefer >48h gaps (penalize 24-48h gaps)
+        consec48_cost = _mo.build_consec_shifts_48h_cost(model, assigned, shifts, num_shifts, num_workers)
+
+        # Deterministic final tie-break
+        tiebreak_cost = _mo.build_tiebreak_cost(model, assigned, num_workers, num_shifts, workers)
+
+        stage_objectives = [
+            ("rule1_sat_pref", sat_pref_cost),
+            ("rule2_3day_min_workers", three_day_cost),
+            ("rule3_weekend_limits", weekend_limits_cost),
+            ("rule4_consec_weekend", consec_weekend_cost),
+            ("rule5_m2_priority", m2_cost),
+            ("fairness_load_equity", fairness_cost),
+            ("rule11_consec48", consec48_cost),
+            ("tiebreak", tiebreak_cost),
+        ]
+
+        schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
+            model,
+            shifts,
+            num_shifts,
+            days,
+            month,
+            shifts_by_day,
+            iso_weeks,
+            workers,
+            assigned,
+            current_stats,
+            stage_objectives=stage_objectives,
+        )
+    else:
+        # Backwards-compatible single-objective weighted-sum mode.
+        obj = 0
+        obj = _add_load_balancing_objective(model, obj, iso_weeks, shifts, assigned, workers, OBJECTIVE_WEIGHT_LOAD)
+        obj = _add_saturday_preference_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[0], iso_weeks, assigned, num_workers,
+                                                 shifts, unav_parsed, holiday_set)
+        obj = _add_three_day_weekend_min_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[1], iso_weeks, holiday_set,
+                                                   shifts_by_day, assigned, num_workers)
+        obj = _add_weekend_shift_limits_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[2], iso_weeks, holiday_set, assigned,
+                                                  num_workers, shifts)
+        obj = _add_consecutive_weekend_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[3], iso_weeks, holiday_set,
+                                                           history, workers, assigned, num_workers, shifts, year, month)
+        obj = _add_m2_priority_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[4], shifts, num_shifts, assigned, workers)
+        obj = _add_equity_objective(model, obj, equity_weights, past_stats, current_stats, workers, num_workers)
+        obj = _add_dow_equity_objective(model, obj, dow_equity_weight, past_stats, current_dow, workers, num_workers)
+        obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
+                                               num_workers)
+        obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
+        model.Minimize(obj)
+        schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
+            model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
+        )
 
     # Merge previously scheduled (excluded) ISO weeks into results for visualization
     schedule, weekly, assignments = _merge_excluded_weeks_into_results(

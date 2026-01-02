@@ -248,6 +248,17 @@ class SettingsTab(ttk.Frame):
         dow_value_label.pack(side="left", padx=10)
         self.dow_scale.bind("<Motion>", lambda e: dow_value_label.config(text=f"{self.dow_scale.get():.1f}"))
 
+        solver_frame = ttk.LabelFrame(self, text="Solver", padding="10")
+        solver_frame.pack(fill="x", pady=15)
+
+        lex_cb = ttk.Checkbutton(
+            solver_frame,
+            text="Lexicographic optimization (strict rule priority)",
+            variable=self.app.lexicographic_var,
+        )
+        lex_cb.pack(anchor="w")
+        Tooltip(lex_cb, "When enabled, the solver optimizes flexible rules in strict RULES.md order")
+
     def update_weight(self, stat, value):
         self.app.equity_weights[stat] = value
 
@@ -290,6 +301,9 @@ class ShiftSchedulerApp:
 
     def setup_data(self):
         self.manual_holidays = []
+
+        # Solver mode: lexicographic (staged) optimization is the default.
+        self.lexicographic_var = tk.BooleanVar(value=True)
         
         # Load configuration from file
         self.config = load_config()
@@ -470,7 +484,8 @@ class ShiftSchedulerApp:
         logger.info(f"Generating schedule for {month}/{year} with {len(self.workers)} workers")
         schedule, weekly, assignments, stats, self.current_stats_computed = generate_schedule(
             year, month, self.unavail, self.req, self.history, self.workers, holidays=all_holidays,
-            equity_weights=self.equity_weights, dow_equity_weight=self.dow_equity_weight
+            equity_weights=self.equity_weights, dow_equity_weight=self.dow_equity_weight,
+            lexicographic=bool(self.lexicographic_var.get()),
         )
 
         self.past_stats = _compute_past_stats(self.history, self.workers)
