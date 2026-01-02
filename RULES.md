@@ -8,9 +8,10 @@ This document defines the expected behavior and rules for the Shift Scheduler ap
 **Handling Overlapping Weeks:** If a week (e.g., September 29–October 5, 2025) has already been scheduled in a previous run (e.g., when scheduling September 2025), the program must not reschedule that week when scheduling a subsequent month (e.g., October 2025). Instead, it loads the previously assigned shifts for that week and only schedules the remaining unscheduled ISO weeks for the new month (e.g., for October 2025, schedule ISO weeks starting from October 6, with the last week being October 27–November 2, 2025).
 
 **Worker Types:** There are two types of workers:
-- 6 Workers with a standard weekly load of 12 hours (2 of them cannot work nights).
-- 9 Workers with a standard weekly load of 18 hours.
+- Workers with a standard weekly load of 12 hours.
+- Workers with a standard weekly load of 18 hours.
 - Both types can work overtime (hours beyond their standard weekly load).
+- Some workers cannot work nights (they are identified).
 
 **Shift Types:** There are three shifts per day:
 - **M1:** 8:00 AM to 8:00 PM (12 hours).
