@@ -12,10 +12,10 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
-# Import from logic_g4.py (adjust path if needed)
-from logic_g4 import generate_schedule, update_history, _compute_past_stats
-from utils import Tooltip, compute_holidays, easter_date
-from constants import EQUITY_WEIGHTS, DOW_EQUITY_WEIGHT, EQUITY_STATS
+# Import the scheduler service (clean API layer)
+from scheduler_service import SchedulerService, ScheduleResult, WorkerStats
+from utils import Tooltip
+from constants import EQUITY_STATS
 from logger import get_logger
 
 logger = get_logger('ui')
@@ -23,52 +23,6 @@ logger = get_logger('ui')
 # Configuration file path
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
 RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RULES.md")
-
-
-def load_config():
-    """Load configuration from YAML file."""
-    if os.path.exists(CONFIG_FILE):
-        try:
-            with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                config = yaml.safe_load(f)
-                logger.info(f"Configuration loaded from {CONFIG_FILE}")
-                return config
-        except Exception as e:
-            logger.warning(f"Could not load config file: {e}")
-    return None
-
-
-def save_config(config):
-    """Save configuration to YAML file."""
-    try:
-        with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-            yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
-        logger.info(f"Configuration saved to {CONFIG_FILE}")
-        return True
-    except Exception as e:
-        logger.error(f"Could not save config file: {e}")
-        return False
-
-
-def get_default_workers():
-    """Return default workers if config file is missing."""
-    return [
-        {"name": "Tome", "id": "ID001", "color": "#ff0000", "can_night": True, "weekly_load": 12},
-        {"name": "Rosa", "id": "ID002", "color": "#ff5400", "can_night": True, "weekly_load": 18},
-        {"name": "Lucas", "id": "ID003", "color": "#ffaa00", "can_night": True, "weekly_load": 18},
-        {"name": "Bartolo", "id": "ID004", "color": "#ffff00", "can_night": True, "weekly_load": 18},
-        {"name": "Gilberto", "id": "ID005", "color": "#aaff00", "can_night": True, "weekly_load": 18},
-        {"name": "Pego", "id": "ID006", "color": "#ff0055", "can_night": True, "weekly_load": 18},
-        {"name": "Celeste", "id": "ID007", "color": "#00ff55", "can_night": True, "weekly_load": 12},
-        {"name": "Sofia", "id": "ID008", "color": "#00ffa9", "can_night": True, "weekly_load": 18},
-        {"name": "Lucilia", "id": "ID009", "color": "#00ffff", "can_night": True, "weekly_load": 12},
-        {"name": "Teresa", "id": "ID010", "color": "#00a9ff", "can_night": True, "weekly_load": 18},
-        {"name": "Fernando", "id": "ID011", "color": "#0054ff", "can_night": False, "weekly_load": 12},
-        {"name": "Rosario", "id": "ID012", "color": "#0000ff", "can_night": True, "weekly_load": 12},
-        {"name": "Nuno", "id": "ID013", "color": "#5400ff", "can_night": True, "weekly_load": 18},
-        {"name": "Filomena", "id": "ID014", "color": "#aa00ff", "can_night": False, "weekly_load": 12},
-        {"name": "Angela", "id": "ID015", "color": "#ff00ff", "can_night": True, "weekly_load": 18}
-    ]
 
 class WorkerTab(ttk.Frame):
     def __init__(self, parent, app):
@@ -227,7 +181,7 @@ class SettingsTab(ttk.Frame):
 
         ttk.Label(self, text="Equity Weights Adjustment", font=self.app.heading_font).pack(pady=10)
 
-        for stat, weight in self.app.equity_weights.items():
+        for stat, weight in self.app.scheduler.equity_weights.items():
             frame = ttk.Frame(self)
             frame.pack(fill="x", pady=5)
             ttk.Label(frame, text=stat.capitalize().replace('_', ' '), width=20).pack(side="left", padx=10)
@@ -241,10 +195,11 @@ class SettingsTab(ttk.Frame):
         dow_frame = ttk.Frame(self)
         dow_frame.pack(fill="x", pady=5)
         ttk.Label(dow_frame, text="Day of Week Equity", width=20).pack(side="left", padx=10)
-        self.dow_scale = ttk.Scale(dow_frame, from_=0, to=10, orient="horizontal", value=self.app.dow_equity_weight,
-                                   command=lambda v: setattr(self.app, 'dow_equity_weight', float(v)))
+        self.dow_scale = ttk.Scale(dow_frame, from_=0, to=10, orient="horizontal", 
+                                   value=self.app.scheduler.dow_equity_weight,
+                                   command=lambda v: setattr(self.app.scheduler, 'dow_equity_weight', float(v)))
         self.dow_scale.pack(side="left", fill="x", expand=True, padx=10)
-        dow_value_label = ttk.Label(dow_frame, text=f"{self.app.dow_equity_weight:.1f}")
+        dow_value_label = ttk.Label(dow_frame, text=f"{self.app.scheduler.dow_equity_weight:.1f}")
         dow_value_label.pack(side="left", padx=10)
         self.dow_scale.bind("<Motion>", lambda e: dow_value_label.config(text=f"{self.dow_scale.get():.1f}"))
 
@@ -255,12 +210,16 @@ class SettingsTab(ttk.Frame):
             solver_frame,
             text="Lexicographic optimization (strict rule priority)",
             variable=self.app.lexicographic_var,
+            command=self.update_lexicographic,
         )
         lex_cb.pack(anchor="w")
         Tooltip(lex_cb, "When enabled, the solver optimizes flexible rules in strict RULES.md order")
 
     def update_weight(self, stat, value):
-        self.app.equity_weights[stat] = value
+        self.app.scheduler.set_equity_weight(stat, value)
+
+    def update_lexicographic(self):
+        self.app.scheduler.lexicographic_mode = bool(self.app.lexicographic_var.get())
 
 class ShiftSchedulerApp:
     def __init__(self, root):
@@ -268,6 +227,9 @@ class ShiftSchedulerApp:
         self.root.title("Shift Scheduler")
         self.root.geometry("1000x700")
         self.root.resizable(True, True)
+
+        # Initialize the scheduler service (clean API layer)
+        self.scheduler = SchedulerService()
 
         self.setup_fonts_and_styles()
         self.setup_data()
@@ -300,47 +262,10 @@ class ShiftSchedulerApp:
         style.configure("TFrame", padding=10)
 
     def setup_data(self):
-        self.manual_holidays = []
-
         # Solver mode: lexicographic (staged) optimization is the default.
-        self.lexicographic_var = tk.BooleanVar(value=True)
+        self.lexicographic_var = tk.BooleanVar(value=self.scheduler.lexicographic_mode)
         
-        # Load configuration from file
-        self.config = load_config()
-        if self.config and 'workers' in self.config:
-            self.workers = self.config['workers']
-            # Ensure all workers have required fields with defaults
-            for i, w in enumerate(self.workers):
-                if 'id' not in w:
-                    w['id'] = f"ID{i+1:03d}"
-                if 'color' not in w:
-                    w['color'] = "#000000"
-                if 'can_night' not in w:
-                    w['can_night'] = True
-                if 'weekly_load' not in w:
-                    w['weekly_load'] = 18
-        else:
-            self.workers = get_default_workers()
-        
-        # Load thresholds from config or use defaults
-        if self.config and 'thresholds' in self.config:
-            self.thresholds = self.config['thresholds']
-        else:
-            self.thresholds = {
-                'weekend_shifts': 2,
-                'sat_shifts': 1,
-                'sun_shifts': 1,
-                'weekend_day': 3,
-                'weekend_night': 1,
-                'weekday_day': 5,
-                'weekday_night': 2,
-                'total_night': 2,
-                'fri_night': 1
-            }
-        
-        self.unavail = {w['name']: [] for w in self.workers}
-        self.req = {w['name']: [] for w in self.workers}
-        self.history = {}
+        # UI state variables (workers/history/etc. are now managed by scheduler service)
         self.worker_var = tk.StringVar()
         self.stats_labels = {}
         self.unavailable_list = None
@@ -348,10 +273,30 @@ class ShiftSchedulerApp:
         self.schedule_tree = None
         self.reports_tree = None
         self.holidays_var = None  # Initialize to None
-        self.equity_weights = EQUITY_WEIGHTS.copy()
-        self.dow_equity_weight = DOW_EQUITY_WEIGHT
-        self.current_stats_computed = None
-        self.past_stats = None
+        
+        # Last schedule result for dashboard updates
+        self._last_result: ScheduleResult = None
+
+    # Property aliases for backwards compatibility with tab classes
+    @property
+    def workers(self):
+        return [w.to_dict() for w in self.scheduler.workers]
+
+    @property
+    def unavail(self):
+        return {w.name: self.scheduler.get_unavailable(w.name) for w in self.scheduler.workers}
+
+    @property
+    def req(self):
+        return {w.name: self.scheduler.get_required(w.name) for w in self.scheduler.workers}
+
+    @property
+    def history(self):
+        return self.scheduler.history
+
+    @property
+    def thresholds(self):
+        return self.scheduler.thresholds
 
     def setup_status_and_progress(self):
         self.status_var = tk.StringVar(value="Ready")
@@ -471,93 +416,65 @@ class ShiftSchedulerApp:
             messagebox.showerror("Error", "Invalid month or year")
             return
 
-        auto_holidays = compute_holidays(year, month)
-        all_holidays = sorted(set(auto_holidays + self.manual_holidays))
-
         self.progress.grid()
         self.progress.start()
         self.status_var.set("Generating schedule...")
 
-        self.root.after(100, lambda: self._run_generate_schedule(year, month, all_holidays))
+        self.root.after(100, lambda: self._run_generate_schedule(year, month))
 
-    def _run_generate_schedule(self, year, month, all_holidays):
-        logger.info(f"Generating schedule for {month}/{year} with {len(self.workers)} workers")
-        schedule, weekly, assignments, stats, self.current_stats_computed = generate_schedule(
-            year, month, self.unavail, self.req, self.history, self.workers, holidays=all_holidays,
-            equity_weights=self.equity_weights, dow_equity_weight=self.dow_equity_weight,
-            lexicographic=bool(self.lexicographic_var.get()),
-        )
-
-        self.past_stats = _compute_past_stats(self.history, self.workers)
+    def _run_generate_schedule(self, year, month):
+        logger.info(f"Generating schedule for {month}/{year} with {len(self.scheduler.workers)} workers")
+        
+        # Use the scheduler service to generate
+        result = self.scheduler.generate(year, month)
+        self._last_result = result
 
         self.progress.stop()
         self.progress.grid_remove()
         self.status_var.set("Schedule generated")
 
-        if schedule:
-            logger.info(f"Schedule generated successfully with {len(assignments)} assignments")
-            self.update_schedule_display(schedule, all_holidays)
+        if result.success:
+            logger.info(f"Schedule generated successfully with {len(result.assignments)} assignments")
+            all_holidays = self.scheduler.get_holidays(year, month)
+            self.update_schedule_display(result.schedule, all_holidays)
             self.check_imbalances()
             self.generate_report()
         else:
-            logger.warning("No feasible schedule found")
-            messagebox.showerror("Error", "No feasible schedule found")
-
-        if assignments:
-            self.history = update_history(assignments, self.history)
+            logger.warning(f"Schedule generation failed: {result.error_message}")
+            error_msg = result.error_message or "No feasible schedule found"
+            
+            # Show diagnostic info if available
+            if result.diagnostic_report:
+                error_msg += "\n\nDiagnostic Report:\n" + result.diagnostic_report.format_report()[:1000]
+            
+            messagebox.showerror("Error", error_msg)
 
     def check_imbalances(self):
-        alerts = []
-        workers_names = [w['name'] for w in self.workers]
-        for stat in EQUITY_STATS:
-            totals = [self.past_stats[workers_names[i]][stat] + self.current_stats_computed[stat][i] for i in range(len(self.workers))]
-            imb = max(totals) - min(totals) if totals else 0
-            threshold = self.thresholds.get(stat, 5)
-            if imb > threshold:
-                alerts.append(f"{stat}: imbalance {imb} > {threshold}")
-                logger.warning(f"Fairness imbalance detected: {stat} = {imb} (threshold: {threshold})")
+        alerts = self.scheduler.check_imbalances()
         if alerts:
-            messagebox.showwarning("Fairness Alert", "\n".join(alerts))
+            alert_messages = [a.message for a in alerts]
+            messagebox.showwarning("Fairness Alert", "\n".join(alert_messages))
 
     def update_worker_stats(self, event=None):
         worker = self.worker_var.get()
         if not worker:
             return
 
-        total_hours = 0
-        weekend_shifts = 0
-        night_shifts = 0
+        # Get stats from the service
+        stats = self.scheduler.get_worker_stats(worker)
 
-        if worker in self.history:
-            for my in self.history[worker]:
-                try:
-                    year, month = map(int, my.split('-'))
-                except ValueError:
-                    continue
-                holidays = set(compute_holidays(year, month))
-                for ass in self.history[worker][my]:
-                    try:
-                        d = datetime.fromisoformat(ass['date'])
-                        total_hours += ass.get('dur', 0)
-                        if ass['shift'] == 'N':
-                            night_shifts += 1
-                        weekday = d.weekday()
-                        day = d.day
-                        if weekday >= 5 or day in holidays:
-                            weekend_shifts += 1
-                    except (ValueError, KeyError):
-                        continue
+        self.stats_labels["Total Hours"].config(text=stats.total_hours)
+        self.stats_labels["Weekend Shifts"].config(text=stats.weekend_holiday_shifts)
+        self.stats_labels["Night Shifts"].config(text=stats.night_shifts)
 
-        self.stats_labels["Total Hours"].config(text=total_hours)
-        self.stats_labels["Weekend Shifts"].config(text=weekend_shifts)
-        self.stats_labels["Night Shifts"].config(text=night_shifts)
-
+        # Update unavailable list from service
         self.unavailable_list.delete(0, tk.END)
-        for item in self.unavail.get(worker, []):
+        for item in self.scheduler.get_unavailable(worker):
             self.unavailable_list.insert(tk.END, item)
 
+        # Update required list from service
         self.required_list.delete(0, tk.END)
-        for item in self.req.get(worker, []):
+        for item in self.scheduler.get_required(worker):
             self.required_list.insert(tk.END, item)
 
     def generate_report(self):
@@ -567,92 +484,40 @@ class ShiftSchedulerApp:
         for col in columns:
             self.reports_tree.heading(col, text=col)
             self.reports_tree.column(col, anchor="center")
-        # Compute the maximum date in history
-        all_dates = []
-        for worker_hist in self.history.values():
-            for month_assignments in worker_hist.values():
-                for ass in month_assignments:
-                    if 'date' in ass:
-                        all_dates.append(date.fromisoformat(ass['date']))
 
-        if all_dates:
-            current_date = max(all_dates)
-            last_iso = current_date.isocalendar()  # (year, week, weekday)
-            monday_last = current_date - timedelta(days=last_iso[2] - 1)
-            start_date = monday_last - timedelta(weeks=52)
-        else:
-            current_date = date.today()
-            start_date = current_date - timedelta(weeks=52)
-        for worker in sorted(w['name'] for w in self.workers):
-            total_hours = 0
-            day_shifts = 0
-            night_shifts = 0
-            weekend_holiday_shifts = 0
-            sat_night = 0
-            sat_day = 0
-            sun_hol_night = 0
-            sun_hol_day = 0
-            fri_night = 0
-            if worker in self.history:
-                for my in self.history[worker]:
-                    try:
-                        y, m = map(int, my.split('-'))
-                    except:
-                        continue
-                    holidays = set(compute_holidays(y, m))
-                    for ass in self.history[worker][my]:
-                        ass_date_str = ass.get('date')
-                        if not ass_date_str:
-                            continue
-                        ass_date = datetime.fromisoformat(ass_date_str).date()
-                        if ass_date < start_date or ass_date > current_date:
-                            continue
-                        shift = ass['shift']
-                        dur = ass.get('dur', 0)
-                        total_hours += dur
-                        weekday = ass_date.weekday()
-                        is_holiday = ass_date.day in holidays
-                        is_weekend_hol = (weekday >= 5 or is_holiday)
-                        is_day = shift in ['M1', 'M2']
-                        is_night = shift == 'N'
-                        if is_day:
-                            day_shifts += 1
-                        if is_night:
-                            night_shifts += 1
-                        if is_weekend_hol:
-                            weekend_holiday_shifts += 1
-                        if weekday == 5:
-                            if is_night:
-                                sat_night += 1
-                            if is_day:
-                                sat_day += 1
-                        if weekday == 6 or is_holiday:
-                            if is_night:
-                                sun_hol_night += 1
-                            if is_day:
-                                sun_hol_day += 1
-                        if weekday == 4 and is_night:
-                            fri_night += 1
-            self.reports_tree.insert("", "end", values=(worker, total_hours, day_shifts, night_shifts, weekend_holiday_shifts, sat_night, sat_day, sun_hol_night, sun_hol_day, fri_night))
+        # Use the service to generate all worker stats
+        all_stats = self.scheduler.generate_all_worker_stats(weeks_lookback=52)
+        
+        for stats in all_stats:
+            self.reports_tree.insert("", "end", values=(
+                stats.name, stats.total_hours, stats.day_shifts, stats.night_shifts,
+                stats.weekend_holiday_shifts, stats.sat_night, stats.sat_day,
+                stats.sun_holiday_night, stats.sun_holiday_day, stats.fri_night
+            ))
         self.update_dashboard()
 
     def update_dashboard(self):
-        if self.current_stats_computed is None or self.past_stats is None:
+        if self._last_result is None or not self._last_result.current_stats:
             return
 
-        workers_names = [w['name'] for w in self.workers]
+        workers_names = self.scheduler.worker_names
+        equity_totals = self.scheduler.get_equity_totals()
+        
+        if not equity_totals:
+            return
+            
         fig = self.notebook.nametowidget(self.notebook.tabs()[2]).figure  # Get figure from ReportsTab
         fig.clear()
 
         rows, cols = 3, 3  # For 9 stats
         for idx, stat in enumerate(EQUITY_STATS):
             ax = fig.add_subplot(rows, cols, idx + 1)
-            totals = [self.past_stats[workers_names[i]][stat] + self.current_stats_computed[stat][i] for i in range(len(workers_names))]
+            totals = equity_totals.get(stat, [0] * len(workers_names))
             ax.bar(workers_names, totals, color='skyblue')
             ax.set_title(stat.replace('_', ' ').title())
             ax.tick_params(axis='x', rotation=45)
             imbalance = max(totals) - min(totals) if totals else 0
-            threshold = self.thresholds.get(stat, 5)
+            threshold = self.scheduler.thresholds.get(stat, 5)
             if imbalance > threshold:
                 ax.set_facecolor('lightcoral')
             ax.set_ylabel('Count')
@@ -664,8 +529,7 @@ class ShiftSchedulerApp:
         try:
             month = list(month_name).index(self.month_var.get())
             year = self.year_var.get()
-            auto_holidays = compute_holidays(year, month)
-            all_holidays = sorted(set(auto_holidays + self.manual_holidays))
+            all_holidays = self.scheduler.get_holidays(year, month)
             if all_holidays:
                 display = ", ".join(map(str, all_holidays))
             else:
@@ -688,33 +552,15 @@ class ShiftSchedulerApp:
         if not file_path:
             return  # User canceled
 
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                loaded_history = json.load(f)
-
-            # Merge loaded data into self.history (avoid overwriting existing)
-            for worker, worker_data in loaded_history.items():
-                if worker not in self.history:
-                    self.history[worker] = {}
-                for month_year, assignments in worker_data.items():
-                    if month_year not in self.history[worker]:
-                        self.history[worker][month_year] = []
-                    # Append assignments, avoiding duplicates by date/shift
-                    existing_dates_shifts = {(ass['date'], ass['shift']) for ass in self.history[worker][month_year]}
-                    for ass in assignments:
-                        if (ass['date'], ass['shift']) not in existing_dates_shifts:
-                            self.history[worker][month_year].append(ass)
-
+        if self.scheduler.load_history(file_path):
             self.status_var.set("Historic data loaded successfully")
             self.update_worker_stats()  # Refresh UI if needed
             self.generate_report()  # Optional: Refresh reports
-        except json.JSONDecodeError:
-            messagebox.showerror("Error", "Invalid JSON file format")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to load file: {str(e)}")
+        else:
+            messagebox.showerror("Error", "Failed to load history file")
 
     def save_schedule(self):
-        if not self.history:
+        if not self.scheduler.history:
             messagebox.showwarning("Warning", "No schedule data to save")
             return
 
@@ -727,25 +573,14 @@ class ShiftSchedulerApp:
         if not file_path:
             return  # User canceled
 
-        try:
-            with open(file_path, 'w', encoding='utf-8') as f:
-                json.dump(self.history, f, indent=4, default=str)  # default=str handles any non-serializable types
+        if self.scheduler.save_history(file_path):
             self.status_var.set("Schedule saved successfully")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to save file: {str(e)}")
+        else:
+            messagebox.showerror("Error", "Failed to save schedule file")
 
     def save_workers_config(self):
         """Save current workers and thresholds to config.yaml file."""
-        config = {
-            'settings': {
-                'solver_timeout_seconds': 30,
-                'past_report_weeks': 52
-            },
-            'workers': self.workers,
-            'thresholds': self.thresholds
-        }
-        
-        if save_config(config):
+        if self.scheduler.save_config():
             self.status_var.set("Configuration saved to config.yaml")
             messagebox.showinfo("Success", "Configuration saved successfully to config.yaml")
         else:
@@ -760,28 +595,20 @@ class ShiftSchedulerApp:
                 new_names = [row[0] for row in reader if row]
             added_count = 0
             for name in new_names:
-                if not any(w['name'] == name for w in self.workers):
-                    next_num = max((int(w['id'][2:]) for w in self.workers), default=0) + 1
-                    new_id = f"ID{next_num:03d}"
-                    new_worker = {
-                        "name": name,
-                        "id": new_id,
-                        "color": "#000000",  # Default color: black
-                        "can_night": True,  # Adapted
-                        "weekly_load": 18  # Adapted
-                    }
-                    self.workers.append(new_worker)
-                    self.unavail[name] = []
-                    self.req[name] = []
+                if self.scheduler.add_worker(name):
+                    added_count += 1
             self.update_worker_combo()
-            self.status_var.set("Workers imported")
+            self.status_var.set(f"Workers imported: {added_count} new workers added")
 
     def import_holidays(self):
         file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if file:
+            self.scheduler.clear_manual_holidays()
             with open(file, 'r') as f:
                 reader = csv.reader(f)
-                self.manual_holidays = [int(row[0]) for row in reader if row]
+                for row in reader:
+                    if row:
+                        self.scheduler.add_manual_holiday(int(row[0]))
             self.update_schedule_columns()  # Refresh
             self.update_holidays_display()
             self.status_var.set("Holidays imported")
@@ -849,8 +676,7 @@ class ShiftSchedulerApp:
                 return
 
             day = int(selected_date.split('-')[2])
-            if day not in self.manual_holidays:
-                self.manual_holidays.append(day)
+            self.scheduler.add_manual_holiday(day)
             self.update_schedule_columns()  # Refresh
             self.update_holidays_display()
             top.destroy()
@@ -868,19 +694,7 @@ class ShiftSchedulerApp:
 
         def confirm():
             name = name_var.get().strip()
-            if name and not any(w['name'] == name for w in self.workers):
-                next_num = max((int(w['id'][2:]) for w in self.workers), default=0) + 1
-                new_id = f"ID{next_num:03d}"
-                new_worker = {
-                    "name": name,
-                    "id": new_id,
-                    "color": "#000000",
-                    "can_night": True,  # Changed from "can_work_nights"
-                    "weekly_load": 18  # Changed from "standard_weekly_hours"
-                }
-                self.workers.append(new_worker)
-                self.unavail[name] = []
-                self.req[name] = []
+            if name and self.scheduler.add_worker(name):
                 self.worker_var.set(name)
                 self.update_worker_combo()
                 top.destroy()
@@ -892,14 +706,13 @@ class ShiftSchedulerApp:
     def remove_worker(self):
         worker = self.worker_var.get()
         if worker and messagebox.askyesno("Confirm", f"Remove {worker}?"):
-            self.workers = [w for w in self.workers if w['name'] != worker]
-            del self.unavail[worker]
-            del self.req[worker]
-            self.worker_var.set(self.workers[0]['name'] if self.workers else "")
+            self.scheduler.remove_worker(worker)
+            names = self.scheduler.worker_names
+            self.worker_var.set(names[0] if names else "")
             self.update_worker_combo()
 
     def update_worker_combo(self):
-        self.worker_combo['values'] = [w['name'] for w in self.workers]
+        self.worker_combo['values'] = self.scheduler.worker_names
         self.update_worker_stats()
 
     def add_shift_availability(self, mode):
@@ -962,8 +775,8 @@ class ShiftSchedulerApp:
         ttk.Checkbutton(shift_frame, text="M2", variable=m2_var).grid(row=0, column=1, padx=5)
         ttk.Checkbutton(shift_frame, text="Night", variable=night_var).grid(row=0, column=2, padx=5)
 
-        target_dict = self.unavail if mode == "unavailable" else self.req
         target_list = self.unavailable_list if mode == "unavailable" else self.required_list
+        add_func = self.scheduler.add_unavailable if mode == "unavailable" else self.scheduler.add_required
 
         def daterange(start_date, end_date):
             for n in range(int((end_date - start_date).days) + 1):
@@ -998,14 +811,12 @@ class ShiftSchedulerApp:
                 selected_date = dt.strftime("%Y-%m-%d")
                 if not shifts:
                     entry = selected_date
-                    if entry not in target_dict[worker]:
-                        target_dict[worker].append(entry)
+                    if add_func(worker, entry):
                         target_list.insert(tk.END, entry)
                 else:
                     for sh in shifts:
                         entry = f"{selected_date} {sh}"
-                        if entry not in target_dict[worker]:
-                            target_dict[worker].append(entry)
+                        if add_func(worker, entry):
                             target_list.insert(tk.END, entry)
 
             top.destroy()
@@ -1021,9 +832,9 @@ class ShiftSchedulerApp:
         selected = target_list.curselection()
         if selected:
             idx = selected[0]
-            target_dict = self.unavail if mode == "unavailable" else self.req
-            del target_dict[worker][idx]
-            target_list.delete(idx)
+            remove_func = self.scheduler.remove_unavailable if mode == "unavailable" else self.scheduler.remove_required
+            if remove_func(worker, idx):
+                target_list.delete(idx)
         else:
             messagebox.showwarning("Warning", "Please select an entry to remove")
 
@@ -1050,14 +861,15 @@ class ShiftSchedulerApp:
 
         ttk.Label(top, text="Select Workers:").pack(pady=5)
         worker_list = tk.Listbox(top, selectmode="multiple", height=10, font=self.body_font)
-        for w in self.workers:
-            worker_list.insert(tk.END, w['name'])
+        worker_names = self.scheduler.worker_names
+        for name in worker_names:
+            worker_list.insert(tk.END, name)
         worker_list.pack(pady=5, padx=10, fill="both", expand=True)
 
         # Pre-select current workers if any
         current_workers = self.schedule_tree.item(item, "values")[col_index].split(', ')
-        for i, w in enumerate(self.workers):
-            if w['name'] in current_workers:
+        for i, name in enumerate(worker_names):
+            if name in current_workers:
                 worker_list.select_set(i)
 
         def confirm():
@@ -1104,7 +916,7 @@ class ShiftSchedulerApp:
         except (ValueError, TypeError):
             month, year, num_days = datetime.now().month, datetime.now().year, 31
 
-        auto_holidays = compute_holidays(year, month)  # Adapted to new naming
+        all_holidays = self.scheduler.get_holidays(year, month)
 
         for day in range(1, num_days + 1):
             dt = datetime(year, month, day)
@@ -1113,7 +925,7 @@ class ShiftSchedulerApp:
             tag = "evenrow" if day % 2 == 0 else "oddrow"
             if weekday in ['Sat', 'Sun']:
                 tag = (tag, 'weekend')
-            elif day in (auto_holidays + self.manual_holidays):
+            elif day in all_holidays:
                 tag = (tag, 'holiday')
             self.schedule_tree.insert("", "end", values=(day_text, "", "", ""), tags=tag)
 

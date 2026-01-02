@@ -13,11 +13,15 @@ from __future__ import annotations
 
 import time
 from datetime import date
+from typing import TYPE_CHECKING
 
 from ortools.sat.python import cp_model
 
 from constants import EQUITY_STATS, SHIFT_TYPES, SOLVER_TIMEOUT_SECONDS
 from history_view import HistoryView
+
+if TYPE_CHECKING:
+    from constraint_diagnostics import DiagnosticReport
 
 
 def solve_and_extract_results(
@@ -33,6 +37,7 @@ def solve_and_extract_results(
     assigned,
     current_stats,
     stage_objectives: list[tuple[str, cp_model.IntVar]] | None = None,
+    diagnostic_context: dict | None = None,
 ):
     # One shared time budget for either single-shot or staged solves.
     start_t = time.time()
@@ -90,9 +95,16 @@ def solve_and_extract_results(
             "conflicts": 0,
             "objective_value": None,
             "status": cp_model.UNKNOWN,
+            "diagnostic_report": None,
         }
         if stage_values:
             stats["stage_values"] = stage_values
+
+        # Run diagnostics if context is provided
+        if diagnostic_context:
+            diagnostic_report = _run_infeasibility_diagnostics(logger, diagnostic_context)
+            stats["diagnostic_report"] = diagnostic_report
+
         return {}, {}, [], stats, {}
 
     wall_time = solver.WallTime()
@@ -123,13 +135,22 @@ def solve_and_extract_results(
         "conflicts": conflicts,
         "objective_value": objective_value,
         "status": status,
+        "diagnostic_report": None,
     }
     if stage_values:
         stats["stage_values"] = stage_values
 
+    # Run diagnostics if infeasible and context is provided
+    if status == cp_model.INFEASIBLE and diagnostic_context:
+        logger.warning("Schedule is INFEASIBLE. Running constraint diagnostics...")
+        diagnostic_report = _run_infeasibility_diagnostics(logger, diagnostic_context)
+        stats["diagnostic_report"] = diagnostic_report
+        logger.info(f"Diagnostic summary: {diagnostic_report.summary}")
+
     current_stats_computed = {
         stat: [solver.Value(current_stats[stat][w]) for w in range(len(workers))] for stat in EQUITY_STATS
-    }
+    } if status in [cp_model.OPTIMAL, cp_model.FEASIBLE] else {}
+
 
     if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
         schedule = {}
@@ -222,4 +243,31 @@ def merge_excluded_weeks_into_results(schedule, weekly, assignments, excluded_we
             undertime = max(0, load - wk_hours)
             weekly[key][wk_name] = {"hours": wk_hours, "overtime": overtime, "undertime": undertime}
 
+    return schedule, weekly, assignments
+
+
+def _run_infeasibility_diagnostics(logger, diagnostic_context: dict):
+    """Run constraint diagnostics when solver returns INFEASIBLE.
+
+    Args:
+        logger: Logger instance
+        diagnostic_context: Dict containing scheduling context needed for diagnostics
+
+    Returns:
+        DiagnosticReport with analysis results
+    """
+    from constraint_diagnostics import run_diagnostics
+
+    return run_diagnostics(
+        workers=diagnostic_context["workers"],
+        days=diagnostic_context["days"],
+        shifts=diagnostic_context["shifts"],
+        shifts_by_day=diagnostic_context["shifts_by_day"],
+        iso_weeks=diagnostic_context["iso_weeks"],
+        unav_parsed=diagnostic_context["unav_parsed"],
+        req_parsed=diagnostic_context["req_parsed"],
+        holiday_set=diagnostic_context["holiday_set"],
+        logger=logger,
+        full_analysis=True,
+    )
     return schedule, weekly, assignments

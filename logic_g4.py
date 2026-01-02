@@ -286,6 +286,7 @@ def _solve_and_extract_results(
     assigned,
     current_stats,
     stage_objectives=None,
+    diagnostic_context=None,
 ):
     return _sp.solve_and_extract_results(
         logger,
@@ -300,6 +301,7 @@ def _solve_and_extract_results(
         assigned,
         current_stats,
         stage_objectives=stage_objectives,
+        diagnostic_context=diagnostic_context,
     )
 
 def generate_schedule(
@@ -348,6 +350,19 @@ def generate_schedule(
     model = _fix_previous_assignments(model, assigned, history, workers, days, shifts_by_day, shifts)
     past_stats = _compute_past_stats(history, workers)
     current_stats, current_dow = _define_current_stats_vars(model, assigned, stat_indices, num_workers)
+
+    # Build diagnostic context for constraint violation reporting
+    diagnostic_context = {
+        "workers": workers,
+        "days": days,
+        "shifts": shifts,
+        "shifts_by_day": shifts_by_day,
+        "iso_weeks": iso_weeks,
+        "unav_parsed": unav_parsed,
+        "req_parsed": req_parsed,
+        "holiday_set": holiday_set,
+    }
+
     if lexicographic:
         # Build integer-valued stage objectives and solve lexicographically in RULES.md order.
         sat_pref_cost = _mo.build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed)
@@ -397,6 +412,7 @@ def generate_schedule(
             assigned,
             current_stats,
             stage_objectives=stage_objectives,
+            diagnostic_context=diagnostic_context,
         )
     else:
         # Backwards-compatible single-objective weighted-sum mode.
@@ -418,7 +434,8 @@ def generate_schedule(
         obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
         model.Minimize(obj)
         schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
-            model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats
+            model, shifts, num_shifts, days, month, shifts_by_day, iso_weeks, workers, assigned, current_stats,
+            diagnostic_context=diagnostic_context,
         )
 
     # Merge previously scheduled (excluded) ISO weeks into results for visualization
