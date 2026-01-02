@@ -5,7 +5,7 @@ from the underlying scheduling logic. All data operations, history management,
 and scheduling calls go through this service.
 
 Benefits:
-- UI code becomes simpler (no direct imports from logic_g4, etc.)
+- UI code becomes simpler (no direct imports from scheduling_engine, etc.)
 - Easier to test business logic independently
 - Enables future web UI or CLI without code changes
 - Centralizes validation and error handling
@@ -22,7 +22,7 @@ from typing import Any, Callable, Optional
 import yaml
 
 from constants import DOW_EQUITY_WEIGHT, EQUITY_STATS, EQUITY_WEIGHTS
-from logic_g4 import _compute_past_stats, generate_schedule, update_history
+from scheduling_engine import _compute_past_stats, generate_schedule, update_history
 from utils import compute_holidays
 from logger import get_logger
 

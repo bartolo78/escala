@@ -12,7 +12,7 @@ from datetime import date, datetime, timedelta
 import pytest
 
 from constants import SHIFTS, SHIFT_TYPES, MIN_REST_HOURS
-from logic_g4 import generate_schedule
+from scheduling_engine import generate_schedule
 
 
 def _shift_window(day: date, shift_type: str) -> tuple[datetime, datetime]:

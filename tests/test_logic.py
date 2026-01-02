@@ -10,7 +10,7 @@ import os
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from logic_g4 import (
+from scheduling_engine import (
     parse_unavail_or_req,
     update_history,
     _setup_holidays_and_days,

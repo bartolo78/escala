@@ -10,7 +10,7 @@ from datetime import date
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from logic_g4 import generate_schedule
+from scheduling_engine import generate_schedule
 
 
 def test_overlapping_week_respected_and_merged():

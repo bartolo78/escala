@@ -16,7 +16,7 @@ from constraint_diagnostics import (
     ConstraintDiagnostics,
     run_diagnostics,
 )
-from logic_g4 import generate_schedule
+from scheduling_engine import generate_schedule
 
 
 class TestConstraintViolation:

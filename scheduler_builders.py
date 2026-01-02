@@ -3,7 +3,7 @@
 This module intentionally contains *no* OR-Tools logic. It builds the time window,
 shift instances, and ISO-week groupings used by the CP-SAT model.
 
-These functions are extracted from logic_g4.py to make refactoring safer.
+These functions are extracted from scheduling_engine.py to make refactoring safer.
 """
 
 from __future__ import annotations

@@ -4,7 +4,7 @@ Main entry point for the Shift Scheduler application.
 """
 
 import tkinter as tk
-from ui_escala import ShiftSchedulerApp
+from app_ui import ShiftSchedulerApp
 from logger import get_logger
 
 logger = get_logger('main')
