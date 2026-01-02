@@ -93,6 +93,7 @@ To avoid ambiguity, the following clarifications define how the rules should be 
 - **Holidays Treatment:**
    - For equity metrics: holidays that fall on weekdays are counted as weekend days.
    - For first-shift preference and availability checks: holidays that fall on weekdays are treated as weekdays.
+   - For weekday shift distribution: holidays that fall on weekdays are treated as weekdays (a shift on a holiday satisfies the "at least one weekday shift" requirement).
 
 - **Weekly Participation:**
    - Applies only to workers who have at least one available weekday (Mon–Fri) in the ISO week.
@@ -137,6 +138,14 @@ To avoid ambiguity, the following clarifications define how the rules should be 
 
 - **Timezone and DST:**
    - Assume local timezone and fixed shift durations. Ignore DST anomalies (e.g., 23- or 25-hour nights); treat N as 12 hours consistently.
+
+- **Consecutive Weekend Shift Avoidance Scope:**
+   - "In that month" refers strictly to the current calendar month being scheduled.
+   - However, the check for "consecutive" must look back at the last weekend of the previous month/week to determine if the current weekend is consecutive.
+
+- **Three-Day Weekend Minimization:**
+   - The goal is to minimize the number of *unique* workers assigned to the 3-day period.
+   - Fewer workers is better (e.g., 2 workers is better than 3). Ideally, one worker covers as much as possible if legal.
 
 - **Data Schema Recommendations:**
    - Worker: { id, name, weekly_load: 12|18, can_night: bool, unavailable_dates: Set[YYYY-MM-DD] }
