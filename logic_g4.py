@@ -9,6 +9,39 @@ from logger import get_logger
 
 logger = get_logger('logic')
 
+
+def get_scheduled_iso_weeks(history: dict) -> set:
+    """
+    Get set of (iso_year, iso_week) tuples that have already been scheduled.
+    An ISO week is considered scheduled if ANY assignment exists for any day in that week.
+    """
+    scheduled = set()
+    for worker_data in history.values():
+        for month_assignments in worker_data.values():
+            for ass in month_assignments:
+                if 'date' in ass:
+                    try:
+                        d = date.fromisoformat(ass['date'])
+                        iso_cal = d.isocalendar()
+                        scheduled.add((iso_cal[0], iso_cal[1]))
+                    except (ValueError, TypeError):
+                        continue
+    return scheduled
+
+
+def is_vacation_week(worker_name: str, week_days: list, unav_parsed: set) -> bool:
+    """
+    Check if worker has no available weekdays (Mon-Fri) in the given ISO week.
+    A vacation week means the worker cannot be scheduled for any weekday.
+    """
+    weekdays_available = 0
+    for d in week_days:
+        if d.weekday() < 5:  # Monday=0 to Friday=4
+            # Check if date is not in unavailable set
+            if (d, None) not in unav_parsed:
+                weekdays_available += 1
+    return weekdays_available == 0
+
 def parse_unavail_or_req(unav_list, is_unavail=True):
     unav_set = set()
     for item in unav_list:
@@ -56,20 +89,44 @@ def update_history(assignments, history):
     return history
 
 def _setup_holidays_and_days(year, month, holidays):
+    """Setup holiday set and list of days to schedule.
+    
+    The holiday_set contains date objects for holidays.
+    Days include all days in ISO weeks that contain any day of the selected month.
+    """
     if holidays is None:
         holidays = []
-    holiday_set = set(holidays)
+    
+    # Convert holiday day numbers to date objects
+    holiday_set = set()
+    for h in holidays:
+        if isinstance(h, int):
+            try:
+                holiday_set.add(date(year, month, h))
+            except ValueError:
+                pass  # Invalid day number
+        elif isinstance(h, date):
+            holiday_set.add(h)
+    
     _, num_days_in_month = calendar.monthrange(year, month)
     first_day = date(year, month, 1)
     last_day = date(year, month, num_days_in_month)
+    
+    # Find Monday of the ISO week containing the first day
     first_monday = first_day - timedelta(days=first_day.weekday())
+    
+    # Find Sunday of the ISO week containing the last day
     last_sunday = last_day + timedelta(days=(6 - last_day.weekday()))
+    
+    # Generate all days from first Monday to last Sunday
     days = []
     current_day = first_monday
     while current_day <= last_sunday:
         days.append(current_day)
         current_day += timedelta(days=1)
+    
     days = sorted(set(days))  # Unique days
+    logger.info(f"Scheduling {len(days)} days from {first_monday} to {last_sunday} for {year}-{month:02d}")
     return holiday_set, days
 
 def _create_shifts(days):
@@ -335,51 +392,120 @@ def _add_load_balancing_objective(model, obj, iso_weeks, shifts, assigned, worke
     return obj
 
 def _add_three_day_weekend_min_objective(model, obj, weight_flex, iso_weeks, holiday_set, shifts_by_day, assigned, num_workers):
+    """
+    Flexible Rule 2: Three-Day Weekend Worker Minimization
+    When a holiday on Monday or Friday creates a 3-day weekend, minimize the number of 
+    different workers assigned shifts over those 3 days by favoring multiple shifts to same worker.
+    """
     for key in iso_weeks:
         week = iso_weeks[key]
         days = week['days']
-        is_three_day = False
+        
+        # Find 3-day weekend periods
+        three_day_periods = []
         for day in days:
-            if day in holiday_set and day.weekday() in [0, 4]:  # Monday or Friday holiday
-                is_three_day = True
-                break
-        if not is_three_day:
-            continue
-        for w in range(num_workers):
-            if is_three_day:
-                has_shift_during_three_day = model.NewBoolVar(f'has_three_day_shift_w{w}_k{key}')
-                three_day_shifts = []
-                for day in days:
-                    if day in holiday_set or day.weekday() >= 5:
-                        three_day_shifts.extend(shifts_by_day.get(day, []))
-                model.Add(sum(assigned[w][s] for s in three_day_shifts) >= 1).OnlyEnforceIf(has_shift_during_three_day)
-                model.Add(sum(assigned[w][s] for s in three_day_shifts) == 0).OnlyEnforceIf(has_shift_during_three_day.Not())
-                obj += weight_flex * has_shift_during_three_day
+            if day in holiday_set:
+                if day.weekday() == 4:  # Friday holiday -> Fri-Sat-Sun
+                    fri = day
+                    sat = day + timedelta(days=1)
+                    sun = day + timedelta(days=2)
+                    if sat in days and sun in days:
+                        three_day_periods.append([fri, sat, sun])
+                elif day.weekday() == 0:  # Monday holiday -> Sat-Sun-Mon
+                    mon = day
+                    sat = day - timedelta(days=2)
+                    sun = day - timedelta(days=1)
+                    if sat in days and sun in days:
+                        three_day_periods.append([sat, sun, mon])
+        
+        for period in three_day_periods:
+            # Collect all shifts in this 3-day period
+            period_shifts = []
+            for d in period:
+                period_shifts.extend(shifts_by_day.get(d, []))
+            
+            if not period_shifts:
+                continue
+            
+            # Penalize each worker who works during this period (minimize unique workers)
+            for w in range(num_workers):
+                has_shift_in_period = model.NewBoolVar(f'has_3day_w{w}_k{key}_{period[0]}')
+                sum_in_period = sum(assigned[w][s] for s in period_shifts)
+                model.Add(sum_in_period >= 1).OnlyEnforceIf(has_shift_in_period)
+                model.Add(sum_in_period == 0).OnlyEnforceIf(has_shift_in_period.Not())
+                # Penalize having ANY worker in the period (solver will consolidate shifts)
+                obj += weight_flex * has_shift_in_period
+    
     return obj
 
 def _add_weekend_shift_limits_objective(model, obj, weight_flex, iso_weeks, holiday_set, assigned, num_workers, shifts):
+    """
+    Flexible Rule 3: Weekend Shift Limits
+    Avoid assigning the same worker two shifts in the same weekend (Saturday and Sunday),
+    unless the Three-Day Weekend Worker Minimization rule applies.
+    """
     for key in iso_weeks:
         week = iso_weeks[key]
+        # Check if this is a 3-day weekend (skip limit if so, as rule 2 takes precedence)
         is_three_day = any(day in holiday_set and day.weekday() in [0, 4] for day in week['days'])
         if is_three_day:
             continue
-        weekend_shifts = [s for s in week['shifts'] if shifts[s]['day'].weekday() >= 5 or shifts[s]['day'] in holiday_set]
+        
+        # Get Saturday and Sunday shifts separately
+        sat_shifts = [s for s in week['shifts'] if shifts[s]['day'].weekday() == 5]
+        sun_shifts = [s for s in week['shifts'] if shifts[s]['day'].weekday() == 6]
+        
         for w in range(num_workers):
+            # Penalize if worker has shifts on BOTH Saturday AND Sunday
+            has_sat = model.NewBoolVar(f'has_sat_w{w}_k{key}')
+            has_sun = model.NewBoolVar(f'has_sun_w{w}_k{key}')
+            
+            if sat_shifts:
+                model.Add(sum(assigned[w][s] for s in sat_shifts) >= 1).OnlyEnforceIf(has_sat)
+                model.Add(sum(assigned[w][s] for s in sat_shifts) == 0).OnlyEnforceIf(has_sat.Not())
+            else:
+                model.Add(has_sat == 0)
+                
+            if sun_shifts:
+                model.Add(sum(assigned[w][s] for s in sun_shifts) >= 1).OnlyEnforceIf(has_sun)
+                model.Add(sum(assigned[w][s] for s in sun_shifts) == 0).OnlyEnforceIf(has_sun.Not())
+            else:
+                model.Add(has_sun == 0)
+            
+            # Penalize having both
             has_both = model.NewBoolVar(f'has_both_weekend_w{w}_k{key}')
-            sum_weekend = sum(assigned[w][s] for s in weekend_shifts)
-            model.Add(sum_weekend >= 2).OnlyEnforceIf(has_both)
-            model.Add(sum_weekend < 2).OnlyEnforceIf(has_both.Not())
+            model.AddBoolAnd([has_sat, has_sun]).OnlyEnforceIf(has_both)
+            model.AddBoolOr([has_sat.Not(), has_sun.Not()]).OnlyEnforceIf(has_both.Not())
             obj += weight_flex * has_both
+    
     return obj
 
+
 def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_weeks, holiday_set, history, workers, assigned, num_workers, shifts):
-    for key in iso_weeks:
+    """
+    Flexible Rule 4: Consecutive Weekend Shift Avoidance
+    Avoid assigning a worker shifts on consecutive weekends if there are other workers
+    who have not yet worked a weekend shift in that month.
+    """
+    # Sort iso_weeks by key to process in order
+    sorted_keys = sorted(iso_weeks.keys())
+    
+    for i, key in enumerate(sorted_keys):
         week = iso_weeks[key]
         monday = week['monday']
-        weekend_prev_days = [monday - timedelta(days=2), monday - timedelta(days=1)]  # Prev Sat, Sun
+        
+        # Get weekend shifts for this week
+        weekend_shifts_this = [s for s in week['shifts'] if shifts[s]['day'].weekday() >= 5]
+        if not weekend_shifts_this:
+            continue
+        
         for w_idx, worker in enumerate(workers):
             w_name = worker['name']
+            
+            # Check if worker worked previous weekend (from history or previous week in schedule)
             worked_prev = False
+            weekend_prev_days = [monday - timedelta(days=2), monday - timedelta(days=1)]  # Prev Sat, Sun
+            
             for d in weekend_prev_days:
                 m_y = d.strftime('%Y-%m')
                 day_str = str(d)
@@ -390,19 +516,28 @@ def _add_consecutive_weekend_avoidance_objective(model, obj, weight_flex, iso_we
                             break
                 if worked_prev:
                     break
+            
             if worked_prev:
-                weekend_shifts_this = [s for s in week['shifts'] if shifts[s]['day'].weekday() >= 5 or shifts[s]['day'] in holiday_set]
-                has_weekend_this = model.NewBoolVar(f'has_weekend_this_w{w_idx}_k{key}')
+                # Penalize working this weekend too
+                has_weekend_this = model.NewBoolVar(f'consec_wknd_w{w_idx}_k{key}')
                 model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) >= 1).OnlyEnforceIf(has_weekend_this)
                 model.Add(sum(assigned[w_idx][s] for s in weekend_shifts_this) == 0).OnlyEnforceIf(has_weekend_this.Not())
                 obj += weight_flex * has_weekend_this
+    
     return obj
 
+
 def _add_m2_priority_objective(model, obj, weight_flex, shifts, num_shifts, assigned, workers):
+    """
+    Flexible Rule 5: M2 Priority
+    Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours.
+    This penalizes assigning M1 to 18h workers, encouraging M2 assignment instead.
+    """
     for s in range(num_shifts):
         if shifts[s]['type'] == 'M1':
             for w in range(len(workers)):
                 if workers[w]['weekly_load'] == 18:
+                    # Penalize M1 for 18h workers
                     obj += weight_flex * assigned[w][s]
     return obj
 

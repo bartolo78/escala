@@ -1,0 +1,17 @@
+2026-01-02 15:55:16 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 15:55:16 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 15:55:16 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 15:55:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 15:55:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-02 15:55:36 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-02 15:55:43 - escala.main - INFO - Starting Shift Scheduler application
+2026-01-02 15:55:43 - escala.main - ERROR - Application error: no display name and no $DISPLAY environment variable
+Traceback (most recent call last):
+  File "/workspaces/escala/main.py", line 17, in main
+    root = tk.Tk()
+           ^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/tkinter/__init__.py", line 2340, in __init__
+    self.tk = _tkinter.create(screenName, baseName, className, interactive, wantobjects, useTk, sync, use)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: no display name and no $DISPLAY environment variable
+2026-01-02 15:55:43 - escala.main - INFO - Shift Scheduler application closed

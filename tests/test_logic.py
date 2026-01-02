@@ -128,11 +128,12 @@ class TestSetupHolidaysAndDays:
         assert date(2026, 1, 31) in days
         
     def test_holiday_set_created(self):
-        """Holiday set should contain provided holidays."""
+        """Holiday set should contain provided holidays as date objects."""
         holiday_set, days = _setup_holidays_and_days(2026, 1, [1, 6])
         
-        assert 1 in holiday_set
-        assert 6 in holiday_set
+        # holiday_set now contains date objects, not day numbers
+        assert date(2026, 1, 1) in holiday_set
+        assert date(2026, 1, 6) in holiday_set
 
     def test_empty_holidays(self):
         """Should handle empty holiday list."""
