@@ -399,8 +399,8 @@ def generate_schedule(
             ("rule3_weekend_limits", weekend_limits_cost),
             ("rule4_consec_weekend", consec_weekend_cost),
             ("rule5_m2_priority", m2_cost),
-            ("fairness_load_equity", fairness_cost),
             ("rule11_consec48", consec48_cost),
+            ("fairness_load_equity", fairness_cost),
             ("tiebreak", tiebreak_cost),
         ]
 
