@@ -340,6 +340,56 @@ class TestSettingsManagement:
         service.set_threshold("sat_n", 10)
         assert service.thresholds["sat_n"] == 10
 
+    def test_equity_credits_default_empty(self, service):
+        """equity_credits should be empty by default."""
+        credits = service.equity_credits
+        assert isinstance(credits, dict)
+        assert len(credits) == 0
+
+    def test_set_worker_equity_credit(self, service):
+        """set_worker_equity_credit should store credit for worker."""
+        service.set_worker_equity_credit("Sofia", "sat_n", 2)
+        credits = service.get_worker_equity_credits("Sofia")
+        assert credits["sat_n"] == 2
+
+    def test_set_worker_equity_credit_multiple_stats(self, service):
+        """Multiple equity credits can be set for same worker."""
+        service.set_worker_equity_credit("Sofia", "sat_n", 2)
+        service.set_worker_equity_credit("Sofia", "sun_holiday_m2", 1)
+        credits = service.get_worker_equity_credits("Sofia")
+        assert credits["sat_n"] == 2
+        assert credits["sun_holiday_m2"] == 1
+
+    def test_set_worker_equity_credit_zero_removes(self, service):
+        """Setting credit to zero should remove it."""
+        service.set_worker_equity_credit("Sofia", "sat_n", 2)
+        service.set_worker_equity_credit("Sofia", "sat_n", 0)
+        credits = service.get_worker_equity_credits("Sofia")
+        assert "sat_n" not in credits
+
+    def test_clear_worker_equity_credits(self, service):
+        """clear_worker_equity_credits should remove all credits for worker."""
+        service.set_worker_equity_credit("Sofia", "sat_n", 2)
+        service.set_worker_equity_credit("Sofia", "sun_holiday_m2", 1)
+        service.clear_worker_equity_credits("Sofia")
+        credits = service.get_worker_equity_credits("Sofia")
+        assert len(credits) == 0
+
+    def test_clear_all_equity_credits(self, service):
+        """clear_all_equity_credits should remove all credits."""
+        service.set_worker_equity_credit("Sofia", "sat_n", 2)
+        service.set_worker_equity_credit("Rosa", "fri_night", 1)
+        service.clear_all_equity_credits()
+        assert len(service.equity_credits) == 0
+
+    def test_add_absence_credits(self, service):
+        """add_absence_credits should add reasonable credits."""
+        credits_applied = service.add_absence_credits("Sofia", weeks_absent=15)
+        # With 15 weeks absence, should get approximately 1 credit per stat
+        assert "sat_n" in credits_applied or "weekday_not_mon_day" in credits_applied
+        worker_credits = service.get_worker_equity_credits("Sofia")
+        assert len(worker_credits) > 0
+
 
 class TestScheduleGeneration:
     """Tests for schedule generation."""

@@ -144,6 +144,10 @@ class SchedulerService:
         self._dow_equity_weight: float = DOW_EQUITY_WEIGHT
         self._thresholds: dict[str, int] = self.DEFAULT_THRESHOLDS.copy()
         self._lexicographic: bool = True
+        # Equity credits per worker: {worker_name: {stat: credit_value}}
+        # Used to compensate for extended absences (medical leave, parental leave, etc.)
+        # Positive credits reduce a worker's apparent "debt" from missing shifts
+        self._equity_credits: dict[str, dict[str, int]] = {}
 
         # Cached stats from last schedule generation
         self._current_stats: Optional[dict] = None
@@ -179,6 +183,10 @@ class SchedulerService:
 
             if config and 'thresholds' in config:
                 self._thresholds.update(config['thresholds'])
+
+            # Load equity credits for workers with extended absences
+            if config and 'equity_credits' in config:
+                self._equity_credits = config['equity_credits']
 
             self._init_availability_dicts()
             logger.info(f"Configuration loaded from {self._config_path}")
@@ -233,6 +241,9 @@ class SchedulerService:
             'workers': [w.to_dict() for w in self._workers],
             'thresholds': self._thresholds
         }
+        # Only save equity_credits if there are any
+        if self._equity_credits:
+            config['equity_credits'] = self._equity_credits
 
         try:
             with open(self._config_path, 'w', encoding='utf-8') as f:
@@ -447,6 +458,112 @@ class SchedulerService:
         self._thresholds[stat] = value
 
     # =========================================================================
+    # Equity Credits Management (for extended absences)
+    # =========================================================================
+
+    @property
+    def equity_credits(self) -> dict[str, dict[str, int]]:
+        """Get equity credits for all workers.
+        
+        Equity credits compensate for extended absences (medical leave, parental
+        leave, prolonged vacations). They are added to a worker's past stats
+        during schedule generation, preventing unfair "catch-up" assignments.
+        
+        Returns:
+            Dict mapping worker_name -> {stat: credit_value}
+        """
+        return {w: credits.copy() for w, credits in self._equity_credits.items()}
+
+    def get_worker_equity_credits(self, worker_name: str) -> dict[str, int]:
+        """Get equity credits for a specific worker.
+        
+        Args:
+            worker_name: Name of the worker
+            
+        Returns:
+            Dict mapping stat -> credit_value (empty if no credits)
+        """
+        return self._equity_credits.get(worker_name, {}).copy()
+
+    def set_worker_equity_credit(self, worker_name: str, stat: str, value: int) -> None:
+        """Set an equity credit for a worker.
+        
+        Use this when a worker returns from extended absence to prevent the
+        scheduler from over-assigning them undesirable shifts to "catch up".
+        
+        Example: Sofia was on 4-week parental leave. During that time, she
+        would have typically received 1 Saturday night. Set her sat_n credit
+        to 1 so she's not assigned extra Saturday nights upon return.
+        
+        Args:
+            worker_name: Name of the worker
+            stat: The equity stat (e.g., 'sat_n', 'sun_holiday_m2')
+            value: Credit value to add to their apparent stat count
+        """
+        if worker_name not in self._equity_credits:
+            self._equity_credits[worker_name] = {}
+        if value == 0:
+            # Remove zero credits to keep config clean
+            self._equity_credits[worker_name].pop(stat, None)
+            if not self._equity_credits[worker_name]:
+                del self._equity_credits[worker_name]
+        else:
+            self._equity_credits[worker_name][stat] = value
+
+    def add_absence_credits(self, worker_name: str, weeks_absent: int) -> dict[str, int]:
+        """Calculate and set recommended equity credits for an absence period.
+        
+        This is a convenience method that estimates fair credits based on
+        average shift distribution. For a more precise adjustment, use
+        set_worker_equity_credit() directly.
+        
+        Args:
+            worker_name: Name of the worker
+            weeks_absent: Number of weeks the worker was/will be absent
+            
+        Returns:
+            Dict of credits that were applied
+        """
+        # Average distribution per worker per week (15 workers, rough estimates)
+        # These are approximations - adjust based on your actual workforce
+        avg_per_week = {
+            'sat_n': 0.07,          # ~1 per 15 weeks
+            'sun_holiday_m2': 0.07,
+            'sun_holiday_m1': 0.07,
+            'sun_holiday_n': 0.07,
+            'sat_m2': 0.07,
+            'sat_m1': 0.07,
+            'fri_night': 0.07,
+            'weekday_not_fri_n': 0.20,  # ~3 per 15 weeks
+            'monday_day': 0.07,
+            'weekday_not_mon_day': 0.47,  # Most common
+        }
+        
+        credits_applied = {}
+        for stat, rate in avg_per_week.items():
+            credit = round(rate * weeks_absent)
+            if credit > 0:
+                self.set_worker_equity_credit(worker_name, stat, 
+                    self._equity_credits.get(worker_name, {}).get(stat, 0) + credit)
+                credits_applied[stat] = credit
+        
+        return credits_applied
+
+    def clear_worker_equity_credits(self, worker_name: str) -> None:
+        """Clear all equity credits for a worker.
+        
+        Use this at the start of a new year or when credits are no longer needed.
+        
+        Args:
+            worker_name: Name of the worker
+        """
+        self._equity_credits.pop(worker_name, None)
+
+    def clear_all_equity_credits(self) -> None:
+        """Clear all equity credits for all workers."""
+        self._equity_credits.clear()
+
+    # =========================================================================
     # Schedule Generation
     # =========================================================================
 
@@ -476,6 +593,7 @@ class SchedulerService:
                 equity_weights=self._equity_weights,
                 dow_equity_weight=self._dow_equity_weight,
                 lexicographic=self._lexicographic,
+                equity_credits=self._equity_credits,
             )
 
             # Cache stats for later use

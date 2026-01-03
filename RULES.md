@@ -107,7 +107,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       8) Weekday (not Friday) N
       9) Monday M1 or M2
       10) Weekday (not Monday) M1 or M2
-      
+
    - *Holiday Counting Rules for Equity:*
       - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
       - Holiday on Sunday: counts in the "Sunday or Holiday" category.
@@ -122,10 +122,43 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - For rules such as **Weekend Shift Limits** (#3) and **Consecutive Weekend Shift Avoidance** (#4), only actual weekends (Saturday and Sunday) are considered "weekend."
    - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#6).
 
-## General Implementation Notes
+## Extended Absence Handling
 
-**Deterministic Tie-Breaks:**
-- When multiple assignments have equal cost, prefer a stable tie-break (e.g., fixed worker order by `id`, then by `name`) to avoid oscillations across runs.
+**Automatic Equity Credits for Extended Absences:**
+When workers are absent for extended periods (medical leave, parental leave, prolonged vacations), their equity stat counts fall behind other workers. Without adjustment, the scheduler would try to "catch up" these workers by assigning them more undesirable shifts upon return, which is unfair to workers who covered during the absence.
+
+**Automatic Detection and Credit Application:**
+The scheduler automatically detects workers with 3 or more consecutive weeks of full unavailability and applies equity credits to compensate:
+
+- **Detection Criteria:** A worker is considered to have an "extended absence" if they have 3+ consecutive ISO weeks where all 5 weekdays (Monday-Friday) are marked as unavailable.
+- **Automatic Credits:** Credits are calculated based on the number of consecutive weeks absent, approximating what shifts the worker would have been assigned if available.
+- **No Manual Intervention Required:** Simply mark the worker as unavailable for the extended period, and the system handles the rest.
+
+**How It Works:**
+1. Before schedule generation, the system scans each worker's unavailability data
+2. If 3+ consecutive weeks of full weekday unavailability are detected, credits are automatically calculated:
+   - ~1 credit per 15 weeks for Saturday/Sunday/Holiday shifts (sat_n, sun_holiday_m2, etc.)
+   - ~1 credit per 5 weeks for night shifts (fri_night, weekday_not_fri_n)
+   - ~1 credit per 2 weeks for common weekday shifts (weekday_not_mon_day)
+3. Credits are added to the worker's apparent past stats during optimization
+4. This prevents the scheduler from over-assigning undesirable shifts to "catch up"
+
+**Example:**
+Sofia goes on 4-week parental leave (marked unavailable Mon-Fri for 4 consecutive weeks):
+- System automatically detects the extended absence
+- Applies credits: sat_n=0, weekday_not_mon_day=2, etc.
+- When Sofia returns, she won't be overloaded with Saturday nights or holiday shifts
+
+**Manual Override:**
+Administrators can still manually set or adjust credits via SchedulerService if the automatic calculation needs fine-tuning:
+```python
+scheduler.set_worker_equity_credit("Sofia", "sat_n", 1)  # Add 1 Saturday night credit
+scheduler.clear_worker_equity_credits("Sofia")  # Clear all manual credits for worker
+```
+
+**Configuration Persistence:**
+Manual equity credit overrides are saved in `config.yaml` under the `equity_credits` key and persist across sessions. Automatic credits are computed fresh each time based on current unavailability data.
+
 
 **Data Schema Recommendations:**
 - Worker: { id, name, weekly_load: 12|18, can_night: bool, unavailable_dates: Set[YYYY-MM-DD] }

@@ -17,6 +17,7 @@ from scheduling_engine import (
     _create_shifts,
     _group_shifts_by_day,
     _compute_past_stats,
+    compute_automatic_equity_credits,
 )
 from constants import SHIFT_TYPES
 
@@ -236,3 +237,79 @@ class TestComputePastStats:
         
         assert result["Alice"]["sat_m1"] == 1
         assert result["Alice"]["sun_holiday_m2"] == 1
+
+
+class TestAutomaticEquityCredits:
+    """Tests for automatic equity credits calculation for extended absences."""
+
+    def test_no_credits_for_short_absence(self):
+        """Workers with less than 3 weeks absence should get no credits."""
+        workers = [{"name": "Sofia"}]
+        # 2 weeks of unavailability (not enough for credits)
+        unavail_data = {
+            "Sofia": ["2026-01-05 to 2026-01-16"]  # Mon-Fri for 2 weeks
+        }
+        credits = compute_automatic_equity_credits(unavail_data, workers, 2026, 2)
+        assert "Sofia" not in credits or len(credits.get("Sofia", {})) == 0
+
+    def test_credits_for_three_week_absence(self):
+        """Workers with exactly 3 weeks full unavailability should get credits."""
+        workers = [{"name": "Sofia"}]
+        # 3 full weeks of weekday unavailability
+        unavail_data = {
+            "Sofia": ["2026-01-05 to 2026-01-23"]  # Mon Jan 5 to Fri Jan 23 (3 full weeks)
+        }
+        credits = compute_automatic_equity_credits(unavail_data, workers, 2026, 2)
+        assert "Sofia" in credits
+        # Should have some credits for common stats
+        assert len(credits["Sofia"]) > 0
+
+    def test_credits_for_four_week_absence(self):
+        """Workers with 4 weeks absence should get more credits than 3 weeks."""
+        workers = [{"name": "Sofia"}]
+        # 4 full weeks of weekday unavailability
+        unavail_data = {
+            "Sofia": ["2026-01-05 to 2026-01-30"]  # About 4 weeks
+        }
+        credits = compute_automatic_equity_credits(unavail_data, workers, 2026, 2)
+        assert "Sofia" in credits
+        # 4 weeks should yield credits for weekday shifts
+        assert "weekday_not_mon_day" in credits["Sofia"]
+        assert credits["Sofia"]["weekday_not_mon_day"] >= 1
+
+    def test_no_credits_for_partial_week_absence(self):
+        """Partial week unavailability should not count toward consecutive weeks."""
+        workers = [{"name": "Sofia"}]
+        # Only Mon-Wed unavailable each week (not full weekdays)
+        unavail_data = {
+            "Sofia": [
+                "2026-01-05",  # Mon
+                "2026-01-06",  # Tue
+                "2026-01-07",  # Wed
+                "2026-01-12",  # Mon
+                "2026-01-13",  # Tue
+                "2026-01-14",  # Wed
+                "2026-01-19",  # Mon
+                "2026-01-20",  # Tue
+                "2026-01-21",  # Wed
+            ]
+        }
+        credits = compute_automatic_equity_credits(unavail_data, workers, 2026, 2)
+        assert "Sofia" not in credits or len(credits.get("Sofia", {})) == 0
+
+    def test_credits_only_for_affected_workers(self):
+        """Only workers with extended absences should get credits."""
+        workers = [{"name": "Sofia"}, {"name": "Rosa"}]
+        unavail_data = {
+            "Sofia": ["2026-01-05 to 2026-01-23"],  # 3 weeks
+            "Rosa": ["2026-01-10"]  # Single day
+        }
+        credits = compute_automatic_equity_credits(unavail_data, workers, 2026, 2)
+        assert "Sofia" in credits
+        assert "Rosa" not in credits
+
+    def test_empty_unavail_data(self):
+        """Empty unavailability should return no credits."""
+        workers = [{"name": "Sofia"}]
+        credits = compute_automatic_equity_credits({}, workers, 2026, 2)
+        assert len(credits) == 0

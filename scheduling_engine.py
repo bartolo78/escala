@@ -267,6 +267,117 @@ def _compute_past_stats(history, workers):
     
     return past_stats
 
+
+def compute_automatic_equity_credits(unavail_data: dict, workers: list, year: int, month: int) -> dict:
+    """Automatically calculate equity credits for workers with extended absences.
+    
+    When a worker is unavailable for 3 or more consecutive weeks, they receive
+    automatic equity credits to prevent unfair "catch-up" assignments upon return.
+    
+    Args:
+        unavail_data: Dict mapping worker_name -> list of unavailability strings
+        workers: List of worker dicts
+        year: Year being scheduled
+        month: Month being scheduled
+        
+    Returns:
+        Dict mapping worker_name -> {stat: credit_value}
+    """
+    from datetime import date, timedelta
+    from constants import EQUITY_STATS
+    
+    credits = {}
+    
+    # Calculate the date range for the scheduling window (approximate)
+    # We look at the 12 weeks before the current month to detect extended absences
+    first_of_month = date(year, month, 1)
+    lookback_start = first_of_month - timedelta(weeks=12)
+    
+    for worker in workers:
+        w_name = worker['name']
+        unav_list = unavail_data.get(w_name, [])
+        if not unav_list:
+            continue
+        
+        # Parse unavailability into a set of dates
+        unav_dates = set()
+        for item in unav_list:
+            parts = item.split()
+            if len(parts) == 1:
+                try:
+                    unav_dates.add(date.fromisoformat(item))
+                except ValueError:
+                    continue
+            elif len(parts) == 3 and parts[1] == 'to':
+                try:
+                    start_d = date.fromisoformat(parts[0])
+                    end_d = date.fromisoformat(parts[2])
+                    d = start_d
+                    while d <= end_d:
+                        unav_dates.add(d)
+                        d += timedelta(days=1)
+                except ValueError:
+                    continue
+        
+        if not unav_dates:
+            continue
+        
+        # Count consecutive weeks of full unavailability
+        # A week is "fully unavailable" if all 5 weekdays (Mon-Fri) are unavailable
+        consecutive_weeks = 0
+        max_consecutive_weeks = 0
+        
+        # Check each ISO week in the lookback period
+        current_date = lookback_start
+        # Align to Monday
+        current_date -= timedelta(days=current_date.weekday())
+        
+        while current_date < first_of_month + timedelta(days=35):  # Include current month's weeks
+            week_start = current_date
+            weekdays_unavailable = 0
+            
+            for i in range(5):  # Mon-Fri
+                day = week_start + timedelta(days=i)
+                if day in unav_dates:
+                    weekdays_unavailable += 1
+            
+            if weekdays_unavailable == 5:
+                consecutive_weeks += 1
+                max_consecutive_weeks = max(max_consecutive_weeks, consecutive_weeks)
+            else:
+                consecutive_weeks = 0
+            
+            current_date += timedelta(days=7)
+        
+        # Apply credits if 3+ consecutive weeks of absence
+        if max_consecutive_weeks >= 3:
+            # Calculate credits based on weeks absent
+            # Average distribution per worker per week (15 workers, rough estimates)
+            avg_per_week = {
+                'sat_n': 0.07,          # ~1 per 15 weeks
+                'sun_holiday_m2': 0.07,
+                'sun_holiday_m1': 0.07,
+                'sun_holiday_n': 0.07,
+                'sat_m2': 0.07,
+                'sat_m1': 0.07,
+                'fri_night': 0.07,
+                'weekday_not_fri_n': 0.20,  # ~3 per 15 weeks
+                'monday_day': 0.07,
+                'weekday_not_mon_day': 0.47,  # Most common
+            }
+            
+            worker_credits = {}
+            for stat, rate in avg_per_week.items():
+                credit = round(rate * max_consecutive_weeks)
+                if credit > 0:
+                    worker_credits[stat] = credit
+            
+            if worker_credits:
+                credits[w_name] = worker_credits
+    
+    return credits
+
+
 def _define_current_stats_vars(model, assigned, stat_indices, num_workers):
     return _mo.define_current_stats_vars(model, assigned, stat_indices, num_workers)
 
@@ -367,11 +478,29 @@ def generate_schedule(
     equity_weights=None,
     dow_equity_weight=None,
     lexicographic: bool = True,
+    equity_credits: dict | None = None,
 ):
     if equity_weights is None:
         equity_weights = EQUITY_WEIGHTS
     if dow_equity_weight is None:
         dow_equity_weight = DOW_EQUITY_WEIGHT
+    if equity_credits is None:
+        equity_credits = {}
+    
+    # Automatically compute equity credits for workers with extended absences (3+ weeks)
+    auto_credits = compute_automatic_equity_credits(unavail_data, workers, year, month)
+    # Merge auto credits with any manually provided credits (manual takes precedence)
+    merged_credits = {**auto_credits}
+    for worker_name, manual_credits in equity_credits.items():
+        if worker_name in merged_credits:
+            merged_credits[worker_name].update(manual_credits)
+        else:
+            merged_credits[worker_name] = manual_credits
+    equity_credits = merged_credits
+    
+    if equity_credits:
+        logger.info(f"Applied equity credits for extended absences: {list(equity_credits.keys())}")
+    
     # Build full visualization window (all days from first Monday to last Sunday around month)
     holiday_set, all_days = _setup_holidays_and_days(year, month, holidays)
 
@@ -402,6 +531,16 @@ def generate_schedule(
     model = _add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers)
     model = _fix_previous_assignments(model, assigned, history, workers, days, shifts_by_day, shifts)
     past_stats = _compute_past_stats(history, workers)
+    
+    # Apply equity credits to past_stats (compensates for extended absences)
+    # Credits are added to a worker's apparent past shift counts, preventing
+    # the solver from over-assigning undesirable shifts to "catch up"
+    for worker_name, credits in equity_credits.items():
+        if worker_name in past_stats:
+            for stat, credit in credits.items():
+                if stat in past_stats[worker_name] and stat != 'dow':
+                    past_stats[worker_name][stat] += credit
+    
     current_stats, current_dow = _define_current_stats_vars(model, assigned, stat_indices, num_workers)
 
     # Build diagnostic context for constraint violation reporting
