@@ -76,6 +76,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       4) Saturday night shift (N).
       5) Sunday day shift (M1/M2).
       6) Sunday night shift (N).
+      
 2. **Three-Day Weekend Worker Minimization:**
    - When a holiday on a Monday or Friday creates a three-day weekend (Friday-Saturday-Sunday or Saturday-Sunday-Monday), prioritize minimizing the number of different workers assigned shifts over those three days by favoring multiple shifts to the same worker, provided the 24-hour interval between shifts is respected.
    - *Clarification:* The goal is to minimize the number of *unique* workers assigned to the 3-day period. Fewer workers is better (e.g., 2 workers is better than 3). Ideally, one worker covers as much as possible if legal.
