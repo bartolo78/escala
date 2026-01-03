@@ -163,16 +163,31 @@ def _fix_previous_assignments(model, assigned, history, workers, days, shifts_by
     return _mc.fix_previous_assignments(model, assigned, history, workers, days, shifts_by_day, shifts)
 
 def _compute_past_stats(history, workers):
+    """Compute historical equity stats from history for RULES.md priority order.
+    
+    Equity Priority Order (highest to lowest):
+      1) Saturday N
+      2) Sunday or Holiday M2
+      3) Sunday or Holiday M1
+      4) Sunday or Holiday N (holidays on Saturday excluded)
+      5) Saturday M2
+      6) Saturday M1
+      7) Friday N
+      8) Weekday (not Friday) N
+      9) Monday M1 or M2
+      10) Weekday (not Monday) M1 or M2
+    """
     past_stats = {w['name']: {
-        'weekend_shifts': 0,
-        'sat_shifts': 0,
-        'sun_shifts': 0,
-        'weekend_day': 0,
-        'weekend_night': 0,
-        'weekday_day': 0,
-        'weekday_night': 0,
-        'total_night': 0,
+        'sat_n': 0,
+        'sun_holiday_m2': 0,
+        'sun_holiday_m1': 0,
+        'sun_holiday_n': 0,
+        'sat_m2': 0,
+        'sat_m1': 0,
         'fri_night': 0,
+        'weekday_not_fri_n': 0,
+        'monday_day': 0,
+        'weekday_not_mon_day': 0,
         'dow': [0] * 7
     } for w in workers}
     hv = HistoryView(history)
@@ -192,30 +207,64 @@ def _compute_past_stats(history, workers):
         shift = ass.get('shift')
         if not isinstance(shift, str):
             continue
+        
         is_night = shift == 'N'
-        is_day = shift in ['M1', 'M2']
+        is_m1 = shift == 'M1'
+        is_m2 = shift == 'M2'
+        is_day_shift = is_m1 or is_m2
         wd = day.weekday()
-        is_weekend = wd >= 5 or day.day in holidays
+        is_saturday = wd == 5
+        is_sunday = wd == 6
+        is_monday = wd == 0
+        is_friday = wd == 4
+        is_weekday = wd < 5
+        is_holiday = day.day in holidays
+        is_weekday_holiday = is_holiday and is_weekday
+        is_saturday_holiday = is_holiday and is_saturday
+        
+        # Track day-of-week
         past_stats[worker_name]['dow'][wd] += 1
-        if is_weekend:
-            past_stats[worker_name]['weekend_shifts'] += 1
-            if wd == 5:
-                past_stats[worker_name]['sat_shifts'] += 1
-            if wd == 6:
-                past_stats[worker_name]['sun_shifts'] += 1
-            if is_day:
-                past_stats[worker_name]['weekend_day'] += 1
-            if is_night:
-                past_stats[worker_name]['weekend_night'] += 1
-        else:
-            if is_day:
-                past_stats[worker_name]['weekday_day'] += 1
-            if is_night:
-                past_stats[worker_name]['weekday_night'] += 1
-        if is_night:
-            past_stats[worker_name]['total_night'] += 1
-        if wd == 4 and is_night:
+        
+        # Priority 1: Saturday N (includes Saturday holidays - N on Sat holiday counts as Sat N)
+        if is_saturday and is_night:
+            past_stats[worker_name]['sat_n'] += 1
+        
+        # Priority 2: Sunday or Holiday M2 (Sunday, or weekday holiday, or Sat holiday for M2)
+        elif is_m2 and (is_sunday or is_weekday_holiday or is_saturday_holiday):
+            past_stats[worker_name]['sun_holiday_m2'] += 1
+        
+        # Priority 3: Sunday or Holiday M1 (Sunday, or weekday holiday, or Sat holiday for M1)
+        elif is_m1 and (is_sunday or is_weekday_holiday or is_saturday_holiday):
+            past_stats[worker_name]['sun_holiday_m1'] += 1
+        
+        # Priority 4: Sunday or Holiday N (Sat holidays excluded - they count as Sat N)
+        elif is_night and (is_sunday or is_weekday_holiday):
+            past_stats[worker_name]['sun_holiday_n'] += 1
+        
+        # Priority 5: Saturday M2 (non-holiday Saturday M2)
+        elif is_saturday and is_m2 and not is_holiday:
+            past_stats[worker_name]['sat_m2'] += 1
+        
+        # Priority 6: Saturday M1 (non-holiday Saturday M1)
+        elif is_saturday and is_m1 and not is_holiday:
+            past_stats[worker_name]['sat_m1'] += 1
+        
+        # Priority 7: Friday N (non-holiday Friday nights)
+        elif is_friday and is_night and not is_holiday:
             past_stats[worker_name]['fri_night'] += 1
+        
+        # Priority 8: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
+        elif is_weekday and not is_friday and is_night and not is_holiday:
+            past_stats[worker_name]['weekday_not_fri_n'] += 1
+        
+        # Priority 9: Monday M1 or M2 (non-holiday Mondays)
+        elif is_monday and is_day_shift and not is_holiday:
+            past_stats[worker_name]['monday_day'] += 1
+        
+        # Priority 10: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
+        elif is_weekday and not is_monday and is_day_shift and not is_holiday:
+            past_stats[worker_name]['weekday_not_mon_day'] += 1
+    
     return past_stats
 
 def _define_current_stats_vars(model, assigned, stat_indices, num_workers):

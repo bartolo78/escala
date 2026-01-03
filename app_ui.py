@@ -597,7 +597,7 @@ class ShiftSchedulerApp:
         fig = self.notebook.nametowidget(self.notebook.tabs()[2]).figure  # Get figure from ReportsTab
         fig.clear()
 
-        rows, cols = 3, 3  # For 9 stats
+        rows, cols = 4, 3  # For 10 stats (4 rows x 3 cols = 12 slots)
         for idx, stat in enumerate(EQUITY_STATS):
             ax = fig.add_subplot(rows, cols, idx + 1)
             totals = equity_totals.get(stat, [0] * len(workers_names))

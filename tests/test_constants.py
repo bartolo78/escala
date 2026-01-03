@@ -60,11 +60,18 @@ class TestEquityConfiguration:
     """Tests for equity/fairness configuration."""
 
     def test_equity_stats_defined(self):
-        """Essential equity stats should be defined."""
+        """Essential equity stats should be defined per RULES.md priority order."""
         expected_stats = [
-            'weekend_shifts',
-            'total_night',
-            'fri_night',
+            'sat_n',                # Priority 1: Saturday Night
+            'sun_holiday_m2',       # Priority 2: Sunday or Holiday M2
+            'sun_holiday_m1',       # Priority 3: Sunday or Holiday M1
+            'sun_holiday_n',        # Priority 4: Sunday or Holiday N
+            'sat_m2',               # Priority 5: Saturday M2
+            'sat_m1',               # Priority 6: Saturday M1
+            'fri_night',            # Priority 7: Friday N
+            'weekday_not_fri_n',    # Priority 8: Weekday (not Friday) N
+            'monday_day',           # Priority 9: Monday M1 or M2
+            'weekday_not_mon_day',  # Priority 10: Weekday (not Monday) M1 or M2
         ]
         for stat in expected_stats:
             assert stat in EQUITY_STATS

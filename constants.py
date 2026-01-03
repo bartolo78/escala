@@ -17,29 +17,54 @@ SHIFT_DISPLAY_NAMES = {'M1': 'M1', 'M2': 'M2', 'N': 'Night'}
 # Equity objectives
 # These stats track various shift categories for workers over time.
 # They are used to compute imbalances (max - min across workers) in the objective function.
+# 
+# RULES.md Equity Priority Order (highest to lowest):
+#   1) Saturday N
+#   2) Sunday or Holiday M2
+#   3) Sunday or Holiday M1
+#   4) Sunday or Holiday N (holidays on Saturday excluded—see below)
+#   5) Saturday M2
+#   6) Saturday M1
+#   7) Friday N
+#   8) Weekday (not Friday) N
+#   9) Monday M1 or M2
+#   10) Weekday (not Monday) M1 or M2
+#
+# Holiday Counting Rules for Equity:
+#   - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
+#   - Holiday on Sunday: counts in the "Sunday or Holiday" category.
+#   - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
 EQUITY_STATS = [
-    'weekend_shifts', 'sat_shifts', 'sun_shifts', 'weekend_day',
-    'weekend_night', 'weekday_day', 'weekday_night', 'total_night',
-    'fri_night'  # Added based on weights and stat indices
+    'sat_n',                    # Priority 1: Saturday Night
+    'sun_holiday_m2',           # Priority 2: Sunday or Holiday M2
+    'sun_holiday_m1',           # Priority 3: Sunday or Holiday M1
+    'sun_holiday_n',            # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+    'sat_m2',                   # Priority 5: Saturday M2
+    'sat_m1',                   # Priority 6: Saturday M1
+    'fri_night',                # Priority 7: Friday N
+    'weekday_not_fri_n',        # Priority 8: Weekday (not Friday) N
+    'monday_day',               # Priority 9: Monday M1 or M2
+    'weekday_not_mon_day',      # Priority 10: Weekday (not Monday) M1 or M2
 ]
 
 # Weights for equity objectives in the optimization model.
 # Each weight multiplies the imbalance (max - min) for the corresponding stat in EQUITY_STATS.
 # Higher weight means the solver will prioritize balancing that stat more strongly (i.e., penalize imbalances more).
-# Lowering a weight reduces the importance of balancing that stat, allowing more imbalance if it helps other objectives.
+# Weights are set in descending order to match the RULES.md priority order.
 # If changed:
 # - Increasing a weight: Makes the schedule fairer for that specific metric but may worsen other aspects like load balancing.
 # - Decreasing a weight: Allows more flexibility in assignments, potentially improving overall feasibility or other objectives, but may lead to unfair distributions.
 EQUITY_WEIGHTS = {
-    'weekend_shifts': 200,      # Balances total weekend shifts (higher weight prioritizes even distribution of weekends)
-    'sat_shifts': 1,           # Balances Saturday shifts
-    'sun_shifts': 1,           # Balances Sunday shifts
-    'weekend_day': 0.1,        # Balances weekend day shifts (low weight means less emphasis)
-    'weekend_night': 100,       # Balances weekend night shifts (significant emphasis on fairness)
-    'weekday_day': 1,       # Balances weekday day shifts (very low weight, minimal enforcement)
-    'weekday_night': 10,       # Balances weekday night shifts
-    'fri_night': 50,           # Balances Friday night shifts (high weight to avoid overloading individuals)
-    'total_night': 100         # Balances total night shifts (highest weight, strong focus on night shift equity)
+    'sat_n': 10000.0,             # Priority 1: Saturday Night (highest weight)
+    'sun_holiday_m2': 5000.0,     # Priority 2: Sunday or Holiday M2
+    'sun_holiday_m1': 2500.0,     # Priority 3: Sunday or Holiday M1
+    'sun_holiday_n': 1250.0,      # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+    'sat_m2': 625.0,              # Priority 5: Saturday M2
+    'sat_m1': 312.0,              # Priority 6: Saturday M1
+    'fri_night': 156.0,           # Priority 7: Friday N
+    'weekday_not_fri_n': 78.0,    # Priority 8: Weekday (not Friday) N
+    'monday_day': 39.0,           # Priority 9: Monday M1 or M2
+    'weekday_not_mon_day': 20.0,  # Priority 10: Weekday (not Monday) M1 or M2
 }
 
 # Weight for day-of-week equity (balances shifts per specific weekday across workers).

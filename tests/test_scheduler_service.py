@@ -313,8 +313,8 @@ class TestSettingsManagement:
 
     def test_set_equity_weight(self, service):
         """set_equity_weight should update value."""
-        service.set_equity_weight("weekend_shifts", 5.0)
-        assert service.equity_weights["weekend_shifts"] == 5.0
+        service.set_equity_weight("sat_n", 5.0)
+        assert service.equity_weights["sat_n"] == 5.0
 
     def test_dow_equity_weight(self, service):
         """dow_equity_weight getter/setter should work."""

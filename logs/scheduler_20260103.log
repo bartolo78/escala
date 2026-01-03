@@ -163,3 +163,796 @@
 2026-01-03 12:54:20 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
 2026-01-03 12:54:20 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
 2026-01-03 12:54:20 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:10:14 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:10:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:10:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:10:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:10:21 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:10:21 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:10:27 - escala.logic - INFO - Stage rule5_m2_priority: value=10
+2026-01-03 22:10:28 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:10:37 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=0.96s, branches=14991, conflicts=50
+2026-01-03 22:10:37 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:10:37 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-03 22:10:37 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-03 22:10:37 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-03 22:10:37 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:10:37 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-03 22:10:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:10:38 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:10:42 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:10:42 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:10:42 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:10:42 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:10:43 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:10:44 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:10:56 - escala.logic - INFO - Stage fairness_load_equity: value=7362
+2026-01-03 22:11:08 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.08s, branches=87747, conflicts=3
+2026-01-03 22:11:08 - escala.logic - INFO - Objective value: 7362.00
+2026-01-03 22:11:08 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:09 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:09 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:11 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:13 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:14 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:15 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:15 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:16 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:16 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:16 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:16 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:17 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:11:17 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:17 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:19 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:11:21 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:23 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:23 - escala.logic - INFO - Stage rule5_m2_priority: value=10
+2026-01-03 22:11:24 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:24 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:26 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:26 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:28 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:11:29 - escala.logic - INFO - Stage fairness_load_equity: value=7388
+2026-01-03 22:11:30 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:31 - escala.logic - INFO - Stage rule5_m2_priority: value=10
+2026-01-03 22:11:32 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:33 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:33 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-03 22:11:34 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-03 22:11:34 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-03 22:11:34 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:34 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:34 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:34 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:11:34 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-03 22:11:35 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:35 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=4.93s, branches=14990, conflicts=50
+2026-01-03 22:11:35 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:11:35 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:35 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-03 22:11:35 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:36 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-03 22:11:36 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-03 22:11:36 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-03 22:11:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:36 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:11:36 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-03 22:11:37 - escala.logic - INFO - Stage rule11_consec48: value=3
+2026-01-03 22:11:37 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:37 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-03 22:11:38 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:39 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=9.92s, branches=43315, conflicts=0
+2026-01-03 22:11:39 - escala.logic - INFO - Objective value: 7388.00
+2026-01-03 22:11:39 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:40 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:41 - escala.logic - INFO - Stage rule5_m2_priority: value=10
+2026-01-03 22:11:41 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:42 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=5.44s, branches=10590, conflicts=0
+2026-01-03 22:11:42 - escala.logic - INFO - Objective value: 3.00
+2026-01-03 22:11:42 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:43 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:43 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-03 22:11:43 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-03 22:11:43 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-03 22:11:43 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:43 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:43 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:11:43 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:44 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-03 22:11:44 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:44 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-03 22:11:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:45 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:45 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:46 - escala.logic - INFO - Stage rule11_consec48: value=5
+2026-01-03 22:11:47 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:47 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:47 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:48 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:48 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:48 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:48 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:49 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:50 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:50 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=5.16s, branches=10200, conflicts=0
+2026-01-03 22:11:50 - escala.logic - INFO - Objective value: 5.00
+2026-01-03 22:11:51 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:51 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:11:51 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-03 22:11:52 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-03 22:11:52 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-03 22:11:52 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:11:52 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:52 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:52 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-03 22:11:52 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:52 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-03 22:11:52 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:11:52 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:53 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-03 22:11:53 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:11:53 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:11:54 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:11:55 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:11:55 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:11:56 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:11:56 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:11:57 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:11:59 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:00 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:01 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:02 - escala.logic - INFO - Stage fairness_load_equity: value=7408
+2026-01-03 22:12:02 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:03 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:04 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:06 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:06 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=4.75s, branches=18497, conflicts=50
+2026-01-03 22:12:06 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:12:06 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:07 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:09 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:10 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.51s, branches=10089, conflicts=0
+2026-01-03 22:12:10 - escala.logic - INFO - Objective value: 7408.00
+2026-01-03 22:12:10 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:10 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:11 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.64s, branches=23960, conflicts=0
+2026-01-03 22:12:11 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:11 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:12 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:14 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:14 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:14 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:16 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:18 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.13s, branches=17175, conflicts=0
+2026-01-03 22:12:18 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:18 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:18 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:18 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:20 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:21 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:22 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:22 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:22 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:24 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:24 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:25 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:26 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=5.98s, branches=17175, conflicts=0
+2026-01-03 22:12:26 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:26 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:27 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:28 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:28 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:28 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:29 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:30 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:30 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:31 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:31 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:33 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:34 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:34 - escala.logic - INFO - Stage fairness_load_equity: value=7386
+2026-01-03 22:12:36 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:38 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:38 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:38 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:38 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:40 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:40 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.38s, branches=17341, conflicts=0
+2026-01-03 22:12:40 - escala.logic - INFO - Objective value: 7386.00
+2026-01-03 22:12:40 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:43 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:44 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.54s, branches=17175, conflicts=0
+2026-01-03 22:12:44 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:45 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.79s, branches=17175, conflicts=0
+2026-01-03 22:12:45 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:47 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:12:48 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:48 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:49 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:51 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:51 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.44s, branches=17175, conflicts=0
+2026-01-03 22:12:51 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:12:51 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:12:52 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:52 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:12:53 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:54 - escala.logic - INFO - Stage fairness_load_equity: value=7448
+2026-01-03 22:12:54 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:54 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:12:55 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:55 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:12:55 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:55 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:12:57 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:57 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:12:58 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:12:59 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:00 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.23s, branches=17175, conflicts=0
+2026-01-03 22:13:00 - escala.logic - INFO - Objective value: 7448.00
+2026-01-03 22:13:00 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:00 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:01 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:01 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:02 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:02 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:03 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:03 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:04 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:05 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:07 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:07 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:08 - escala.logic - INFO - Stage fairness_load_equity: value=7408
+2026-01-03 22:13:09 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:11 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:11 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=3.13s, branches=18014, conflicts=50
+2026-01-03 22:13:11 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:13:11 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:11 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=3.93s, branches=18371, conflicts=50
+2026-01-03 22:13:11 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:13:11 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:12 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:13 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.61s, branches=10089, conflicts=0
+2026-01-03 22:13:15 - escala.logic - INFO - Objective value: 7408.00
+2026-01-03 22:13:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:16 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:18 - escala.logic - INFO - Solver finished: status=OPTIMAL, time=4.28s, branches=18532, conflicts=50
+2026-01-03 22:13:18 - escala.logic - INFO - Objective value: 0.00
+2026-01-03 22:13:18 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:19 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:20 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:21 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:21 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:22 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:22 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:23 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:23 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:24 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:24 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:25 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:25 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:26 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:26 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:26 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:27 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:27 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:28 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:28 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:29 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:30 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:13:32 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:33 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:13:37 - escala.logic - INFO - Stage fairness_load_equity: value=7386
+2026-01-03 22:13:40 - escala.logic - INFO - Stage fairness_load_equity: value=7408
+2026-01-03 22:13:42 - escala.logic - INFO - Stage fairness_load_equity: value=7386
+2026-01-03 22:13:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.20s, branches=24155, conflicts=0
+2026-01-03 22:13:45 - escala.logic - INFO - Objective value: 7386.00
+2026-01-03 22:13:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:48 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:49 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.55s, branches=36923, conflicts=0
+2026-01-03 22:13:49 - escala.logic - INFO - Objective value: 7408.00
+2026-01-03 22:13:49 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:51 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.95s, branches=24155, conflicts=0
+2026-01-03 22:13:51 - escala.logic - INFO - Objective value: 7386.00
+2026-01-03 22:13:51 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:13:52 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:52 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:53 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:55 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:13:55 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:56 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:57 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:13:57 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:13:59 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:13:59 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:13:59 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:00 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:14:00 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:14:01 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:14:01 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:02 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:14:02 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:14:04 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:04 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:14:08 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:14:10 - escala.logic - INFO - Stage fairness_load_equity: value=7408
+2026-01-03 22:14:13 - escala.logic - INFO - Stage fairness_load_equity: value=7408
+2026-01-03 22:14:18 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.06s, branches=36923, conflicts=0
+2026-01-03 22:14:18 - escala.logic - INFO - Objective value: 7408.00
+2026-01-03 22:14:18 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:14:20 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:14:22 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.77s, branches=36923, conflicts=0
+2026-01-03 22:14:22 - escala.logic - INFO - Objective value: 7408.00
+2026-01-03 22:14:22 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:14:23 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:14:24 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:14:24 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:14:25 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:14:26 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:14:27 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:14:27 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:28 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:14:28 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:14:28 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:14:29 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:14:30 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:32 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:14:39 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:14:43 - escala.logic - INFO - Stage fairness_load_equity: value=7346
+2026-01-03 22:14:50 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.66s, branches=49680, conflicts=0
+2026-01-03 22:14:50 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:14:50 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:14:52 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:14:53 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.59s, branches=49680, conflicts=0
+2026-01-03 22:14:53 - escala.logic - INFO - Objective value: 7346.00
+2026-01-03 22:14:53 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:14:55 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:14:55 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:14:56 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:14:57 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:14:58 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:14:59 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:14:59 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:14:59 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:15:00 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:15:01 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:15:01 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:15:02 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:15:04 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:15:11 - escala.logic - INFO - Stage fairness_load_equity: value=7328
+2026-01-03 22:15:14 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:15:22 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.47s, branches=49680, conflicts=0
+2026-01-03 22:15:22 - escala.logic - INFO - Objective value: 7328.00
+2026-01-03 22:15:22 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:15:23 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:15:25 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.50s, branches=43315, conflicts=0
+2026-01-03 22:15:25 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:15:25 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:15:26 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:15:27 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:15:28 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:15:29 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:15:29 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:15:30 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:15:31 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:15:31 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:15:31 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:15:32 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:15:32 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:15:33 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:15:35 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:15:43 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:15:46 - escala.logic - INFO - Stage fairness_load_equity: value=7349
+2026-01-03 22:15:53 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.69s, branches=62375, conflicts=0
+2026-01-03 22:15:53 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:15:53 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:15:55 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:15:56 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.69s, branches=49680, conflicts=0
+2026-01-03 22:15:56 - escala.logic - INFO - Objective value: 7349.00
+2026-01-03 22:15:56 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:15:58 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:15:59 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:15:59 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:16:00 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:16:01 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:16:02 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:16:02 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:16:02 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:16:03 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:16:03 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:16:04 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:16:04 - escala.logic - INFO - Stage rule5_m2_priority: value=1
+2026-01-03 22:16:06 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:16:14 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:16:17 - escala.logic - INFO - Stage fairness_load_equity: value=7268
+2026-01-03 22:16:25 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.54s, branches=49680, conflicts=0
+2026-01-03 22:16:25 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:16:25 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:16:27 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:16:28 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.00s, branches=36690, conflicts=0
+2026-01-03 22:16:28 - escala.logic - INFO - Objective value: 7268.00
+2026-01-03 22:16:28 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:16:30 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:16:31 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:16:31 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:16:32 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:16:33 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:16:34 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:16:35 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:16:35 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:16:35 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:16:36 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:16:36 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:16:37 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:16:39 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:16:47 - escala.logic - INFO - Stage fairness_load_equity: value=7362
+2026-01-03 22:16:50 - escala.logic - INFO - Stage fairness_load_equity: value=7335
+2026-01-03 22:16:57 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.45s, branches=43448, conflicts=0
+2026-01-03 22:16:57 - escala.logic - INFO - Objective value: 7362.00
+2026-01-03 22:16:57 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:17:00 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:17:00 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.63s, branches=43448, conflicts=0
+2026-01-03 22:17:00 - escala.logic - INFO - Objective value: 7335.00
+2026-01-03 22:17:00 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:17:02 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:17:03 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:17:05 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:17:06 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:17:06 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:17:07 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:17:07 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:17:07 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:17:08 - escala.logic - INFO - Stage rule5_m2_priority: value=1
+2026-01-03 22:17:08 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:17:09 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:17:09 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:17:11 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:17:19 - escala.logic - INFO - Stage fairness_load_equity: value=7244
+2026-01-03 22:17:21 - escala.logic - INFO - Stage fairness_load_equity: value=7354
+2026-01-03 22:17:30 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.30s, branches=36690, conflicts=0
+2026-01-03 22:17:30 - escala.logic - INFO - Objective value: 7244.00
+2026-01-03 22:17:30 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:17:32 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:17:32 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.64s, branches=49680, conflicts=0
+2026-01-03 22:17:32 - escala.logic - INFO - Objective value: 7354.00
+2026-01-03 22:17:32 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:17:33 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:17:36 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:17:37 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:17:37 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:17:37 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:17:38 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:17:38 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:17:38 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:17:39 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:17:39 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:17:40 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:17:40 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:17:42 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:17:51 - escala.logic - INFO - Stage fairness_load_equity: value=7362
+2026-01-03 22:17:53 - escala.logic - INFO - Stage fairness_load_equity: value=7388
+2026-01-03 22:18:02 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.81s, branches=30567, conflicts=0
+2026-01-03 22:18:02 - escala.logic - INFO - Objective value: 7362.00
+2026-01-03 22:18:02 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:18:03 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.81s, branches=49680, conflicts=0
+2026-01-03 22:18:03 - escala.logic - INFO - Objective value: 7388.00
+2026-01-03 22:18:03 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:03 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:04 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:18:04 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:18:05 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:18:08 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:18:08 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:18:09 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:18:09 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:18:10 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:18:10 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:18:10 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:18:11 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:18:11 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:18:12 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:18:12 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:18:13 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:18:23 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:18:24 - escala.logic - INFO - Stage fairness_load_equity: value=7328
+2026-01-03 22:18:34 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.83s, branches=56028, conflicts=0
+2026-01-03 22:18:34 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:18:34 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:18:35 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.91s, branches=49680, conflicts=0
+2026-01-03 22:18:35 - escala.logic - INFO - Objective value: 7328.00
+2026-01-03 22:18:35 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:18:35 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:18:35 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:18:35 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:18:36 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:18:37 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:18:39 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:18:40 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:18:40 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:18:41 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:18:41 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:18:41 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:18:41 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:18:42 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:18:42 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:18:43 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:18:44 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:18:45 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:18:55 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:18:56 - escala.logic - INFO - Stage fairness_load_equity: value=7329
+2026-01-03 22:19:06 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.02s, branches=30567, conflicts=0
+2026-01-03 22:19:06 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:06 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.82s, branches=30567, conflicts=0
+2026-01-03 22:19:07 - escala.logic - INFO - Objective value: 7329.00
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:19:07 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:07 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:19:07 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:19:08 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:19:08 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:19:11 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:19:11 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:19:12 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:19:12 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:19:12 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:19:13 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:19:13 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:19:13 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:19:14 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:19:14 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:19:16 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:19:16 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:19:27 - escala.logic - INFO - Stage fairness_load_equity: value=7388
+2026-01-03 22:19:27 - escala.logic - INFO - Stage fairness_load_equity: value=7388
+2026-01-03 22:19:38 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.71s, branches=43315, conflicts=0
+2026-01-03 22:19:38 - escala.logic - INFO - Objective value: 7388.00
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:19:38 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.76s, branches=43315, conflicts=0
+2026-01-03 22:19:38 - escala.logic - INFO - Objective value: 7388.00
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:19:38 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:19:38 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:19:38 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:19:40 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:19:40 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:19:44 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:19:44 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:19:45 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:19:45 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:19:45 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:19:45 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:19:46 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:19:46 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:19:47 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:19:47 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:19:48 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:19:48 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:19:59 - escala.logic - INFO - Stage fairness_load_equity: value=7368
+2026-01-03 22:19:59 - escala.logic - INFO - Stage fairness_load_equity: value=7388
+2026-01-03 22:20:10 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.89s, branches=30567, conflicts=0
+2026-01-03 22:20:10 - escala.logic - INFO - Objective value: 7368.00
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:20:10 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=10.90s, branches=43315, conflicts=0
+2026-01-03 22:20:10 - escala.logic - INFO - Objective value: 7388.00
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:20:10 - escala.scheduler_service - WARNING - No history to save
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:20:10 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:20:10 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-03 22:20:10 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:20:12 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:20:12 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:20:15 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:20:16 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:20:16 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:20:16 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:20:17 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:20:17 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:20:17 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:20:18 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:20:18 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:20:19 - escala.logic - INFO - Stage rule5_m2_priority: value=0

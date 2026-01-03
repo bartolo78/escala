@@ -116,15 +116,16 @@ class SchedulerService:
 
     DEFAULT_CONFIG_FILE = "config.yaml"
     DEFAULT_THRESHOLDS = {
-        'weekend_shifts': 2,
-        'sat_shifts': 1,
-        'sun_shifts': 1,
-        'weekend_day': 3,
-        'weekend_night': 1,
-        'weekday_day': 5,
-        'weekday_night': 2,
-        'total_night': 2,
-        'fri_night': 1
+        'sat_n': 2,                 # Priority 1: Saturday Night
+        'sun_holiday_m2': 2,        # Priority 2: Sunday or Holiday M2
+        'sun_holiday_m1': 2,        # Priority 3: Sunday or Holiday M1
+        'sun_holiday_n': 2,         # Priority 4: Sunday or Holiday N
+        'sat_m2': 2,                # Priority 5: Saturday M2
+        'sat_m1': 2,                # Priority 6: Saturday M1
+        'fri_night': 1,             # Priority 7: Friday N
+        'weekday_not_fri_n': 2,     # Priority 8: Weekday (not Friday) N
+        'monday_day': 2,            # Priority 9: Monday M1 or M2
+        'weekday_not_mon_day': 3,   # Priority 10: Weekday (not Monday) M1 or M2
     }
 
     def __init__(self, config_path: Optional[str] = None):

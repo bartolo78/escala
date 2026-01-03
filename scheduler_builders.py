@@ -133,40 +133,134 @@ def setup_iso_weeks(days: list[date], shifts: list[dict], holiday_set: set[date]
 
 
 def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[date]):
-    weekend_shift_indices = [
-        s
-        for s in range(num_shifts)
-        if shifts[s]["day"].weekday() >= 5 or shifts[s]["day"] in holiday_set
+    """Define shift indices for each equity stat category per RULES.md priority order.
+    
+    Equity Priority Order (highest to lowest):
+      1) Saturday N
+      2) Sunday or Holiday M2
+      3) Sunday or Holiday M1
+      4) Sunday or Holiday N (holidays on Saturday excluded)
+      5) Saturday M2
+      6) Saturday M1
+      7) Friday N
+      8) Weekday (not Friday) N
+      9) Monday M1 or M2
+      10) Weekday (not Monday) M1 or M2
+    
+    Holiday Counting Rules:
+      - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
+      - Holiday on Sunday: counts in the "Sunday or Holiday" category.
+      - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
+    """
+    # Helper to check shift properties
+    def is_saturday(s):
+        return shifts[s]["day"].weekday() == 5
+    
+    def is_sunday(s):
+        return shifts[s]["day"].weekday() == 6
+    
+    def is_holiday(s):
+        return shifts[s]["day"] in holiday_set
+    
+    def is_weekday_holiday(s):
+        return is_holiday(s) and shifts[s]["day"].weekday() < 5
+    
+    def is_saturday_holiday(s):
+        return is_holiday(s) and is_saturday(s)
+    
+    def is_night(s):
+        return shifts[s]["night"]
+    
+    def is_m1(s):
+        return shifts[s]["type"] == "M1"
+    
+    def is_m2(s):
+        return shifts[s]["type"] == "M2"
+    
+    def is_day_shift(s):
+        return is_m1(s) or is_m2(s)
+    
+    def is_monday(s):
+        return shifts[s]["day"].weekday() == 0
+    
+    def is_friday(s):
+        return shifts[s]["day"].weekday() == 4
+    
+    def is_weekday(s):
+        return shifts[s]["day"].weekday() < 5
+    
+    # Priority 1: Saturday N (includes Saturday holidays - N on Sat holiday counts as Sat N)
+    sat_n_indices = [s for s in range(num_shifts) if is_saturday(s) and is_night(s)]
+    
+    # Priority 2: Sunday or Holiday M2 (Sunday, or weekday holiday, or Sat holiday for M2)
+    # For Sat holiday: M2 counts as Holiday M2
+    sun_holiday_m2_indices = [
+        s for s in range(num_shifts)
+        if is_m2(s) and (is_sunday(s) or is_weekday_holiday(s) or is_saturday_holiday(s))
     ]
-    sat_indices = [s for s in range(num_shifts) if shifts[s]["day"].weekday() == 5]
-    sun_indices = [s for s in range(num_shifts) if shifts[s]["day"].weekday() == 6]
-    weekend_day_indices = [s for s in weekend_shift_indices if not shifts[s]["night"]]
-    weekend_night_indices = [s for s in weekend_shift_indices if shifts[s]["night"]]
-    weekday_day_indices = [
-        s
-        for s in range(num_shifts)
-        if not (shifts[s]["day"].weekday() >= 5 or shifts[s]["day"] in holiday_set)
-        and not shifts[s]["night"]
+    
+    # Priority 3: Sunday or Holiday M1 (Sunday, or weekday holiday, or Sat holiday for M1)
+    sun_holiday_m1_indices = [
+        s for s in range(num_shifts)
+        if is_m1(s) and (is_sunday(s) or is_weekday_holiday(s) or is_saturday_holiday(s))
     ]
-    weekday_night_indices = [
-        s
-        for s in range(num_shifts)
-        if not (shifts[s]["day"].weekday() >= 5 or shifts[s]["day"] in holiday_set)
-        and shifts[s]["night"]
+    
+    # Priority 4: Sunday or Holiday N (Sat holidays excluded - they count as Sat N)
+    # This is Sunday N, or weekday holiday N (not Sat holiday N which is in sat_n)
+    sun_holiday_n_indices = [
+        s for s in range(num_shifts)
+        if is_night(s) and (is_sunday(s) or is_weekday_holiday(s))
     ]
-    fri_night_indices = [s for s in weekday_night_indices if shifts[s]["day"].weekday() == 4]
+    
+    # Priority 5: Saturday M2 (non-holiday Saturday M2, since Sat holiday M2 is in sun_holiday_m2)
+    sat_m2_indices = [
+        s for s in range(num_shifts)
+        if is_saturday(s) and is_m2(s) and not is_holiday(s)
+    ]
+    
+    # Priority 6: Saturday M1 (non-holiday Saturday M1, since Sat holiday M1 is in sun_holiday_m1)
+    sat_m1_indices = [
+        s for s in range(num_shifts)
+        if is_saturday(s) and is_m1(s) and not is_holiday(s)
+    ]
+    
+    # Priority 7: Friday N (non-holiday Friday nights)
+    fri_night_indices = [
+        s for s in range(num_shifts)
+        if is_friday(s) and is_night(s) and not is_holiday(s)
+    ]
+    
+    # Priority 8: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
+    weekday_not_fri_n_indices = [
+        s for s in range(num_shifts)
+        if is_weekday(s) and not is_friday(s) and is_night(s) and not is_holiday(s)
+    ]
+    
+    # Priority 9: Monday M1 or M2 (non-holiday Mondays)
+    monday_day_indices = [
+        s for s in range(num_shifts)
+        if is_monday(s) and is_day_shift(s) and not is_holiday(s)
+    ]
+    
+    # Priority 10: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
+    weekday_not_mon_day_indices = [
+        s for s in range(num_shifts)
+        if is_weekday(s) and not is_monday(s) and is_day_shift(s) and not is_holiday(s)
+    ]
+    
+    # Day-of-week indices for DOW equity (unchanged)
     dow_indices = {d: [s for s in range(num_shifts) if shifts[s]["day"].weekday() == d] for d in range(7)}
-    total_night_indices = [s for s in range(num_shifts) if shifts[s]["night"]]
 
     return {
-        "weekend_shifts": weekend_shift_indices,
-        "sat_shifts": sat_indices,
-        "sun_shifts": sun_indices,
-        "weekend_day": weekend_day_indices,
-        "weekend_night": weekend_night_indices,
-        "weekday_day": weekday_day_indices,
-        "weekday_night": weekday_night_indices,
-        "total_night": total_night_indices,
+        "sat_n": sat_n_indices,
+        "sun_holiday_m2": sun_holiday_m2_indices,
+        "sun_holiday_m1": sun_holiday_m1_indices,
+        "sun_holiday_n": sun_holiday_n_indices,
+        "sat_m2": sat_m2_indices,
+        "sat_m1": sat_m1_indices,
         "fri_night": fri_night_indices,
+        "weekday_not_fri_n": weekday_not_fri_n_indices,
+        "monday_day": monday_day_indices,
+        "weekday_not_mon_day": weekday_not_mon_day_indices,
         "dow": dow_indices,
     }

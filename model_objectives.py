@@ -500,13 +500,10 @@ def build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shif
 
 
 def define_current_stats_vars(model, assigned, stat_indices, num_workers):
+    """Define current stats variables for RULES.md equity priority order."""
     current_stats = {}
-    for stat in EQUITY_STATS[:-2]:  # Exclude 'total_night' and 'fri_night' for now
+    for stat in EQUITY_STATS:
         current_stats[stat] = [sum(assigned[w][s] for s in stat_indices[stat]) for w in range(num_workers)]
-    current_stats["total_night"] = [
-        sum(assigned[w][s] for s in stat_indices["weekend_night"] + stat_indices["weekday_night"]) for w in range(num_workers)
-    ]
-    current_stats["fri_night"] = [sum(assigned[w][s] for s in stat_indices["fri_night"]) for w in range(num_workers)]
     current_dow = [[sum(assigned[w][s] for s in stat_indices["dow"][d]) for w in range(num_workers)] for d in range(7)]
     return current_stats, current_dow
 

@@ -74,7 +74,7 @@ class TestConfigLoading:
             'workers': [
                 {'name': 'Test Worker', 'can_night': True, 'weekly_load': 18}
             ],
-            'thresholds': {'weekend_shifts': 2}
+            'thresholds': {'sat_n': 2}
         }
         
         with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:
@@ -86,6 +86,6 @@ class TestConfigLoading:
                 loaded = yaml.safe_load(f)
             
             assert loaded['workers'][0]['name'] == 'Test Worker'
-            assert loaded['thresholds']['weekend_shifts'] == 2
+            assert loaded['thresholds']['sat_n'] == 2
         finally:
             os.unlink(temp_path)
