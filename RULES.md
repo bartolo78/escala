@@ -105,8 +105,9 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       6) Saturday M1
       7) Friday N
       8) Weekday (not Friday) N
-      9) Weekday M2
-      10) Weekday M1
+      9) Monday M1 or M2
+      10) Weekday (not Monday) M1 or M2
+      
    - *Holiday Counting Rules for Equity:*
       - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
       - Holiday on Sunday: counts in the "Sunday or Holiday" category.
