@@ -107,7 +107,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       9) Weekday M2
       10) Weekday M1
    - *Holiday Counting Rules for Equity:*
-      - Holiday on Saturday: M1/M2 count as Saturday M1/M2; N counts as Saturday N (not double-counted).
+      - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
       - Holiday on Sunday: counts in the "Sunday or Holiday" category.
       - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
    - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
