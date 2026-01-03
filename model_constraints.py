@@ -8,9 +8,10 @@ Behavior should remain identical to the original implementations.
 
 from __future__ import annotations
 
+import datetime
 from datetime import timedelta
 
-from constants import MIN_REST_HOURS
+from constants import MIN_REST_HOURS, SHIFTS
 from history_view import HistoryView
 
 
@@ -98,6 +99,69 @@ def add_24h_interval_constraints(model, assigned, shifts, num_shifts, num_worker
                         if delta < MIN_REST_HOURS:
                             model.AddBoolOr(assigned[w][i].Not(), assigned[w][j].Not())
 
+    return model
+
+
+def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, history):
+    """
+    Add 24-hour interval constraints across ISO week boundaries.
+    
+    When scheduling a new set of ISO weeks, this function checks if any worker
+    had a shift at the end of a previously scheduled week (from history) that
+    would conflict with shifts at the start of the current scheduling window.
+    
+    This is critical because the main add_24h_interval_constraints function only
+    considers shifts within the current scheduling window, not historical shifts.
+    """
+    if not days or not history:
+        return model
+
+    hv = HistoryView(history)
+    first_day = days[0]
+    
+    # Check shifts from the 2 days before the scheduling window starts.
+    # This covers all scenarios since the maximum rest needed is 24 hours:
+    # - A night shift ending at 08:00 on day-0 (first_day) could conflict with day shifts on first_day
+    # - An M2 shift ending at 23:00 on day-1 could conflict with shifts starting before 23:00+24h on first_day
+    days_to_check = [
+        first_day - timedelta(days=1),  # Yesterday
+        first_day - timedelta(days=2),  # Day before yesterday (for completeness)
+    ]
+    
+    for w_idx, worker in enumerate(workers):
+        w_name = worker["name"]
+        
+        for hist_day in days_to_check:
+            hist_shift_type = hv.fixed_shift_for(w_name, hist_day)
+            if hist_shift_type is None:
+                continue
+            
+            # Get end time of the historical shift
+            hist_config = SHIFTS.get(hist_shift_type)
+            if hist_config is None:
+                continue
+            
+            hist_day_dt = datetime.datetime.combine(hist_day, datetime.time())
+            hist_end = hist_day_dt + timedelta(hours=hist_config["end_hour"])
+            
+            # Check against all shifts on days in the scheduling window that could conflict
+            for s_idx, shift in enumerate(shifts):
+                shift_start = shift["start"]
+                
+                # If the new shift starts before or exactly when the historical shift ends,
+                # they overlap, which is definitely not allowed
+                if shift_start <= hist_end:
+                    model.Add(assigned[w_idx][s_idx] == 0)
+                    continue
+                
+                # If the new shift starts after the historical shift ends,
+                # check if there's enough rest time (>= MIN_REST_HOURS)
+                delta_hours = (shift_start - hist_end).total_seconds() / 3600
+                
+                if delta_hours < MIN_REST_HOURS:
+                    # This shift would violate the 24-hour rest rule
+                    model.Add(assigned[w_idx][s_idx] == 0)
+    
     return model
 
 

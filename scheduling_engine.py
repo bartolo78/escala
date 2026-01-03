@@ -153,6 +153,9 @@ def _add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shift
 def _add_24h_interval_constraints(model, assigned, shifts, num_shifts, num_workers):
     return _mc.add_24h_interval_constraints(model, assigned, shifts, num_shifts, num_workers)
 
+def _add_cross_week_interval_constraints(model, assigned, shifts, workers, days, history):
+    return _mc.add_cross_week_interval_constraints(model, assigned, shifts, workers, days, history)
+
 def _add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers):
     return _mc.add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers)
 
@@ -346,6 +349,7 @@ def generate_schedule(
     unav_parsed, req_parsed = _parse_unavail_and_req(unavail_data, required_data, workers)
     model = _add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shifts_by_day, shifts, num_workers)
     model = _add_24h_interval_constraints(model, assigned, shifts, num_shifts, num_workers)
+    model = _add_cross_week_interval_constraints(model, assigned, shifts, workers, days, history)
     model = _add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers)
     model = _fix_previous_assignments(model, assigned, history, workers, days, shifts_by_day, shifts)
     past_stats = _compute_past_stats(history, workers)
