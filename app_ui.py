@@ -24,6 +24,45 @@ logger = get_logger('ui')
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
 RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RULES.md")
 
+
+def get_contrast_color(hex_color: str) -> str:
+    """Calculate a contrasting text color (black or white) for a given background color.
+    
+    Uses the relative luminance formula from WCAG guidelines to determine
+    whether black or white text provides better contrast.
+    
+    Args:
+        hex_color: Background color in hex format (e.g., '#FF5733' or 'FF5733')
+    
+    Returns:
+        '#000000' for dark text on light backgrounds, '#FFFFFF' for light text on dark backgrounds
+    """
+    # Remove '#' if present
+    hex_color = hex_color.lstrip('#')
+    
+    # Handle short hex format (e.g., 'FFF' -> 'FFFFFF')
+    if len(hex_color) == 3:
+        hex_color = ''.join([c*2 for c in hex_color])
+    
+    # Convert to RGB
+    try:
+        r = int(hex_color[0:2], 16)
+        g = int(hex_color[2:4], 16)
+        b = int(hex_color[4:6], 16)
+    except (ValueError, IndexError):
+        return '#000000'  # Default to black on parsing error
+    
+    # Calculate relative luminance using the formula from WCAG
+    # First linearize the sRGB values
+    def linearize(c):
+        c = c / 255.0
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    
+    luminance = 0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b)
+    
+    # Return black text for light backgrounds, white for dark backgrounds
+    return '#000000' if luminance > 0.179 else '#FFFFFF'
+
 class WorkerTab(ttk.Frame):
     def __init__(self, parent, app):
         super().__init__(parent, padding="10")
@@ -116,30 +155,70 @@ class ScheduleTab(ttk.Frame):
         self.legend_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 10))
         self.app.schedule_legend_frame = self.legend_frame
 
-        self.app.schedule_tree = ttk.Treeview(self, show="headings")
-        self.app.schedule_tree.grid(row=1, column=0, sticky="nsew")
-
-        vsb = ttk.Scrollbar(self, orient="vertical", command=self.app.schedule_tree.yview)
-        vsb.grid(row=1, column=1, sticky="ns")
-        hsb = ttk.Scrollbar(self, orient="horizontal", command=self.app.schedule_tree.xview)
-        hsb.grid(row=2, column=0, sticky="ew")
-
-        self.app.schedule_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-
+        # Create a scrollable frame for the schedule grid
+        self.schedule_container = ttk.Frame(self)
+        self.schedule_container.grid(row=1, column=0, sticky="nsew")
+        self.schedule_container.columnconfigure(0, weight=1)
+        self.schedule_container.rowconfigure(0, weight=1)
+        
+        # Canvas for scrolling
+        self.schedule_canvas = tk.Canvas(self.schedule_container, highlightthickness=0)
+        self.schedule_canvas.grid(row=0, column=0, sticky="nsew")
+        
+        # Scrollbars
+        vsb = ttk.Scrollbar(self.schedule_container, orient="vertical", command=self.schedule_canvas.yview)
+        vsb.grid(row=0, column=1, sticky="ns")
+        hsb = ttk.Scrollbar(self.schedule_container, orient="horizontal", command=self.schedule_canvas.xview)
+        hsb.grid(row=1, column=0, sticky="ew")
+        
+        self.schedule_canvas.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+        
+        # Frame inside canvas for the grid
+        self.app.schedule_grid_frame = ttk.Frame(self.schedule_canvas)
+        self.schedule_canvas_window = self.schedule_canvas.create_window((0, 0), window=self.app.schedule_grid_frame, anchor="nw")
+        
+        # Bind resize events
+        self.app.schedule_grid_frame.bind("<Configure>", self._on_grid_configure)
+        self.schedule_canvas.bind("<Configure>", self._on_canvas_configure)
+        
+        # Enable mouse wheel scrolling
+        self.schedule_canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+        self.schedule_canvas.bind_all("<Button-4>", self._on_mousewheel)  # Linux scroll up
+        self.schedule_canvas.bind_all("<Button-5>", self._on_mousewheel)  # Linux scroll down
+        
+        # Store reference for scrolling
+        self.app.schedule_canvas = self.schedule_canvas
+        
+        # Initialize the grid structure
+        self.app._schedule_cells = {}  # Store cell labels for editing
+        self.app._schedule_data = []   # Store row data for export/save
         self.app.update_schedule_columns()
-
-        self.app.schedule_tree.bind("<Double-1>", self.app.edit_shift)
 
         save_btn = ttk.Button(self, text="Save Manual Changes", command=self.app.save_manual_changes)
         save_btn.grid(row=3, column=0, pady=10, sticky="ew")
         Tooltip(save_btn, "Save any manual edits to the schedule")
-
-        def resize_treeview(event):
-            width = self.app.schedule_tree.winfo_width() // 4  # Divide equally among 4 columns
-            for col in self.app.schedule_tree["columns"]:
-                self.app.schedule_tree.column(col, width=width)
-
-        self.app.root.bind("<Configure>", resize_treeview)
+    
+    def _on_grid_configure(self, event):
+        """Update scroll region when grid changes."""
+        self.schedule_canvas.configure(scrollregion=self.schedule_canvas.bbox("all"))
+    
+    def _on_canvas_configure(self, event):
+        """Update grid width when canvas is resized."""
+        # Make the grid frame at least as wide as the canvas
+        canvas_width = event.width
+        self.schedule_canvas.itemconfig(self.schedule_canvas_window, width=canvas_width)
+    
+    def _on_mousewheel(self, event):
+        """Handle mouse wheel scrolling."""
+        # Check if this canvas is visible
+        if not self.schedule_canvas.winfo_viewable():
+            return
+        if event.num == 4:  # Linux scroll up
+            self.schedule_canvas.yview_scroll(-1, "units")
+        elif event.num == 5:  # Linux scroll down
+            self.schedule_canvas.yview_scroll(1, "units")
+        else:  # Windows/Mac
+            self.schedule_canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
 class ReportsTab(ttk.Frame):
     def __init__(self, parent, app):
@@ -275,7 +354,11 @@ class ShiftSchedulerApp:
         self.stats_labels = {}
         self.unavailable_list = None
         self.required_list = None
-        self.schedule_tree = None
+        self.schedule_grid_frame = None  # Custom grid frame for schedule display
+        self.schedule_canvas = None  # Canvas for scrollable schedule
+        self.schedule_legend_frame = None  # Legend frame for worker colors
+        self._schedule_cells = {}  # Store cell labels for editing
+        self._schedule_data = []   # Store row data for export/save
         self.reports_tree = None
         self.holidays_var = None  # Initialize to None
         
@@ -623,32 +706,32 @@ class ShiftSchedulerApp:
         file = filedialog.asksaveasfilename(filetypes=formats)
         if file:
             ext = file.split('.')[-1]
+            columns = ["Day", "M1", "M2", "Night"]
             if ext == 'pdf':
                 from reportlab.lib.pagesizes import letter
                 from reportlab.pdfgen import canvas
                 c = canvas.Canvas(file, pagesize=letter)
                 c.drawString(100, 750, "Schedule Export")
                 y = 700
-                for item in self.schedule_tree.get_children():
-                    values = self.schedule_tree.item(item, "values")
-                    c.drawString(100, y, ' | '.join(values))
+                for row in self._schedule_data:
+                    c.drawString(100, y, ' | '.join(str(v) for v in row))
                     y -= 20
                 c.save()
             elif ext == 'xlsx':
                 import openpyxl
                 wb = openpyxl.Workbook()
                 ws = wb.active
-                ws.append(self.schedule_tree["columns"])
-                for item in self.schedule_tree.get_children():
-                    ws.append(self.schedule_tree.item(item, "values"))
+                ws.append(columns)
+                for row in self._schedule_data:
+                    ws.append(row)
                 wb.save(file)
             elif ext == 'csv':
                 import csv
                 with open(file, 'w', newline='') as f:
                     writer = csv.writer(f)
-                    writer.writerow(self.schedule_tree["columns"])
-                    for item in self.schedule_tree.get_children():
-                        writer.writerow(self.schedule_tree.item(item, "values"))
+                    writer.writerow(columns)
+                    for row in self._schedule_data:
+                        writer.writerow(row)
             self.status_var.set(f"Schedule exported to {file}")
             messagebox.showinfo("Info", f"Exported to {file}")
 
@@ -843,19 +926,23 @@ class ShiftSchedulerApp:
         else:
             messagebox.showwarning("Warning", "Please select an entry to remove")
 
-    def edit_shift(self, event):
-        item = self.schedule_tree.identify_row(event.y)
-        column = self.schedule_tree.identify_column(event.x)
-        if not item or column == '#0':  # Ignore if not a valid cell
-            return
-
-        col_index = int(column.replace('#', '')) - 1  # 0=Day, 1=M1, 2=M2, 3=Night
+    def edit_shift(self, row_index, col_index):
+        """Handle double-click edit for a schedule cell.
+        
+        Args:
+            row_index: The row index (0-based, not including header)
+            col_index: The column index (0=Day, 1=M1, 2=M2, 3=Night)
+        """
         if col_index == 0:  # Day column isn't editable
+            return
+        
+        if row_index < 0 or row_index >= len(self._schedule_data):
             return
 
         shift_types = ["M1", "M2", "Night"]
         shift = shift_types[col_index - 1]
-        day = self.schedule_tree.item(item, "values")[0].split(' (')[0]  # Extract day number
+        day_text = self._schedule_data[row_index][0]
+        day = day_text.split(' (')[0]  # Extract day number
 
         # Open edit dialog
         top = tk.Toplevel(self.root)
@@ -872,17 +959,41 @@ class ShiftSchedulerApp:
         worker_list.pack(pady=5, padx=10, fill="both", expand=True)
 
         # Pre-select current workers if any
-        current_workers = self.schedule_tree.item(item, "values")[col_index].split(', ')
+        current_worker = self._schedule_data[row_index][col_index]
         for i, name in enumerate(worker_names):
-            if name in current_workers:
+            if name == current_worker:
                 worker_list.select_set(i)
 
         def confirm():
             selected = [worker_list.get(i) for i in worker_list.curselection()]
-            new_value = ', '.join(selected) if selected else ""
-            values = list(self.schedule_tree.item(item, "values"))
-            values[col_index] = new_value
-            self.schedule_tree.item(item, values=values)
+            new_value = selected[0] if selected else ""
+            
+            # Update the data
+            self._schedule_data[row_index][col_index] = new_value
+            
+            # Update the cell display
+            cell_key = (row_index, col_index)
+            if cell_key in self._schedule_cells:
+                cell_label = self._schedule_cells[cell_key]
+                worker_colors = {w.name: w.color for w in self.scheduler.workers}
+                
+                if new_value and new_value in worker_colors:
+                    bg_color = worker_colors[new_value]
+                    fg_color = get_contrast_color(bg_color)
+                    cell_label.configure(text=new_value, background=bg_color, foreground=fg_color)
+                else:
+                    # Determine row background
+                    is_odd = row_index % 2 == 1
+                    day_text = self._schedule_data[row_index][0]
+                    weekday = day_text.split('(')[1].rstrip(')') if '(' in day_text else ''
+                    if weekday in ['Sat', 'Sun']:
+                        bg = '#e0f7fa'
+                    elif is_odd:
+                        bg = '#f0f0f0'
+                    else:
+                        bg = '#ffffff'
+                    cell_label.configure(text=new_value, background=bg, foreground='red' if not new_value else '#000000')
+            
             self.status_var.set(f"Updated {shift} shift for Day {day}")
             top.destroy()
 
@@ -890,29 +1001,37 @@ class ShiftSchedulerApp:
         ttk.Button(top, text="Cancel", command=top.destroy).pack(pady=5)
 
     def save_manual_changes(self):
-        # Placeholder: Extract data from Treeview and save/update history (logic later)
+        # Placeholder: Extract data from grid and save/update history (logic later)
         self.status_var.set("Manual changes saved (placeholder)")
         messagebox.showinfo("Info", "Manual changes would be saved")
 
     def update_schedule_columns(self):
-        self.schedule_tree.delete(*self.schedule_tree.get_children())
-        self.schedule_tree["columns"] = ("Day", "M1", "M2", "Night")
-
-        self.schedule_tree.heading("Day", text="Day", command=lambda: self.sort_treeview("Day", False))
-        self.schedule_tree.heading("M1", text="M1", command=lambda: self.sort_treeview("M1", False))
-        self.schedule_tree.heading("M2", text="M2", command=lambda: self.sort_treeview("M2", False))
-        self.schedule_tree.heading("Night", text="Night", command=lambda: self.sort_treeview("Night", False))
-
-        self.schedule_tree.column("Day", width=120, anchor="center")
-        self.schedule_tree.column("M1", width=150, anchor="center")
-        self.schedule_tree.column("M2", width=150, anchor="center")
-        self.schedule_tree.column("Night", width=150, anchor="center")
-
-        self.schedule_tree.tag_configure("oddrow", background="#f0f0f0")
-        self.schedule_tree.tag_configure("evenrow", background="#ffffff")
-        self.schedule_tree.tag_configure('weekend', background='#e0f7fa')  # Light cyan
-        self.schedule_tree.tag_configure('holiday', background='#ffebee')  # Light red
-        self.schedule_tree.tag_configure('understaffed', foreground='red')
+        """Initialize or reset the schedule grid with headers."""
+        # Clear existing grid content
+        for widget in self.schedule_grid_frame.winfo_children():
+            widget.destroy()
+        
+        self._schedule_cells = {}
+        self._schedule_data = []
+        
+        # Define column headers
+        columns = ["Day", "M1", "M2", "Night"]
+        col_widths = [120, 150, 150, 150]
+        
+        # Create header row with style
+        for col_idx, (col_name, width) in enumerate(zip(columns, col_widths)):
+            header = tk.Label(
+                self.schedule_grid_frame,
+                text=col_name,
+                font=self.heading_font,
+                relief="raised",
+                borderwidth=1,
+                width=width // 10,  # Approximate character width
+                anchor="center",
+                bg="#d0d0d0"
+            )
+            header.grid(row=0, column=col_idx, sticky="nsew", padx=1, pady=1)
+            self.schedule_grid_frame.columnconfigure(col_idx, weight=1, minsize=width)
 
         try:
             month = list(month_name).index(self.month_var.get())
@@ -923,69 +1042,157 @@ class ShiftSchedulerApp:
 
         all_holidays = self.scheduler.get_holidays(year, month)
 
-        for day in range(1, num_days + 1):
+        for row_idx, day in enumerate(range(1, num_days + 1)):
             dt = datetime(year, month, day)
             weekday = day_name[dt.weekday()][:3]
             day_text = f"{day} ({weekday})"
-            tag = "evenrow" if day % 2 == 0 else "oddrow"
+            
+            # Determine row background color
+            is_odd = row_idx % 2 == 1
             if weekday in ['Sat', 'Sun']:
-                tag = (tag, 'weekend')
+                row_bg = '#e0f7fa'  # Light cyan for weekends
             elif day in all_holidays:
-                tag = (tag, 'holiday')
-            self.schedule_tree.insert("", "end", values=(day_text, "", "", ""), tags=tag)
+                row_bg = '#ffebee'  # Light red for holidays
+            elif is_odd:
+                row_bg = '#f0f0f0'  # Alternating gray
+            else:
+                row_bg = '#ffffff'  # White
+            
+            row_data = [day_text, "", "", ""]
+            self._schedule_data.append(row_data)
+            
+            # Create cells for this row
+            for col_idx in range(4):
+                cell_text = day_text if col_idx == 0 else ""
+                cell = tk.Label(
+                    self.schedule_grid_frame,
+                    text=cell_text,
+                    font=self.body_font,
+                    relief="solid",
+                    borderwidth=1,
+                    anchor="center",
+                    bg=row_bg,
+                    padx=5,
+                    pady=3
+                )
+                cell.grid(row=row_idx + 1, column=col_idx, sticky="nsew", padx=0, pady=0)
+                self._schedule_cells[(row_idx, col_idx)] = cell
+                
+                # Bind double-click for editing (except Day column)
+                if col_idx > 0:
+                    cell.bind("<Double-1>", lambda e, r=row_idx, c=col_idx: self.edit_shift(r, c))
         
         # Update worker color legend
         self._update_worker_legend()
 
-    def sort_treeview(self, col, reverse):
-        l = [(self.schedule_tree.set(k, col), k) for k in self.schedule_tree.get_children('')]
-        l.sort(reverse=reverse)
-        for index, (val, k) in enumerate(l):
-            self.schedule_tree.move(k, '', index)
-        self.schedule_tree.heading(col, command=lambda: self.sort_treeview(col, not reverse))
+    def sort_schedule_grid(self, col_name, reverse=False):
+        """Sort the schedule grid by column (placeholder for future implementation)."""
+        # Sorting would require re-rendering the grid
+        pass
 
     def update_schedule_display(self, schedule, all_holidays):
-        self.schedule_tree.delete(*self.schedule_tree.get_children())
+        """Update the schedule grid with colored worker cells.
+        
+        Args:
+            schedule: Dictionary mapping date strings to shift assignments
+            all_holidays: Set of holiday days in the month
+        """
+        # Clear existing grid content
+        for widget in self.schedule_grid_frame.winfo_children():
+            widget.destroy()
+        
+        self._schedule_cells = {}
+        self._schedule_data = []
         
         # Build a mapping of worker names to colors
         worker_colors = {w.name: w.color for w in self.scheduler.workers}
         
-        # Configure tags for each worker's color (for potential future use)
-        for worker_name, color in worker_colors.items():
-            tag_name = f"worker_{worker_name.replace(' ', '_')}"
-            self.schedule_tree.tag_configure(tag_name, foreground=color)
+        # Define column headers
+        columns = ["Day", "M1", "M2", "Night"]
+        col_widths = [120, 150, 150, 150]
         
-        for day_str in sorted(schedule):
+        # Create header row
+        for col_idx, (col_name, width) in enumerate(zip(columns, col_widths)):
+            header = tk.Label(
+                self.schedule_grid_frame,
+                text=col_name,
+                font=self.heading_font,
+                relief="raised",
+                borderwidth=1,
+                width=width // 10,
+                anchor="center",
+                bg="#d0d0d0"
+            )
+            header.grid(row=0, column=col_idx, sticky="nsew", padx=1, pady=1)
+            self.schedule_grid_frame.columnconfigure(col_idx, weight=1, minsize=width)
+        
+        # Sort schedule by date
+        sorted_days = sorted(schedule.keys())
+        
+        for row_idx, day_str in enumerate(sorted_days):
             dt = datetime.fromisoformat(day_str)
             day = dt.day
             weekday = day_name[dt.weekday()][:3]
             day_text = f"{day} ({weekday})"
             
-            # Get worker names and add colored indicator
+            # Get worker names for each shift
             m1_name = schedule[day_str].get('M1', '')
             m2_name = schedule[day_str].get('M2', '')
             n_name = schedule[day_str].get('N', '')
             
-            # Format with color indicator (● character)
-            m1_display = f"● {m1_name}" if m1_name else ''
-            m2_display = f"● {m2_name}" if m2_name else ''
-            n_display = f"● {n_name}" if n_name else ''
+            # Store row data for export/editing
+            row_data = [day_text, m1_name, m2_name, n_name]
+            self._schedule_data.append(row_data)
             
-            tag = "evenrow" if day % 2 == 0 else "oddrow"
+            # Determine base row background color (for Day column)
+            is_odd = row_idx % 2 == 1
             if weekday in ['Sat', 'Sun']:
-                tag = (tag, 'weekend')
+                base_bg = '#e0f7fa'  # Light cyan for weekends
             elif day in all_holidays:
-                tag = (tag, 'holiday')
-            if not m1_name or not m2_name or not n_name:
-                tag = (tag, 'understaffed')
+                base_bg = '#ffebee'  # Light red for holidays
+            elif is_odd:
+                base_bg = '#f0f0f0'  # Alternating gray
+            else:
+                base_bg = '#ffffff'  # White
             
-            # Insert the row
-            item_id = self.schedule_tree.insert("", "end", values=(day_text, m1_display, m2_display, n_display), tags=tag)
+            # Create cells for this row
+            cell_data = [
+                (day_text, base_bg, '#000000'),  # Day column
+                (m1_name, worker_colors.get(m1_name, base_bg) if m1_name else base_bg, None),
+                (m2_name, worker_colors.get(m2_name, base_bg) if m2_name else base_bg, None),
+                (n_name, worker_colors.get(n_name, base_bg) if n_name else base_bg, None),
+            ]
             
-            # Store worker info for this row (for coloring via canvas overlay or tooltip)
-            self.schedule_tree.set(item_id, "M1", m1_display)
-            self.schedule_tree.set(item_id, "M2", m2_display)
-            self.schedule_tree.set(item_id, "Night", n_display)
+            for col_idx, (text, bg_color, fg_override) in enumerate(cell_data):
+                # Calculate foreground color for contrast
+                if fg_override:
+                    fg_color = fg_override
+                elif text and col_idx > 0 and text in worker_colors:
+                    fg_color = get_contrast_color(bg_color)
+                elif not text and col_idx > 0:
+                    # Empty shift cell - mark as understaffed
+                    fg_color = 'red'
+                else:
+                    fg_color = '#000000'
+                
+                cell = tk.Label(
+                    self.schedule_grid_frame,
+                    text=text,
+                    font=self.body_font,
+                    relief="solid",
+                    borderwidth=1,
+                    anchor="center",
+                    bg=bg_color,
+                    fg=fg_color,
+                    padx=5,
+                    pady=3
+                )
+                cell.grid(row=row_idx + 1, column=col_idx, sticky="nsew", padx=0, pady=0)
+                self._schedule_cells[(row_idx, col_idx)] = cell
+                
+                # Bind double-click for editing (except Day column)
+                if col_idx > 0:
+                    cell.bind("<Double-1>", lambda e, r=row_idx, c=col_idx: self.edit_shift(r, c))
         
         # Update the worker color legend
         self._update_worker_legend()
