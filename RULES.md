@@ -42,6 +42,7 @@ These rules must be strictly enforced in the shift scheduling logic:
 **Shift Intervals:**
 - There must be at least a 24-hour interval from the end of one shift to the start of the next shift assigned to the same worker.
 - *Clarification:* The interval is measured from the actual end time of one shift to the start time of the next shift for the same worker.
+- *Cross-Month Application:* When scheduling a new month, historical assignments from the end of the previous scheduling window must be loaded to enforce the 24-hour interval for shifts at the beginning of the new window.
 - *Examples:*
    - N (20:00–08:00) → next-day M1/M2/N is allowed (≥24h rest).
    - M1 (08:00–20:00) → next-day N (20:00–08:00) is allowed (exactly 24h rest).
@@ -78,9 +79,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 2. **Three-Day Weekend Worker Minimization:**
    - When a holiday on a Monday or Friday creates a three-day weekend (Friday-Saturday-Sunday or Saturday-Sunday-Monday), prioritize minimizing the number of different workers assigned shifts over those three days by favoring multiple shifts to the same worker, provided the 24-hour interval between shifts is respected.
    - *Clarification:* The goal is to minimize the number of *unique* workers assigned to the 3-day period. Fewer workers is better (e.g., 2 workers is better than 3). Ideally, one worker covers as much as possible if legal.
+   - *Cross-Month Application:* This rule applies even when the three-day weekend spans two calendar months (e.g., Saturday the 30th, Sunday the 31st, and a Monday holiday on the 1st of the next month; or a Friday holiday on the 31st followed by Saturday the 1st and Sunday the 2nd). When scheduling the earlier month, if the following month's 1st is a known holiday on Monday, the optimizer should consider the full three-day period. Similarly, when scheduling the later month, historical assignments from the preceding weekend days (already scheduled in the previous month's run) must be loaded and factored into minimizing unique workers for the three-day period.
 
 3. **Weekend Shift Limits:**
    - Avoid assigning the same worker two shifts in the same weekend (Saturday and Sunday), even if "Shift Intervals" is not broken, unless the "Three-Day Weekend Worker Minimization" rule applies.
+   - *Cross-Month Application:* When a weekend spans two calendar months (e.g., Saturday the 31st and Sunday the 1st), this rule still applies. When scheduling the later month, historical assignments from the Saturday (already scheduled in the previous month's run) must be loaded to enforce this limit.
 
 4. **Consecutive Weekend Shift Avoidance:**
    - Avoid assigning a worker shifts on consecutive weekends if there are other workers who have not yet worked a weekend shift in that month.
@@ -92,6 +95,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 
 6. **Consecutive Shifts:**
    - Aim to schedule shifts such that the time interval between the end of one shift and the start of the next shift for the same worker is greater than 48 hours, whenever this does not conflict with any critical rules or higher-priority flexible rules (like the "Three-Day Weekend Worker Minimization").
+   - *Cross-Month Application:* When scheduling a new month, historical assignments from the end of the previous month must be considered to compute the interval to the first shift in the new scheduling window.
 
 7. **Shift Equity:**
    - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).
