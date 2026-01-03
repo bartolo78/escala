@@ -194,7 +194,7 @@ class TestGroupShiftsByDay:
 
 
 class TestComputePastStats:
-    """Tests for computing past statistics."""
+    """Tests for computing past statistics per RULES.md equity priority order."""
 
     def test_empty_history(self):
         """Empty history should return zero stats."""
@@ -202,38 +202,37 @@ class TestComputePastStats:
         result = _compute_past_stats({}, workers)
         
         assert "Alice" in result
-        assert result["Alice"]["weekend_shifts"] == 0
-        assert result["Alice"]["total_night"] == 0
+        assert result["Alice"]["sat_n"] == 0
+        assert result["Alice"]["fri_night"] == 0
 
     def test_counts_night_shifts(self):
-        """Night shifts should be counted correctly."""
+        """Night shifts should be counted correctly per category."""
         workers = [{"name": "Alice"}]
         history = {
             "Alice": {
                 "2026-01": [
-                    {"date": "2026-01-15", "shift": "N", "dur": 12},  # Wednesday
-                    {"date": "2026-01-16", "shift": "N", "dur": 12},  # Thursday
+                    {"date": "2026-01-14", "shift": "N", "dur": 12},  # Wednesday night
+                    {"date": "2026-01-15", "shift": "N", "dur": 12},  # Thursday night
                 ]
             }
         }
         result = _compute_past_stats(history, workers)
         
-        assert result["Alice"]["total_night"] == 2
-        assert result["Alice"]["weekday_night"] == 2
+        # Wednesday and Thursday nights are weekday (not Friday) N
+        assert result["Alice"]["weekday_not_fri_n"] == 2
 
     def test_counts_weekend_shifts(self):
-        """Weekend shifts should be counted correctly."""
+        """Weekend shifts should be counted correctly per category."""
         workers = [{"name": "Alice"}]
         history = {
             "Alice": {
                 "2026-01": [
-                    {"date": "2026-01-17", "shift": "M1", "dur": 12},  # Saturday
-                    {"date": "2026-01-18", "shift": "M2", "dur": 15},  # Sunday
+                    {"date": "2026-01-17", "shift": "M1", "dur": 12},  # Saturday M1
+                    {"date": "2026-01-18", "shift": "M2", "dur": 15},  # Sunday M2
                 ]
             }
         }
         result = _compute_past_stats(history, workers)
         
-        assert result["Alice"]["weekend_shifts"] == 2
-        assert result["Alice"]["sat_shifts"] == 1
-        assert result["Alice"]["sun_shifts"] == 1
+        assert result["Alice"]["sat_m1"] == 1
+        assert result["Alice"]["sun_holiday_m2"] == 1
