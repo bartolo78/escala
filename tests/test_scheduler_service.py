@@ -333,12 +333,12 @@ class TestSettingsManagement:
         """thresholds should have defaults."""
         thresholds = service.thresholds
         assert isinstance(thresholds, dict)
-        assert "weekend_shifts" in thresholds
+        assert "sat_n" in thresholds
 
     def test_set_threshold(self, service):
         """set_threshold should update value."""
-        service.set_threshold("weekend_shifts", 10)
-        assert service.thresholds["weekend_shifts"] == 10
+        service.set_threshold("sat_n", 10)
+        assert service.thresholds["sat_n"] == 10
 
 
 class TestScheduleGeneration:
@@ -532,11 +532,11 @@ class TestImbalanceDetection:
     def test_imbalance_alert_dataclass(self):
         """ImbalanceAlert should have correct structure."""
         alert = ImbalanceAlert(
-            stat="weekend_shifts",
+            stat="sat_n",
             imbalance=5,
             threshold=2,
-            message="weekend_shifts: imbalance 5 > 2"
+            message="sat_n: imbalance 5 > 2"
         )
-        assert alert.stat == "weekend_shifts"
+        assert alert.stat == "sat_n"
         assert alert.imbalance == 5
         assert alert.threshold == 2

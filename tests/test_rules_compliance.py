@@ -233,13 +233,13 @@ class TestCriticalRule6_WeeklyParticipation:
         if not schedule or not weekly:
             pytest.skip("Schedule was infeasible")
         
-        # Check each worker appears in each week's assignments
+        # Check each worker appears in each week's data
         all_workers = {w["name"] for w in default_workers}
         
         for week_key, week_data in weekly.items():
-            workers_in_week = set()
-            for assignment in week_data.get("assignments", []):
-                workers_in_week.add(assignment["worker"])
+            # weekly structure: week_data[worker_name] = {"hours": ..., "overtime": ..., "undertime": ...}
+            # Workers with hours > 0 participated in that week
+            workers_in_week = {worker_name for worker_name, data in week_data.items() if data.get("hours", 0) > 0}
             
             # All workers should participate (no one is on vacation by default)
             missing = all_workers - workers_in_week

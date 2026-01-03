@@ -1059,3 +1059,91 @@
 2026-01-03 22:22:14 - escala.scheduler_service - INFO - Added worker: TestWorker
 2026-01-03 22:22:14 - escala.scheduler_service - INFO - Configuration saved to /tmp/tmp3iyjp0s7.yaml
 2026-01-03 22:22:14 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-03 22:35:13 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:35:14 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:35:18 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:35:18 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:35:18 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:35:19 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:35:20 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:35:21 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:35:32 - escala.logic - INFO - Stage fairness_load_equity: value=201237
+2026-01-03 22:35:44 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.74s, branches=74388, conflicts=8
+2026-01-03 22:35:44 - escala.logic - INFO - Objective value: 201237.00
+2026-01-03 22:35:44 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:35:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:35:48 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:35:49 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:35:49 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:35:49 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:35:50 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:35:51 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:36:03 - escala.logic - INFO - Stage fairness_load_equity: value=201227
+2026-01-03 22:36:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.77s, branches=74388, conflicts=8
+2026-01-03 22:36:15 - escala.logic - INFO - Objective value: 201227.00
+2026-01-03 22:36:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:36:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:36:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:36:19 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:36:20 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:36:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:36:20 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:36:21 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:36:33 - escala.logic - INFO - Stage fairness_load_equity: value=201253
+2026-01-03 22:36:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.97s, branches=87149, conflicts=17
+2026-01-03 22:36:45 - escala.logic - INFO - Objective value: 201253.00
+2026-01-03 22:36:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:36:46 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:36:50 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:36:50 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:36:50 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:36:50 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:36:51 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:36:52 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:37:04 - escala.logic - INFO - Stage fairness_load_equity: value=201221
+2026-01-03 22:37:16 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.93s, branches=81297, conflicts=15
+2026-01-03 22:37:16 - escala.logic - INFO - Objective value: 201221.00
+2026-01-03 22:37:16 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:37:16 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:37:20 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:37:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:37:21 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:37:21 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:37:22 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:37:23 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:37:35 - escala.logic - INFO - Stage fairness_load_equity: value=201229
+2026-01-03 22:37:46 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.64s, branches=80631, conflicts=6
+2026-01-03 22:37:46 - escala.logic - INFO - Objective value: 201229.00
+2026-01-03 22:37:46 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:37:47 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:37:51 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:37:51 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:37:51 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:37:52 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:37:53 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:37:54 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:38:05 - escala.logic - INFO - Stage fairness_load_equity: value=201207
+2026-01-03 22:38:09 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.66s, branches=74363, conflicts=11
+2026-01-03 22:38:09 - escala.logic - INFO - Objective value: 201207.00
+2026-01-03 22:39:09 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:39:10 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:39:14 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:39:14 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:39:15 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:39:15 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:39:16 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:39:17 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:39:29 - escala.logic - INFO - Stage fairness_load_equity: value=201229
+2026-01-03 22:39:40 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.55s, branches=74388, conflicts=8
+2026-01-03 22:39:40 - escala.logic - INFO - Objective value: 201229.00
+2026-01-03 22:40:54 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-03 22:40:54 - escala.logic - INFO - Starting schedule optimization...
+2026-01-03 22:40:58 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-03 22:40:58 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-03 22:40:59 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-03 22:40:59 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-03 22:41:00 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-03 22:41:01 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-03 22:41:13 - escala.logic - INFO - Stage fairness_load_equity: value=201207
+2026-01-03 22:41:24 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=11.71s, branches=74388, conflicts=8
+2026-01-03 22:41:24 - escala.logic - INFO - Objective value: 201207.00
