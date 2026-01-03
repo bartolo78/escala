@@ -109,15 +109,20 @@ class ScheduleTab(ttk.Frame):
 
     def build_ui(self):
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)  # Changed from 0 to 1 to accommodate legend
+
+        # Worker color legend frame at the top
+        self.legend_frame = ttk.LabelFrame(self, text="Worker Colors", padding="5")
+        self.legend_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 10))
+        self.app.schedule_legend_frame = self.legend_frame
 
         self.app.schedule_tree = ttk.Treeview(self, show="headings")
-        self.app.schedule_tree.grid(row=0, column=0, sticky="nsew")
+        self.app.schedule_tree.grid(row=1, column=0, sticky="nsew")
 
         vsb = ttk.Scrollbar(self, orient="vertical", command=self.app.schedule_tree.yview)
-        vsb.grid(row=0, column=1, sticky="ns")
+        vsb.grid(row=1, column=1, sticky="ns")
         hsb = ttk.Scrollbar(self, orient="horizontal", command=self.app.schedule_tree.xview)
-        hsb.grid(row=1, column=0, sticky="ew")
+        hsb.grid(row=2, column=0, sticky="ew")
 
         self.app.schedule_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
@@ -126,7 +131,7 @@ class ScheduleTab(ttk.Frame):
         self.app.schedule_tree.bind("<Double-1>", self.app.edit_shift)
 
         save_btn = ttk.Button(self, text="Save Manual Changes", command=self.app.save_manual_changes)
-        save_btn.grid(row=2, column=0, pady=10, sticky="ew")
+        save_btn.grid(row=3, column=0, pady=10, sticky="ew")
         Tooltip(save_btn, "Save any manual edits to the schedule")
 
         def resize_treeview(event):
@@ -928,6 +933,9 @@ class ShiftSchedulerApp:
             elif day in all_holidays:
                 tag = (tag, 'holiday')
             self.schedule_tree.insert("", "end", values=(day_text, "", "", ""), tags=tag)
+        
+        # Update worker color legend
+        self._update_worker_legend()
 
     def sort_treeview(self, col, reverse):
         l = [(self.schedule_tree.set(k, col), k) for k in self.schedule_tree.get_children('')]
@@ -938,22 +946,73 @@ class ShiftSchedulerApp:
 
     def update_schedule_display(self, schedule, all_holidays):
         self.schedule_tree.delete(*self.schedule_tree.get_children())
+        
+        # Build a mapping of worker names to colors
+        worker_colors = {w.name: w.color for w in self.scheduler.workers}
+        
+        # Configure tags for each worker's color (for potential future use)
+        for worker_name, color in worker_colors.items():
+            tag_name = f"worker_{worker_name.replace(' ', '_')}"
+            self.schedule_tree.tag_configure(tag_name, foreground=color)
+        
         for day_str in sorted(schedule):
             dt = datetime.fromisoformat(day_str)
             day = dt.day
             weekday = day_name[dt.weekday()][:3]
             day_text = f"{day} ({weekday})"
-            m1 = schedule[day_str].get('M1', '')
-            m2 = schedule[day_str].get('M2', '')
-            n = schedule[day_str].get('N', '')
+            
+            # Get worker names and add colored indicator
+            m1_name = schedule[day_str].get('M1', '')
+            m2_name = schedule[day_str].get('M2', '')
+            n_name = schedule[day_str].get('N', '')
+            
+            # Format with color indicator (● character)
+            m1_display = f"● {m1_name}" if m1_name else ''
+            m2_display = f"● {m2_name}" if m2_name else ''
+            n_display = f"● {n_name}" if n_name else ''
+            
             tag = "evenrow" if day % 2 == 0 else "oddrow"
             if weekday in ['Sat', 'Sun']:
                 tag = (tag, 'weekend')
             elif day in all_holidays:
                 tag = (tag, 'holiday')
-            if not m1 or not m2 or not n:
+            if not m1_name or not m2_name or not n_name:
                 tag = (tag, 'understaffed')
-            self.schedule_tree.insert("", "end", values=(day_text, m1, m2, n), tags=tag)
+            
+            # Insert the row
+            item_id = self.schedule_tree.insert("", "end", values=(day_text, m1_display, m2_display, n_display), tags=tag)
+            
+            # Store worker info for this row (for coloring via canvas overlay or tooltip)
+            self.schedule_tree.set(item_id, "M1", m1_display)
+            self.schedule_tree.set(item_id, "M2", m2_display)
+            self.schedule_tree.set(item_id, "Night", n_display)
+        
+        # Update the worker color legend
+        self._update_worker_legend()
+
+    def _update_worker_legend(self):
+        """Update the worker color legend in the Schedule tab."""
+        if not hasattr(self, 'schedule_legend_frame'):
+            return
+        
+        # Clear existing legend items
+        for widget in self.schedule_legend_frame.winfo_children():
+            widget.destroy()
+        
+        # Create legend items for each worker
+        for i, worker in enumerate(self.scheduler.workers):
+            # Create a frame for each worker entry
+            worker_frame = ttk.Frame(self.schedule_legend_frame)
+            worker_frame.pack(side="left", padx=5, pady=2)
+            
+            # Create a colored label (using a small canvas for the color box)
+            color_canvas = tk.Canvas(worker_frame, width=16, height=16, highlightthickness=1, highlightbackground="gray")
+            color_canvas.create_rectangle(0, 0, 16, 16, fill=worker.color, outline=worker.color)
+            color_canvas.pack(side="left", padx=(0, 3))
+            
+            # Worker name label
+            name_label = ttk.Label(worker_frame, text=worker.name, font=("TkDefaultFont", 9))
+            name_label.pack(side="left")
 
 if __name__ == "__main__":
     root = tk.Tk()
