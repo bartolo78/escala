@@ -93,21 +93,28 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 6. **Consecutive Shifts:**
    - Aim to schedule shifts such that the time interval between the end of one shift and the start of the next shift for the same worker is greater than 48 hours, whenever this does not conflict with any critical rules or higher-priority flexible rules (like the "Three-Day Weekend Worker Minimization").
 
-7. **Weekend Equity:**
-   - Shifts on weekends (Saturday and Sunday) and special days (holidays, including those on weekdays counted as weekend days) should be distributed equitably among workers over the year.
-   - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months. Holidays on weekdays contribute to weekend-equity counters.
+7. **Shift Equity:**
+   - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).
+   - *Equity Priority Order (highest to lowest):*
+      1) Saturday N
+      2) Sunday or Holiday M2
+      3) Sunday or Holiday M1
+      4) Sunday or Holiday N (holidays on Saturday excluded—see below)
+      5) Saturday M2
+      6) Saturday M1
+      7) Friday N
+      8) Weekday (not Friday) N
+      9) Weekday M2
+      10) Weekday M1
+   - *Holiday Counting Rules for Equity:*
+      - Holiday on Saturday: M1/M2 count as Saturday M1/M2; N counts as Saturday N (not double-counted).
+      - Holiday on Sunday: counts in the "Sunday or Holiday" category.
+      - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
+   - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
 
-8. **Saturday and Sunday Equity:**
-   - Shifts on Saturdays and Sundays should be distributed equitably among workers over the year.
-
-9. **Weekend Night and Day Shift Equity:**
-   - On weekends (Saturday and Sunday), night shifts (N) and day shifts (M1 and M2) should be distributed equitably among workers over the year.
-
-10. **Weekday Night and Day Shift Equity:**
-    - On weekdays (Monday to Friday), night shifts (N) and day shifts (M1 and M2) should be distributed equitably among workers over the year.
-
-11. **Equitable Day-of-Week Distribution:**
-    - Shifts should be distributed equitably across different days of the week (e.g., avoid having some workers only working Mondays while others only work Tuesdays) by the end of the year.
+8. **Weekend Definition for Behavioral Rules:**
+   - For rules such as **Weekend Shift Limits** (#3) and **Consecutive Weekend Shift Avoidance** (#4), only actual weekends (Saturday and Sunday) are considered "weekend."
+   - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#7).
 
 ## General Implementation Notes
 
