@@ -76,7 +76,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       4) Saturday night shift (N).
       5) Sunday day shift (M1/M2).
       6) Sunday night shift (N).
-      
+
 2. **Three-Day Weekend Worker Minimization:**
    - When a holiday on a Monday or Friday creates a three-day weekend (Friday-Saturday-Sunday or Saturday-Sunday-Monday), prioritize minimizing the number of different workers assigned shifts over those three days by favoring multiple shifts to the same worker, provided the 24-hour interval between shifts is respected.
    - *Clarification:* The goal is to minimize the number of *unique* workers assigned to the 3-day period. Fewer workers is better (e.g., 2 workers is better than 3). Ideally, one worker covers as much as possible if legal.
@@ -90,15 +90,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - Avoid assigning a worker shifts on consecutive weekends if there are other workers who have not yet worked a weekend shift in that month.
    - *Clarification:* "In that month" refers strictly to the current calendar month being scheduled. However, the check for "consecutive" must look back at the last weekend of the previous month/week to determine if the current weekend is consecutive.
 
-5. **M2 Priority:**
-   - Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours.
-   - *Clarification:* Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible. This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
-
-6. **Consecutive Shifts:**
+5. **Consecutive Shifts:**
    - Aim to schedule shifts such that the time interval between the end of one shift and the start of the next shift for the same worker is greater than 48 hours, whenever this does not conflict with any critical rules or higher-priority flexible rules (like the "Three-Day Weekend Worker Minimization").
    - *Cross-Month Application:* When scheduling a new month, historical assignments from the end of the previous month must be considered to compute the interval to the first shift in the new scheduling window.
 
-7. **Shift Equity:**
+6. **Shift Equity:**
    - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).
    - *Equity Priority Order (highest to lowest):*
       1) Saturday N
@@ -117,9 +113,13 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
    - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
 
+7. **M2 Priority:**
+   - Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours to minimize overtime over the long term (one year of scheduling).
+   - *Clarification:* Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible. This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
+
 8. **Weekend Definition for Behavioral Rules:**
    - For rules such as **Weekend Shift Limits** (#3) and **Consecutive Weekend Shift Avoidance** (#4), only actual weekends (Saturday and Sunday) are considered "weekend."
-   - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#7).
+   - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#6).
 
 ## General Implementation Notes
 
