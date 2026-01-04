@@ -19,11 +19,11 @@ SHIFT_DISPLAY_NAMES = {'M1': 'M1', 'M2': 'M2', 'N': 'Night'}
 # They are used to compute imbalances (max - min across workers) in the objective function.
 # 
 # RULES.md Equity Priority Order (highest to lowest):
-#   1) Saturday N
-#   2) Sunday or Holiday M2
-#   3) Sunday or Holiday M1
+#   1) Sunday or Holiday M2
+#   2) Saturday N
+#   3) Saturday M2
 #   4) Sunday or Holiday N (holidays on Saturday excluded—see below)
-#   5) Saturday M2
+#   5) Sunday or Holiday M1
 #   6) Saturday M1
 #   7) Friday N
 #   8) Weekday (not Friday) N
@@ -35,11 +35,11 @@ SHIFT_DISPLAY_NAMES = {'M1': 'M1', 'M2': 'M2', 'N': 'Night'}
 #   - Holiday on Sunday: counts in the "Sunday or Holiday" category.
 #   - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
 EQUITY_STATS = [
-    'sat_n',                    # Priority 1: Saturday Night
-    'sun_holiday_m2',           # Priority 2: Sunday or Holiday M2
-    'sun_holiday_m1',           # Priority 3: Sunday or Holiday M1
+    'sun_holiday_m2',           # Priority 1: Sunday or Holiday M2
+    'sat_n',                    # Priority 2: Saturday Night
+    'sat_m2',                   # Priority 3: Saturday M2
     'sun_holiday_n',            # Priority 4: Sunday or Holiday N (Sat holidays excluded)
-    'sat_m2',                   # Priority 5: Saturday M2
+    'sun_holiday_m1',           # Priority 5: Sunday or Holiday M1
     'sat_m1',                   # Priority 6: Saturday M1
     'fri_night',                # Priority 7: Friday N
     'weekday_not_fri_n',        # Priority 8: Weekday (not Friday) N
@@ -55,16 +55,16 @@ EQUITY_STATS = [
 # - Increasing a weight: Makes the schedule fairer for that specific metric but may worsen other aspects like load balancing.
 # - Decreasing a weight: Allows more flexibility in assignments, potentially improving overall feasibility or other objectives, but may lead to unfair distributions.
 EQUITY_WEIGHTS = {
-    'sat_n': 10000.0,             # Priority 1: Saturday Night (highest weight)
-    'sun_holiday_m2': 5000.0,     # Priority 2: Sunday or Holiday M2
-    'sun_holiday_m1': 2500.0,     # Priority 3: Sunday or Holiday M1
-    'sun_holiday_n': 1250.0,      # Priority 4: Sunday or Holiday N (Sat holidays excluded)
-    'sat_m2': 625.0,              # Priority 5: Saturday M2
-    'sat_m1': 312.0,              # Priority 6: Saturday M1
-    'fri_night': 156.0,           # Priority 7: Friday N
-    'weekday_not_fri_n': 78.0,    # Priority 8: Weekday (not Friday) N
-    'monday_day': 39.0,           # Priority 9: Monday M1 or M2
-    'weekday_not_mon_day': 20.0,  # Priority 10: Weekday (not Monday) M1 or M2
+    'sun_holiday_m2': 10000.0,   # Priority 1: Sunday or Holiday M2
+    'sat_n': 9500.0,             # Priority 2: Saturday Night
+    'sat_m2': 9200.0,            # Priority 3: Saturday M2
+    'sun_holiday_n': 8300.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+    'sun_holiday_m1': 7600.0,    # Priority 5: Sunday or Holiday M1
+    'sat_m1': 6800.0,            # Priority 6: Saturday M1
+    'fri_night': 1000.0,         # Priority 7: Friday N
+    'weekday_not_fri_n': 700.0,  # Priority 8: Weekday (not Friday) N
+    'monday_day': 300.0,         # Priority 9: Monday M1 or M2
+    'weekday_not_mon_day': 50.0, # Priority 10: Weekday (not Monday) M1 or M2
 }
 
 # Weight for day-of-week equity (balances shifts per specific weekday across workers).
@@ -77,7 +77,7 @@ DOW_EQUITY_WEIGHT = 1
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
 OBJECTIVE_WEIGHT_LOAD = 1
 
-OBJECTIVE_FLEX_WEIGHTS = [100000, 10000, 1000, 100, 10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
+OBJECTIVE_FLEX_WEIGHTS = [100000, 5000, 10000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0001, 10]
 # Flexible rule weights in order of importance (higher index = lower priority):
 # [0]: Saturday Preference - prioritize weekday (Mon-Fri) as first shift, else Saturday M1/M2 over Sunday/N.
 # [1]: Three-Day Weekend Worker Minimization - minimize unique workers during 3-day weekends.
