@@ -97,11 +97,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 6. **Shift Equity:**
    - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).
    - *Equity Priority Order (highest to lowest):*
-      1) Saturday N
-      2) Sunday or Holiday M2
-      3) Sunday or Holiday M1
+      1) Sunday or Holiday M2
+      2) Saturday N
+      3) Saturday M2
       4) Sunday or Holiday N (holidays on Saturday excluded—see below)
-      5) Saturday M2
+      5) Sunday or Holiday M1
       6) Saturday M1
       7) Friday N
       8) Weekday (not Friday) N
