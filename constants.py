@@ -77,7 +77,7 @@ DOW_EQUITY_WEIGHT = 1
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
 OBJECTIVE_WEIGHT_LOAD = 1
 
-OBJECTIVE_FLEX_WEIGHTS = [100000, 5000, 10000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0001, 10]
+OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0001, 10]
 # Flexible rule weights in order of importance (higher index = lower priority):
 # [0]: Saturday Preference - prioritize weekday (Mon-Fri) as first shift, else Saturday M1/M2 over Sunday/N.
 # [1]: Three-Day Weekend Worker Minimization - minimize unique workers during 3-day weekends.
