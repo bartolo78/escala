@@ -82,7 +82,13 @@ def build_three_day_weekend_unique_workers_cost(model, iso_weeks, holiday_set, s
 
 
 def build_weekend_shift_limits_cost(model, iso_weeks, holiday_set, assigned, num_workers, shifts):
-    """Return IntVar counting workers assigned both Sat and Sun in a non-3-day weekend."""
+    """Return IntVar counting workers assigned both Sat and Sun in a non-3-day weekend.
+    
+    This rule is completely disabled for weekends that are part of a three-day weekend
+    (Friday-Saturday-Sunday or Saturday-Sunday-Monday due to a holiday on Friday or Monday).
+    When a three-day weekend exists, the 'Three-Day Weekend Worker Minimization' rule takes
+    precedence, allowing the optimizer to freely assign multiple shifts to the same worker.
+    """
     terms = []
     for key in iso_weeks:
         week = iso_weeks[key]
@@ -366,19 +372,28 @@ def build_tiebreak_cost(model, assigned, num_workers, num_shifts, workers):
     return cost
 
 
-def build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed):
+def build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed, holiday_set=None):
     """Return IntVar encoding the first-shift fallback preference (Flexible Rule 1).
 
     This keeps the *same approximation* as the existing objective: it prefers
     each worker to have at least one shift in the best-available category
     (weekday day, weekday night, Saturday day, ...).
+    
+    During three-day weekends (Friday or Monday holiday), the Saturday/Sunday
+    penalties are skipped to avoid conflicting with the Three-Day Weekend Worker
+    Minimization rule which has priority for those weekends.
     """
+    if holiday_set is None:
+        holiday_set = set()
 
     terms = []
     for key in iso_weeks:
         week = iso_weeks[key]
         sat = week["monday"] + timedelta(days=5)
         sun = week["monday"] + timedelta(days=6)
+        
+        # Check if this week has a three-day weekend (Friday or Monday holiday)
+        is_three_day_weekend = any(day in holiday_set and day.weekday() in [0, 4] for day in week["days"])
 
         weekday_day_shifts = [s for s in week["shifts"] if shifts[s]["day"].weekday() < 5 and not shifts[s]["night"]]
         weekday_night_shifts = [s for s in week["shifts"] if shifts[s]["day"].weekday() < 5 and shifts[s]["night"]]
@@ -441,6 +456,49 @@ def build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shif
             model.Add(sum_all >= 1).OnlyEnforceIf(has_any_shift)
             model.Add(sum_all == 0).OnlyEnforceIf(has_any_shift.Not())
 
+            # During three-day weekends, skip the Saturday/Sunday tier penalties to let
+            # the Three-Day Weekend Worker Minimization rule (rule 2) take precedence.
+            # Workers whose first shift is on Sat/Sun during a 3-day weekend get no penalty.
+            if is_three_day_weekend:
+                # Only track weekday tier penalties; Sat/Sun shifts get tier 0 (no penalty)
+                t0 = model.NewBoolVar(f"t0_w{w}_k{key}")
+                t1 = model.NewBoolVar(f"t1_w{w}_k{key}")
+                
+                model.Add(t0 + t1 == 0).OnlyEnforceIf(has_any_shift.Not())
+                model.Add(t0 + t1 == 1).OnlyEnforceIf(has_any_shift)
+                
+                # Tier 0: has weekday day OR has any Saturday/Sunday shift (no penalty)
+                has_weekend = model.NewBoolVar(f"has_weekend_w{w}_k{key}")
+                weekend_sum = []
+                if sat_day_shifts:
+                    weekend_sum.extend([assigned[w][s] for s in sat_day_shifts])
+                if sat_night_shifts:
+                    weekend_sum.extend([assigned[w][s] for s in sat_night_shifts])
+                if sun_day_shifts:
+                    weekend_sum.extend([assigned[w][s] for s in sun_day_shifts])
+                if sun_night_shifts:
+                    weekend_sum.extend([assigned[w][s] for s in sun_night_shifts])
+                if weekend_sum:
+                    model.Add(sum(weekend_sum) >= 1).OnlyEnforceIf(has_weekend)
+                    model.Add(sum(weekend_sum) == 0).OnlyEnforceIf(has_weekend.Not())
+                else:
+                    model.Add(has_weekend == 0)
+                
+                # t0 = has weekday day OR has weekend shift (both get no penalty during 3-day weekend)
+                model.AddBoolOr([has_weekday_day, has_weekend]).OnlyEnforceIf([has_any_shift, t0])
+                model.Add(t0 == 0).OnlyEnforceIf([has_weekday_day.Not(), has_weekend.Not()])
+                
+                # Tier 1: has weekday night only (slight penalty)
+                model.Add(t1 <= has_weekday_day.Not())
+                model.Add(t1 <= has_weekend.Not())
+                model.Add(t1 <= has_weekday_night)
+                model.Add(t1 >= has_weekday_day.Not() + has_weekend.Not() + has_weekday_night + has_any_shift - 3)
+                
+                # Cost: only tier 1 has penalty (1 point for weekday night being first shift)
+                terms.append(1 * t1)
+                continue  # Skip the normal tier logic below
+
+            # Normal week (no three-day weekend): full tier penalty logic
             # Exclusive tier selection, best available category wins.
             t0 = model.NewBoolVar(f"t0_w{w}_k{key}")
             t1 = model.NewBoolVar(f"t1_w{w}_k{key}")
@@ -807,6 +865,9 @@ def add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assign
         week = iso_weeks[key]
         sat = week["monday"] + timedelta(days=5)
         sun = week["monday"] + timedelta(days=6)
+        
+        # Check if this week has a three-day weekend (Friday or Monday holiday)
+        is_three_day_weekend = any(day in holiday_set and day.weekday() in [0, 4] for day in week["days"])
 
         weekday_day_shifts = [s for s in week["shifts"] if shifts[s]["day"].weekday() < 5 and not shifts[s]["night"]]
         weekday_night_shifts = [s for s in week["shifts"] if shifts[s]["day"].weekday() < 5 and shifts[s]["night"]]
@@ -868,6 +929,17 @@ def add_saturday_preference_objective(model, obj, weight_flex, iso_weeks, assign
             sum_all = sum(assigned[w][s] for s in week["shifts"])
             model.Add(sum_all >= 1).OnlyEnforceIf(has_any_shift)
             model.Add(sum_all == 0).OnlyEnforceIf(has_any_shift.Not())
+
+            # During three-day weekends, skip Saturday/Sunday penalties to let rule 2 take precedence
+            if is_three_day_weekend:
+                # Only apply weekday night penalty; weekend shifts get no penalty
+                tier2 = model.NewBoolVar(f"t2_w{w}_k{key}")
+                model.Add(tier2 <= has_weekday_day.Not())
+                model.Add(tier2 <= has_weekday_night)
+                model.Add(tier2 <= has_any_shift)
+                model.Add(tier2 >= has_weekday_day.Not() + has_weekday_night + has_any_shift - 2)
+                obj += (weight_flex * 0.01) * tier2
+                continue  # Skip all Sat/Sun penalties
 
             tier2 = model.NewBoolVar(f"t2_w{w}_k{key}")
             model.Add(tier2 <= has_weekday_day.Not())

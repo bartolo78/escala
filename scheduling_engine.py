@@ -557,7 +557,7 @@ def generate_schedule(
 
     if lexicographic:
         # Build integer-valued stage objectives and solve lexicographically in RULES.md order.
-        sat_pref_cost = _mo.build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed)
+        sat_pref_cost = _mo.build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shifts, unav_parsed, holiday_set)
         three_day_cost = _mo.build_three_day_weekend_unique_workers_cost(
             model, iso_weeks, holiday_set, shifts_by_day, assigned, num_workers
         )

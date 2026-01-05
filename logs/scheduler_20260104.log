@@ -146,3 +146,263 @@
 2026-01-04 18:25:45 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
 2026-01-04 18:25:45 - escala.logic - INFO - Stage rule5_m2_priority: value=0
 2026-01-04 18:25:46 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:25:58 - escala.logic - INFO - Stage fairness_load_equity: value=542387
+2026-01-04 18:26:10 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.03s, branches=93639, conflicts=3
+2026-01-04 18:26:10 - escala.logic - INFO - Objective value: 542387.00
+2026-01-04 18:26:10 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:26:11 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:26:14 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:26:15 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:26:15 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:26:15 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:26:16 - escala.logic - INFO - Stage rule5_m2_priority: value=1
+2026-01-04 18:26:17 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:26:29 - escala.logic - INFO - Stage fairness_load_equity: value=541987
+2026-01-04 18:26:41 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.04s, branches=74003, conflicts=9
+2026-01-04 18:26:41 - escala.logic - INFO - Objective value: 541987.00
+2026-01-04 18:26:41 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:26:41 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:26:45 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:26:45 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:26:46 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:26:46 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:26:47 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:26:47 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:26:59 - escala.logic - INFO - Stage fairness_load_equity: value=542393
+2026-01-04 18:27:11 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.01s, branches=93654, conflicts=6
+2026-01-04 18:27:11 - escala.logic - INFO - Objective value: 542393.00
+2026-01-04 18:27:11 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:27:12 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:27:16 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:27:16 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:27:16 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:27:17 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:27:17 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:27:18 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:27:30 - escala.logic - INFO - Stage fairness_load_equity: value=542481
+2026-01-04 18:27:42 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.02s, branches=87436, conflicts=15
+2026-01-04 18:27:42 - escala.logic - INFO - Objective value: 542481.00
+2026-01-04 18:27:42 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:27:43 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:27:46 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:27:47 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:27:47 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:27:47 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:27:48 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:27:48 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:28:00 - escala.logic - INFO - Stage fairness_load_equity: value=542407
+2026-01-04 18:28:13 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.04s, branches=93654, conflicts=6
+2026-01-04 18:28:13 - escala.logic - INFO - Objective value: 542407.00
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:13 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:28:13 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:28:13 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:28:17 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:28:17 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:28:18 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:28:18 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:28:19 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:28:19 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:28:31 - escala.logic - INFO - Stage fairness_load_equity: value=542427
+2026-01-04 18:28:43 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.05s, branches=93655, conflicts=6
+2026-01-04 18:28:43 - escala.logic - INFO - Objective value: 542427.00
+2026-01-04 18:28:43 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:28:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:28:43 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:28:43 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:28:44 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:28:48 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:28:48 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:28:48 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:28:49 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:28:49 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:28:50 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:29:02 - escala.logic - INFO - Stage fairness_load_equity: value=542399
+2026-01-04 18:29:14 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.07s, branches=93655, conflicts=6
+2026-01-04 18:29:14 - escala.logic - INFO - Objective value: 542399.00
+2026-01-04 18:29:14 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:29:14 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:29:14 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:29:14 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:29:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:29:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:29:19 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:29:19 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:29:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:29:20 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:29:21 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:29:33 - escala.logic - INFO - Stage fairness_load_equity: value=542457
+2026-01-04 18:29:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.03s, branches=87413, conflicts=10
+2026-01-04 18:29:45 - escala.logic - INFO - Objective value: 542457.00
+2026-01-04 18:29:45 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:29:45 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:29:45 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:29:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:29:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:29:49 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:29:49 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:29:50 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:29:50 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:29:51 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:29:51 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:30:03 - escala.logic - INFO - Stage fairness_load_equity: value=542475
+2026-01-04 18:30:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.09s, branches=93658, conflicts=6
+2026-01-04 18:30:15 - escala.logic - INFO - Objective value: 542475.00
+2026-01-04 18:30:15 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:30:15 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:15 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:15 - escala.scheduler_service - WARNING - No history to save
+2026-01-04 18:30:15 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:15 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:30:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:30:16 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:30:20 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:30:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:30:21 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:30:21 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:30:21 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:30:22 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:30:34 - escala.logic - INFO - Stage fairness_load_equity: value=542433
+2026-01-04 18:30:46 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.03s, branches=93656, conflicts=6
+2026-01-04 18:30:46 - escala.logic - INFO - Objective value: 542433.00
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - History saved to /tmp/tmpz3xemnss.json
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - History cleared
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - History loaded from /tmp/tmpz3xemnss.json
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:46 - escala.scheduler_service - ERROR - Invalid JSON in /tmp/tmpcqxsnqy8.json
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:46 - escala.scheduler_service - ERROR - Failed to load history: [Errno 2] No such file or directory: '/nonexistent/file.json'
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:30:46 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-04 18:30:46 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-04 18:30:47 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 18:30:50 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 18:30:51 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-04 18:30:51 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 18:30:51 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 18:30:52 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 18:30:53 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-04 18:31:05 - escala.logic - INFO - Stage fairness_load_equity: value=542433
+2026-01-04 18:31:17 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.09s, branches=93657, conflicts=6
+2026-01-04 18:31:17 - escala.logic - INFO - Objective value: 542433.00
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - History cleared
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /tmp/tmpyrxhcdnc.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Added worker: TestWorker
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration saved to /tmp/tmpyrxhcdnc.yaml
+2026-01-04 18:31:17 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:37:57 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:38:52 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:39:38 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:39:58 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:40:41 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:41:04 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:41:36 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:41:36 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:41:52 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:41:52 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:41:52 - escala.scheduler_service - INFO - Generating schedule for 4/2026 with 15 workers
+2026-01-04 21:41:52 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:41:54 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 21:41:58 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 21:41:59 - escala.logic - INFO - Stage rule2_3day_min_workers: value=10
+2026-01-04 21:42:00 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 21:42:01 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 21:42:02 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 21:42:09 - escala.logic - INFO - Stage rule11_consec48: value=8
+2026-01-04 21:42:17 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.22s, branches=42189, conflicts=1610
+2026-01-04 21:42:17 - escala.logic - INFO - Objective value: 8.00
+2026-01-04 21:42:17 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 21:44:05 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:44:05 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:44:05 - escala.scheduler_service - INFO - Generating schedule for 4/2026 with 15 workers
+2026-01-04 21:44:05 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:44:07 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 21:44:10 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 21:44:12 - escala.logic - INFO - Stage rule2_3day_min_workers: value=10
+2026-01-04 21:44:13 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 21:44:13 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 21:44:15 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 21:44:22 - escala.logic - INFO - Stage rule11_consec48: value=8
+2026-01-04 21:44:29 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.34s, branches=42058, conflicts=1496
+2026-01-04 21:44:29 - escala.logic - INFO - Objective value: 8.00
+2026-01-04 21:44:29 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 21:44:41 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:44:41 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:44:41 - escala.scheduler_service - INFO - Generating schedule for 4/2026 with 15 workers
+2026-01-04 21:44:41 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:44:43 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 21:44:47 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 21:44:48 - escala.logic - INFO - Stage rule2_3day_min_workers: value=10
+2026-01-04 21:44:49 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 21:44:50 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 21:44:51 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 21:44:58 - escala.logic - INFO - Stage rule11_consec48: value=8
+2026-01-04 21:45:06 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.24s, branches=42339, conflicts=1718
+2026-01-04 21:45:06 - escala.logic - INFO - Objective value: 8.00
+2026-01-04 21:45:06 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-04 21:45:45 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:45:45 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:46:00 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-04 21:46:00 - escala.scheduler_service - INFO - History cleared
+2026-01-04 21:46:00 - escala.scheduler_service - INFO - Generating schedule for 4/2026 with 15 workers
+2026-01-04 21:46:00 - escala.logic - INFO - Scheduling 35 days from 2026-03-30 to 2026-05-03 for 2026-04
+2026-01-04 21:46:02 - escala.logic - INFO - Starting schedule optimization...
+2026-01-04 21:46:05 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-04 21:46:06 - escala.logic - INFO - Stage rule2_3day_min_workers: value=10
+2026-01-04 21:46:07 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-04 21:46:08 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-04 21:46:10 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-04 21:46:17 - escala.logic - INFO - Stage rule11_consec48: value=8
+2026-01-04 21:46:25 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.21s, branches=36838, conflicts=791
+2026-01-04 21:46:25 - escala.logic - INFO - Objective value: 8.00
+2026-01-04 21:46:25 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
