@@ -645,7 +645,7 @@ class SchedulerService:
         Returns:
             List of ImbalanceAlert for any stats exceeding thresholds
         """
-        if self._current_stats is None or self._past_stats is None:
+        if not self._current_stats or self._past_stats is None:
             return []
 
         alerts = []
@@ -820,7 +820,7 @@ class SchedulerService:
         Returns:
             Dict mapping stat name to list of totals per worker
         """
-        if self._current_stats is None or self._past_stats is None:
+        if not self._current_stats or self._past_stats is None:
             return {}
 
         worker_names = [w.name for w in self._workers]
