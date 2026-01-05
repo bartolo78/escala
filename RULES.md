@@ -69,7 +69,9 @@ These rules must be strictly enforced in the shift scheduling logic:
 These rules should be satisfied as much as possible, in the order listed, but may be compromised if necessary to meet the critical rules:
 
 1. **Saturday Priority for First Shift:**
-   - Priority should be given to assigning each worker’s first shift of the ISO week on a weekday (Monday to Friday), even if it's a holiday. If this is not possible for some workers, prioritize assigning them a Saturday instead of Sunday, and a M1 or M2 shift instead of a N shift, as their first shift.   - *Fallback Order (highest to lowest):*
+   - Priority should be given to assigning each worker's first shift of the ISO week on a weekday (Monday to Friday), even if it's a holiday. If this is not possible for some workers, prioritize assigning them a Saturday instead of Sunday, and a M1 or M2 shift instead of a N shift, as their first shift.
+   - **Important:** During three-day weekends (Friday-Saturday-Sunday or Saturday-Sunday-Monday), the Saturday/Sunday penalties are **suspended** to avoid conflicting with the "Three-Day Weekend Worker Minimization" rule (#2). Workers whose first shift falls on a Saturday or Sunday during a 3-day weekend receive no penalty, allowing the optimizer to freely concentrate shifts to fewer workers.
+   - *Fallback Order (highest to lowest):*
       1) Weekday day shift (M1/M2), even if it's a holiday.
       2) Weekday night shift (N), even if it's a holiday.
       3) Saturday day shift (M1/M2).
@@ -79,12 +81,13 @@ These rules should be satisfied as much as possible, in the order listed, but ma
 
 2. **Three-Day Weekend Worker Minimization:**
    - When a holiday on a Monday or Friday creates a three-day weekend (Friday-Saturday-Sunday or Saturday-Sunday-Monday), prioritize minimizing the number of different workers assigned shifts over those three days by favoring multiple shifts to the same worker, provided the 24-hour interval between shifts is respected.
-   - *Clarification:* The goal is to minimize the number of *unique* workers assigned to the 3-day period. Fewer workers is better (e.g., 2 workers is better than 3). Ideally, one worker covers as much as possible if legal.
+   - *Clarification:* The goal is to minimize the number of *unique* workers assigned to the 3-day period. Fewer workers is better. Ideally, one worker covers as much as possible if legal.
    - *Cross-Month Application:* This rule applies even when the three-day weekend spans two calendar months (e.g., Saturday the 30th, Sunday the 31st, and a Monday holiday on the 1st of the next month; or a Friday holiday on the 31st followed by Saturday the 1st and Sunday the 2nd). When scheduling the earlier month, if the following month's 1st is a known holiday on Monday, the optimizer should consider the full three-day period. Similarly, when scheduling the later month, historical assignments from the preceding weekend days (already scheduled in the previous month's run) must be loaded and factored into minimizing unique workers for the three-day period.
 
 3. **Weekend Shift Limits:**
-   - Avoid assigning the same worker two shifts in the same weekend (Saturday and Sunday), even if "Shift Intervals" is not broken, unless the "Three-Day Weekend Worker Minimization" rule applies.
-   - *Cross-Month Application:* When a weekend spans two calendar months (e.g., Saturday the 31st and Sunday the 1st), this rule still applies. When scheduling the later month, historical assignments from the Saturday (already scheduled in the previous month's run) must be loaded to enforce this limit.
+   - Avoid assigning the same worker two shifts in the same weekend (Saturday and Sunday), even if "Shift Intervals" is not broken.
+   - **Important:** This rule is **completely disabled** for any weekend that is part of a three-day weekend (Friday-Saturday-Sunday or Saturday-Sunday-Monday due to a holiday). When a three-day weekend exists, the "Three-Day Weekend Worker Minimization" rule (#2) takes precedence, and this rule does not apply at all to that weekend. This ensures the optimizer can freely assign multiple shifts to the same worker to minimize the total number of unique workers working the three-day period.
+   - *Cross-Month Application:* When a weekend spans two calendar months (e.g., Saturday the 31st and Sunday the 1st), this rule still applies (unless it's a three-day weekend). When scheduling the later month, historical assignments from the Saturday (already scheduled in the previous month's run) must be loaded to enforce this limit.
 
 4. **Consecutive Weekend Shift Avoidance:**
    - Avoid assigning a worker shifts on consecutive weekends if there are other workers who have not yet worked a weekend shift in that month.
