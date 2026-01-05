@@ -699,3 +699,76 @@
 2026-01-05 21:23:10 - escala.logic - INFO - Objective value: 542173.00
 2026-01-05 21:23:10 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 3
 2026-01-05 21:23:10 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-05 21:49:11 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-05 21:49:11 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 21:49:11 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 21:49:11 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-05 21:49:11 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-05 21:49:11 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-05 21:49:11 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-05 21:49:11 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-05 21:49:11 - escala.logic - INFO - Starting schedule optimization...
+2026-01-05 21:49:14 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-05 21:49:15 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-05 21:49:15 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-05 21:49:15 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-05 21:49:20 - escala.logic - INFO - Stage rule5_m2_priority: value=10
+2026-01-05 21:49:21 - escala.logic - INFO - Stage rule11_consec48: value=0
+2026-01-05 21:49:21 - escala.logic - INFO - Stage rule12_night_interval: value=0
+2026-01-05 21:49:22 - escala.logic - INFO - Stage rule13_consec_night: value=0
+2026-01-05 21:49:31 - escala.logic - INFO - Stage fairness_load_equity: value=694085
+2026-01-05 21:49:41 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=9.82s, branches=105097, conflicts=6
+2026-01-05 21:49:41 - escala.logic - INFO - Objective value: 694085.00
+2026-01-05 21:49:41 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-05 21:49:41 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-05 21:49:41 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-05 21:49:41 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 21:49:41 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 21:49:41 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-05 21:49:41 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-05 21:49:41 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-05 21:49:41 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-05 21:49:41 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-05 21:49:41 - escala.logic - INFO - Starting schedule optimization...
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-05 21:49:42 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-05 21:49:42 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-05 21:49:42 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-05 21:49:42 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-05 21:49:42 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-05 21:49:42 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-05 21:49:42 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-05 21:49:42 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-05 21:49:42 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-05 21:49:42 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-05 21:49:42 - escala.logic - INFO - Auto-extending holidays for months: [(2026, 1), (2026, 2), (2026, 3)]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-03: []
+2026-01-05 21:49:42 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-05 21:49:42 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
