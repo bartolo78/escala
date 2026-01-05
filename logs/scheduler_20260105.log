@@ -425,3 +425,23 @@
 2026-01-05 12:04:27 - escala.scheduler_service - INFO - Added worker: TestWorker
 2026-01-05 12:04:27 - escala.scheduler_service - INFO - Configuration saved to /tmp/tmpd610jrv2.yaml
 2026-01-05 12:04:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-05 20:49:06 - escala.logic - INFO - Scheduling 42 days from 2026-02-23 to 2026-04-05 for 2026-03
+2026-01-05 20:49:07 - escala.logic - INFO - Starting schedule optimization...
+2026-01-05 20:49:08 - escala.logic - INFO - Scheduling 42 days from 2026-02-23 to 2026-04-05 for 2026-03
+2026-01-05 20:49:09 - escala.logic - INFO - Starting schedule optimization...
+2026-01-05 20:49:09 - escala.logic - INFO - Stage rule1_sat_pref: value=0
+2026-01-05 20:49:10 - escala.logic - INFO - Stage rule2_3day_min_workers: value=5
+2026-01-05 20:49:11 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-05 20:49:15 - escala.logic - INFO - Stage rule3_weekend_limits: value=5
+2026-01-05 20:49:15 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-05 20:49:15 - escala.logic - INFO - Stage rule2_3day_min_workers: value=7
+2026-01-05 20:49:16 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-05 20:49:17 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-05 20:49:19 - escala.logic - INFO - Stage rule5_m2_priority: value=0
+2026-01-05 20:49:21 - escala.logic - INFO - Stage rule5_m2_priority: value=5
+2026-01-05 20:49:25 - escala.logic - INFO - Stage rule11_consec48: value=1
+2026-01-05 20:49:27 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=5.92s, branches=19472, conflicts=129
+2026-01-05 20:49:27 - escala.logic - INFO - Objective value: 5.00
+2026-01-05 20:49:31 - escala.logic - INFO - Stage fairness_load_equity: value=542570
+2026-01-05 20:49:37 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=6.06s, branches=50589, conflicts=0
+2026-01-05 20:49:37 - escala.logic - INFO - Objective value: 542570.00

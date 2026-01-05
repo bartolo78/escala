@@ -11,6 +11,9 @@ from __future__ import annotations
 from datetime import timedelta
 
 from constants import CONSECUTIVE_SHIFT_PENALTY_RANGE, EQUITY_STATS, MAX_STAT_VALUE
+from logger import get_logger
+
+logger = get_logger('model_objectives')
 
 
 def build_load_balancing_cost(model, iso_weeks, shifts, assigned, workers):
@@ -52,20 +55,29 @@ def build_three_day_weekend_unique_workers_cost(model, iso_weeks, holiday_set, s
                     sun = day + timedelta(days=2)
                     if sat in days and sun in days:
                         three_day_periods.append([fri, sat, sun])
+                        logger.info(f"Three-day weekend detected in week {key}: {fri} (Fri) to {sun} (Sun)")
+                    else:
+                        logger.warning(f"Friday holiday {fri} found but Sat/Sun not in week days. sat in days: {sat in days}, sun in days: {sun in days}")
                 elif day.weekday() == 0:  # Monday holiday -> Sat-Sun-Mon
                     mon = day
                     sat = day - timedelta(days=2)
                     sun = day - timedelta(days=1)
                     if sat in days and sun in days:
                         three_day_periods.append([sat, sun, mon])
+                        logger.info(f"Three-day weekend detected in week {key}: {sat} (Sat) to {mon} (Mon)")
+                    else:
+                        logger.warning(f"Monday holiday {mon} found but Sat/Sun not in week days. sat in days: {sat in days}, sun in days: {sun in days}")
 
         for period in three_day_periods:
             period_shifts = []
             for d in period:
                 period_shifts.extend(shifts_by_day.get(d, []))
             if not period_shifts:
+                logger.warning(f"Three-day period {period[0]} to {period[-1]} has no shifts!")
                 continue
 
+            logger.info(f"Three-day period {period[0]} to {period[-1]} has {len(period_shifts)} shifts")
+            
             for w in range(num_workers):
                 has_shift_in_period = model.NewBoolVar(f"has_3day_w{w}_k{key}_{period[0]}")
                 sum_in_period = sum(assigned[w][s] for s in period_shifts)
