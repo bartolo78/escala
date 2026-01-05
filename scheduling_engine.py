@@ -102,20 +102,29 @@ def _setup_holidays_and_days(year, month, holidays):
     # RULES.md: For equity/objective accounting, holidays on weekdays should be
     # treated as weekend days. When scheduling a month, the model operates on a
     # full ISO-week window which may include days outside the selected month.
-    # If holidays are auto-provided (None or day-of-month ints), extend the
+    # If holidays are auto-provided (None, empty list, or day-of-month ints), extend the
     # holiday set to cover all months present in the window so overlap days are
     # classified correctly.
+    # 
+    # NOTE: An empty list [] also triggers auto-extension - this is important when
+    # the selected month has no holidays but adjacent months in the scheduling window do
+    # (e.g., scheduling March 2026 where Good Friday April 3 falls in ISO week 14).
     should_auto_extend = holidays is None or (
-        isinstance(holidays, list) and holidays and all(isinstance(h, int) for h in holidays)
+        isinstance(holidays, list) and (not holidays or all(isinstance(h, int) for h in holidays))
     )
     if should_auto_extend:
         months_in_window = {(d.year, d.month) for d in days}
+        logger.info(f"Auto-extending holidays for months: {sorted(months_in_window)}")
         for y, m in months_in_window:
-            for hd in compute_holidays(y, m):
+            computed_holidays = compute_holidays(y, m)
+            logger.info(f"  Computed holidays for {y}-{m:02d}: {computed_holidays}")
+            for hd in computed_holidays:
                 try:
                     holiday_set.add(date(y, m, hd))
                 except ValueError:
                     pass
+    
+    logger.info(f"Final holiday_set ({len(holiday_set)} holidays): {sorted(holiday_set)}")
     first_monday = days[0]
     last_sunday = days[-1]
     logger.info(f"Scheduling {len(days)} days from {first_monday} to {last_sunday} for {year}-{month:02d}")
@@ -511,9 +520,12 @@ def generate_schedule(
         iso = d.isocalendar()
         overlap_week_keys.add((iso[0], iso[1]))
     excluded_week_keys = scheduled_weeks.intersection(overlap_week_keys)
+    
+    logger.info(f"Scheduling {year}-{month:02d}: scheduled_weeks={sorted(scheduled_weeks)}, overlap_week_keys={sorted(overlap_week_keys)}, excluded={sorted(excluded_week_keys)}")
 
     # Filter days to schedule: exclude all days in previously scheduled ISO weeks
     days = [d for d in all_days if d.isocalendar()[:2] not in excluded_week_keys]
+    logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
 
     # Proceed with model only for unscheduled weeks/days
     shifts, num_shifts = _create_shifts(days)
