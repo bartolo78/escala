@@ -772,3 +772,9 @@
 2026-01-05 21:49:42 - escala.logic - INFO -   Computed holidays for 2026-03: []
 2026-01-05 21:49:42 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
 2026-01-05 21:49:42 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-05 22:08:15 - escala.logic - INFO - Auto-extending holidays for months: [(2026, 1), (2026, 2), (2026, 3)]
+2026-01-05 22:08:15 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-05 22:08:15 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-05 22:08:15 - escala.logic - INFO -   Computed holidays for 2026-03: []
+2026-01-05 22:08:15 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-05 22:08:15 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
