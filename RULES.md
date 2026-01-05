@@ -97,7 +97,17 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - Aim to schedule shifts such that the time interval between the end of one shift and the start of the next shift for the same worker is greater than 48 hours, whenever this does not conflict with any critical rules or higher-priority flexible rules (like the "Three-Day Weekend Worker Minimization").
    - *Cross-Month Application:* When scheduling a new month, historical assignments from the end of the previous month must be considered to compute the interval to the first shift in the new scheduling window.
 
-6. **Shift Equity:**
+6. **Night Shift Minimum Interval:**
+   - Avoid scheduling night shifts with 48 hours or less between them (measured start-to-start). If a worker does a night shift on day 1, they should not do another night shift on day 3 or sooner.
+   - *Clarification:* The interval is measured from the start time of one night shift to the start time of the next night shift for the same worker. This applies to all night shifts, including those in three-day weekends.
+   - *Example:* Night shift on Monday 20:00 → next night shift should be no earlier than Thursday 20:00 (96h later) to fully avoid penalty, or at least after Wednesday 20:00 (48h) to partially reduce the penalty.
+
+7. **Consecutive Night Shift Avoidance:**
+   - Avoid assigning two night shifts on consecutive days (e.g., day N and day N+1) to the same worker, unless the start times are separated by at least 96 hours.
+   - *Clarification:* "Consecutive" means back-to-back nights where the calendar days are exactly 1 day apart. Night shifts that are not on consecutive days are not penalized by this rule (but may still be penalized by the "Night Shift Minimum Interval" rule above).
+   - *Note:* In practice, consecutive night shifts at normal 24h intervals will always be penalized since they are only 24h apart (start-to-start), far less than the 96h threshold. The 96h exception allows for special cases in scheduling algorithms.
+
+8. **Shift Equity:**
    - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).
    - *Equity Priority Order (highest to lowest):*
       1) Sunday or Holiday M2
@@ -117,11 +127,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
    - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
 
-7. **M2 Priority:**
+9. **M2 Priority:**
    - Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours to minimize overtime over the long term (one year of scheduling).
    - *Clarification:* Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible. This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
 
-8. **Weekend Definition for Behavioral Rules:**
+10. **Weekend Definition for Behavioral Rules:**
    - For rules such as **Weekend Shift Limits** (#3) and **Consecutive Weekend Shift Avoidance** (#4), only actual weekends (Saturday and Sunday) are considered "weekend."
    - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#6).
 

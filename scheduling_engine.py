@@ -419,6 +419,26 @@ def _add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, 
     return _mo.add_consec_shifts_48h_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers)
 
 
+def _add_night_shift_min_interval_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers):
+    """
+    Flexible Rule 12: Night Shift Minimum Interval
+    Avoid scheduling night shifts within 48 hours of each other (start-to-start).
+    If a worker does a night shift on day 1, avoid assigning them another night shift
+    on day 3 or sooner.
+    """
+    return _mo.add_night_shift_min_interval_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers)
+
+
+def _add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers):
+    """
+    Flexible Rule 13: Consecutive Night Shift Avoidance
+    Avoid scheduling two night shifts in a row (consecutive days) unless the start times
+    are at least 96 hours apart. This helps ensure workers get adequate rest between
+    night shift rotations.
+    """
+    return _mo.add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers)
+
+
 def _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers):
     """
     Deterministic Tie-Break: Add a tiny penalty based on a stable worker order.
@@ -590,6 +610,12 @@ def generate_schedule(
         # Rule 11: prefer >48h gaps (penalize 24-48h gaps)
         consec48_cost = _mo.build_consec_shifts_48h_cost(model, assigned, shifts, num_shifts, num_workers)
 
+        # Rule 12: avoid night shifts within 48h of each other
+        night_interval_cost = _mo.build_night_shift_min_interval_cost(model, assigned, shifts, num_shifts, num_workers)
+
+        # Rule 13: avoid consecutive night shifts unless 96h apart
+        consec_night_cost = _mo.build_consecutive_night_shift_avoidance_cost(model, assigned, shifts, num_shifts, num_workers)
+
         # Deterministic final tie-break
         tiebreak_cost = _mo.build_tiebreak_cost(model, assigned, num_workers, num_shifts, workers)
 
@@ -600,6 +626,8 @@ def generate_schedule(
             ("rule4_consec_weekend", consec_weekend_cost),
             ("rule5_m2_priority", m2_cost),
             ("rule11_consec48", consec48_cost),
+            ("rule12_night_interval", night_interval_cost),
+            ("rule13_consec_night", consec_night_cost),
             ("fairness_load_equity", fairness_cost),
             ("tiebreak", tiebreak_cost),
         ]
@@ -635,6 +663,10 @@ def generate_schedule(
         obj = _add_dow_equity_objective(model, obj, dow_equity_weight, past_stats, current_dow, workers, num_workers)
         obj = _add_consec_shifts_48h_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[10], assigned, shifts, num_shifts,
                                                num_workers)
+        obj = _add_night_shift_min_interval_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[11], assigned, shifts, num_shifts,
+                                                       num_workers)
+        obj = _add_consecutive_night_shift_avoidance_objective(model, obj, OBJECTIVE_FLEX_WEIGHTS[12], assigned, shifts,
+                                                                num_shifts, num_workers)
         obj = _add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, workers)
         model.Minimize(obj)
         schedule, weekly, assignments, stats, current_stats_computed = _solve_and_extract_results(
