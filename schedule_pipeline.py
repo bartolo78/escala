@@ -18,6 +18,9 @@ from typing import TYPE_CHECKING
 from ortools.sat.python import cp_model
 
 from constants import EQUITY_STATS, SHIFT_TYPES, SOLVER_TIMEOUT_SECONDS
+from logger import get_logger
+
+_pipeline_logger = get_logger('schedule_pipeline')
 from history_view import HistoryView
 
 if TYPE_CHECKING:
@@ -202,6 +205,9 @@ def merge_excluded_weeks_into_results(schedule, weekly, assignments, excluded_we
     """Integrate prior assignments for ISO weeks that were excluded from optimization."""
 
     history_by_date = HistoryView(history).assignments_by_date()
+    
+    _pipeline_logger.info(f"Merging excluded weeks {sorted(excluded_week_keys)} for month {selected_month}")
+    _pipeline_logger.info(f"History has {len(history_by_date)} dates with assignments")
 
     for d in all_days:
         iso_key = d.isocalendar()[:2]

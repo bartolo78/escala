@@ -2,13 +2,50 @@
 
 import pytest
 from datetime import date, timedelta
-from scheduling_engine import generate_schedule
+from scheduling_engine import generate_schedule, _setup_holidays_and_days
 from utils import compute_holidays
 import calendar
 
 
 class TestThreeDayWeekendTransition:
     """Tests for three-day weekend handling in transition weeks between months."""
+
+    def test_march_2026_has_no_holidays(self):
+        """March 2026 should have no holidays (key edge case for bug)."""
+        holidays = compute_holidays(2026, 3)
+        assert holidays == [], f"Expected no holidays for March 2026, got {holidays}"
+    
+    def test_april_2026_has_good_friday(self):
+        """April 2026 should include Good Friday (April 3)."""
+        holidays = compute_holidays(2026, 4)
+        assert 3 in holidays, f"Expected April 3 (Good Friday) in holidays, got {holidays}"
+
+    def test_empty_holidays_list_triggers_auto_extend(self):
+        """Empty holidays list should still trigger auto-extension.
+        
+        This tests the critical bug fix: when a month has no holidays (like March 2026),
+        passing an empty list should still trigger holiday auto-extension to include
+        holidays from adjacent months in the scheduling window.
+        """
+        # Call _setup_holidays_and_days with empty list (simulating March 2026)
+        holiday_set, days = _setup_holidays_and_days(2026, 3, holidays=[])
+        
+        # April 3 (Good Friday) should be in the holiday_set due to auto-extension
+        good_friday = date(2026, 4, 3)
+        assert good_friday in holiday_set, (
+            f"Good Friday {good_friday} should be auto-extended into holiday_set. "
+            f"Holiday set: {sorted(holiday_set)}"
+        )
+        
+    def test_none_holidays_triggers_auto_extend(self):
+        """None holidays should trigger auto-extension."""
+        holiday_set, days = _setup_holidays_and_days(2026, 3, holidays=None)
+        
+        good_friday = date(2026, 4, 3)
+        assert good_friday in holiday_set, (
+            f"Good Friday {good_friday} should be auto-extended. "
+            f"Holiday set: {sorted(holiday_set)}"
+        )
 
     def test_holiday_set_extended_for_transition_week(self):
         """Holiday set should include holidays from adjacent months in scheduling window."""
