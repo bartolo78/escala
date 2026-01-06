@@ -718,3 +718,919 @@
 2026-01-06 09:41:33 - escala.logic - INFO - Objective value: 553576.00
 2026-01-06 09:41:33 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 3
 2026-01-06 09:41:33 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:49:36 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:49:36 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:36 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:36 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:49:36 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:36 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:49:36 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:49:36 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:49:37 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:49:40 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:49:40 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:49:41 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:49:41 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:49:42 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:49:42 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:49:51 - escala.logic - INFO - Stage rule7_fairness_equity: value=542524
+2026-01-06 09:49:59 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.09s, branches=137813, conflicts=1
+2026-01-06 09:49:59 - escala.logic - INFO - Objective value: 542524.00
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:49:59 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:49:59 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-06 09:49:59 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-06 09:49:59 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2026, 1), (2026, 2), (2026, 3)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-03: []
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-06 09:49:59 - escala.model_objectives - INFO - Three-day weekend detected in week (2026, 2): 2026-01-09 (Fri) to 2026-01-11 (Sun)
+2026-01-06 09:49:59 - escala.model_objectives - INFO - Three-day period 2026-01-09 to 2026-01-11 has 3 shifts
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 9), (2025, 10), (2025, 11)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-09: []
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-10: [5]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-11: [1]
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2025, 10, 5), datetime.date(2025, 11, 1)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 2025-10: scheduled_weeks=[(2025, 40)], overlap_week_keys=[(2025, 40), (2025, 41), (2025, 42), (2025, 43), (2025, 44)], excluded=[(2025, 40)]
+2026-01-06 09:49:59 - escala.logic - INFO - Days to optimize after exclusion: 2025-10-06 to 2025-11-02 (28 days)
+2026-01-06 09:49:59 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:49:59 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - Merging excluded weeks [(2025, 40)] for month 10
+2026-01-06 09:49:59 - escala.schedule_pipeline - INFO - History has 1 dates with assignments
+2026-01-06 09:49:59 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:49:59 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:49:59 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:49:59 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:49:59 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:50:00 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:50:03 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:50:03 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:50:04 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:50:04 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:50:05 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:50:06 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:50:14 - escala.logic - INFO - Stage rule7_fairness_equity: value=541991
+2026-01-06 09:50:22 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.06s, branches=121196, conflicts=3
+2026-01-06 09:50:22 - escala.logic - INFO - Objective value: 541991.00
+2026-01-06 09:50:22 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:50:22 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:50:22 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:50:22 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:50:22 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:50:22 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:50:22 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:50:22 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:50:22 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:50:22 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:50:22 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:50:26 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:50:26 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:50:26 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:50:27 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:50:28 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:50:28 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:50:36 - escala.logic - INFO - Stage rule7_fairness_equity: value=541994
+2026-01-06 09:50:44 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.08s, branches=121188, conflicts=0
+2026-01-06 09:50:44 - escala.logic - INFO - Objective value: 541994.00
+2026-01-06 09:50:44 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:50:44 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:50:44 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:50:44 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:50:44 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:50:44 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:50:44 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:50:44 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:50:44 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:50:44 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:50:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:50:48 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:50:49 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:50:49 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:50:49 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:50:50 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:50:51 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:50:59 - escala.logic - INFO - Stage rule7_fairness_equity: value=542580
+2026-01-06 09:51:07 - escala.logic - INFO - Stage rule8_m2_priority: value=1
+2026-01-06 09:51:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.08s, branches=33957, conflicts=283
+2026-01-06 09:51:15 - escala.logic - INFO - Objective value: 1.00
+2026-01-06 09:51:15 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:51:15 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:51:15 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:51:15 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:51:15 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:51:15 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:51:15 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:51:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:51:15 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:51:15 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:51:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:51:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:51:19 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:51:19 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:51:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:51:21 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:51:21 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:51:29 - escala.logic - INFO - Stage rule7_fairness_equity: value=541998
+2026-01-06 09:51:37 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.12s, branches=55380, conflicts=9
+2026-01-06 09:51:37 - escala.logic - INFO - Objective value: 541998.00
+2026-01-06 09:51:37 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:51:37 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:51:37 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:51:37 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:51:37 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:51:37 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:51:37 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:51:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:51:37 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:51:37 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:51:38 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:51:41 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:51:42 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:51:42 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:51:42 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:51:43 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:51:44 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:51:52 - escala.logic - INFO - Stage rule7_fairness_equity: value=542950
+2026-01-06 09:52:00 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.06s, branches=121189, conflicts=0
+2026-01-06 09:52:00 - escala.logic - INFO - Objective value: 542950.00
+2026-01-06 09:52:00 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:52:00 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:52:00 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:52:00 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:52:00 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:52:00 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:52:00 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:52:00 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:52:00 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:52:00 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:52:01 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:52:04 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:52:04 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:52:05 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:52:05 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:52:06 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:52:06 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:52:14 - escala.logic - INFO - Stage rule7_fairness_equity: value=542965
+2026-01-06 09:52:22 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.07s, branches=129386, conflicts=0
+2026-01-06 09:52:22 - escala.logic - INFO - Objective value: 542965.00
+2026-01-06 09:52:22 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:52:22 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:52:22 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:52:22 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:52:22 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:52:22 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:52:22 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:52:22 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:52:22 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:52:22 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:52:23 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:52:26 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:52:27 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:52:27 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:52:27 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:52:28 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:52:29 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:52:37 - escala.logic - INFO - Stage rule7_fairness_equity: value=542461
+2026-01-06 09:52:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.09s, branches=129386, conflicts=0
+2026-01-06 09:52:45 - escala.logic - INFO - Objective value: 542461.00
+2026-01-06 09:52:45 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:52:45 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:52:45 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:52:45 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:52:45 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:52:45 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:52:45 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:52:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:52:45 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:52:45 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:52:46 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:52:49 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:52:49 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:52:50 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:52:50 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:52:51 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:52:52 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:53:00 - escala.logic - INFO - Stage rule7_fairness_equity: value=542954
+2026-01-06 09:53:08 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.99s, branches=121191, conflicts=0
+2026-01-06 09:53:08 - escala.logic - INFO - Objective value: 542954.00
+2026-01-06 09:53:08 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:53:08 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:53:08 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:53:08 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:53:08 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:53:08 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:53:08 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:53:08 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:53:08 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:53:08 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:53:08 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:53:11 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:53:12 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:53:12 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:53:12 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:53:14 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:53:14 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:53:22 - escala.logic - INFO - Stage rule7_fairness_equity: value=543001
+2026-01-06 09:53:30 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.10s, branches=126786, conflicts=0
+2026-01-06 09:53:30 - escala.logic - INFO - Objective value: 543001.00
+2026-01-06 09:53:30 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:53:30 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:53:30 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:53:30 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:53:30 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:53:30 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:53:30 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:53:30 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:53:30 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:53:30 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:53:31 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:53:34 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:53:34 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:53:35 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:53:35 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:53:36 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:53:37 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:53:45 - escala.logic - INFO - Stage rule7_fairness_equity: value=542473
+2026-01-06 09:53:53 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.07s, branches=121185, conflicts=0
+2026-01-06 09:53:53 - escala.logic - INFO - Objective value: 542473.00
+2026-01-06 09:53:53 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:53:53 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:53:53 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:53:53 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:53:53 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:53:53 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:53:53 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:53:53 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:53:53 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:53:53 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:53:53 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:53:57 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:53:57 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:53:57 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:53:58 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:53:59 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:53:59 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:54:07 - escala.logic - INFO - Stage rule7_fairness_equity: value=549477
+2026-01-06 09:54:14 - escala.logic - INFO - Stage rule8_m2_priority: value=1
+2026-01-06 09:54:23 - escala.logic - INFO - Stage tiebreak: value=659
+2026-01-06 09:54:23 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=9.67s, branches=53835, conflicts=218
+2026-01-06 09:54:23 - escala.logic - INFO - Objective value: 659.00
+2026-01-06 09:54:23 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:54:23 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:54:23 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:54:23 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:54:23 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:54:23 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:54:23 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:54:23 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:54:23 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:54:23 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:54:24 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:54:27 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:54:28 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:54:28 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:54:28 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:54:29 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:54:30 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:54:38 - escala.logic - INFO - Stage rule7_fairness_equity: value=542484
+2026-01-06 09:54:46 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.05s, branches=121191, conflicts=0
+2026-01-06 09:54:46 - escala.logic - INFO - Objective value: 542484.00
+2026-01-06 09:54:46 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:54:46 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:54:46 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:54:46 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:54:46 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:54:46 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:54:46 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:54:46 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:54:46 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:54:46 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:54:46 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:54:50 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:54:50 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:54:50 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:54:51 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:54:52 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:54:52 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:55:00 - escala.logic - INFO - Stage rule7_fairness_equity: value=542461
+2026-01-06 09:55:08 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.07s, branches=121191, conflicts=0
+2026-01-06 09:55:08 - escala.logic - INFO - Objective value: 542461.00
+2026-01-06 09:55:08 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:55:08 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:55:08 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:55:08 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:55:08 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:55:08 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:55:08 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:55:08 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:55:08 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:55:08 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:55:09 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:55:12 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:55:13 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:55:13 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:55:13 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:55:15 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:55:15 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:55:23 - escala.logic - INFO - Stage rule7_fairness_equity: value=542947
+2026-01-06 09:55:31 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.00s, branches=121191, conflicts=0
+2026-01-06 09:55:31 - escala.logic - INFO - Objective value: 542947.00
+2026-01-06 09:55:31 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:55:31 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:31 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 09:55:31 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:55:31 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:55:31 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:55:31 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:55:31 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:55:31 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:55:31 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:55:31 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:55:32 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:55:35 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:55:35 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:55:36 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:55:36 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:55:37 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:55:38 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:55:46 - escala.logic - INFO - Stage rule7_fairness_equity: value=542485
+2026-01-06 09:55:54 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.06s, branches=121185, conflicts=0
+2026-01-06 09:55:54 - escala.logic - INFO - Objective value: 542485.00
+2026-01-06 09:55:54 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:55:54 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:55:54 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 09:55:54 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:55:54 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 09:55:54 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:55:54 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:55:54 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:55:54 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:55:54 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:55:54 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:55:54 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:55:54 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:55:54 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:55:58 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:55:58 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:55:58 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:55:59 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:56:00 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:56:00 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 09:56:08 - escala.logic - INFO - Stage rule7_fairness_equity: value=542967
+2026-01-06 09:56:16 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.02s, branches=124404, conflicts=0
+2026-01-06 09:56:16 - escala.logic - INFO - Objective value: 542967.00
+2026-01-06 09:56:16 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 09:56:16 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 09:56:16 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 09:56:16 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 09:56:16 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 09:56:16 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 09:56:16 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 09:56:16 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 09:56:16 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 09:56:16 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 09:56:16 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 09:56:16 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 09:56:16 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 09:56:17 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 09:56:20 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 09:56:21 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 09:56:21 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 09:56:21 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 09:56:22 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 09:56:23 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:00:35 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:00:35 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:35 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:35 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:00:35 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:35 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:00:35 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:00:35 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:00:36 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:00:39 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:00:39 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:00:39 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:00:40 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:00:41 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:00:41 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:00:42 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:00:50 - escala.logic - INFO - Stage rule8_fairness_equity: value=542945
+2026-01-06 10:00:58 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.90s, branches=72787, conflicts=9
+2026-01-06 10:00:58 - escala.logic - INFO - Objective value: 542945.00
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:00:58 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:00:58 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-05
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-05
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-05
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-06
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-06
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-06
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-07
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-07
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-07
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-08
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-08
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-08
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-09
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-09
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-09
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-10
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-10
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-10
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M1 shift on 2026-01-11
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for M2 shift on 2026-01-11
+2026-01-06 10:00:58 - escala.logic - ERROR - [ERROR] coverage: No workers available for N shift on 2026-01-11
+2026-01-06 10:00:58 - escala.logic - WARNING - [WARNING] night_coverage: Only 2 workers can work nights (recommended: at least 3)
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2026, 1), (2026, 2), (2026, 3)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-03: []
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02
+2026-01-06 10:00:58 - escala.model_objectives - INFO - Three-day weekend detected in week (2026, 2): 2026-01-09 (Fri) to 2026-01-11 (Sun)
+2026-01-06 10:00:58 - escala.model_objectives - INFO - Three-day period 2026-01-09 to 2026-01-11 has 3 shifts
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 9), (2025, 10), (2025, 11)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-09: []
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-10: [5]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-11: [1]
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2025, 10, 5), datetime.date(2025, 11, 1)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2025-09-29 to 2025-11-02 for 2025-10
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 2025-10: scheduled_weeks=[(2025, 40)], overlap_week_keys=[(2025, 40), (2025, 41), (2025, 42), (2025, 43), (2025, 44)], excluded=[(2025, 40)]
+2026-01-06 10:00:58 - escala.logic - INFO - Days to optimize after exclusion: 2025-10-06 to 2025-11-02 (28 days)
+2026-01-06 10:00:58 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:00:58 - escala.logic - INFO - Relaxation test: removing '24h_rest_interval' makes model feasible
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - Merging excluded weeks [(2025, 40)] for month 10
+2026-01-06 10:00:58 - escala.schedule_pipeline - INFO - History has 1 dates with assignments
+2026-01-06 10:00:58 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:00:58 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:00:58 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:00:58 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:00:58 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:00:59 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:01:02 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:01:02 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:01:03 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:01:03 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:01:04 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:01:05 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:01:05 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:01:13 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:01:21 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.91s, branches=64474, conflicts=5
+2026-01-06 10:01:21 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:01:21 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:01:21 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:01:21 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:01:21 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:01:21 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:01:21 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:01:21 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:01:21 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:01:21 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:01:21 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:01:22 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:01:25 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:01:25 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:01:26 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:01:26 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:01:27 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:01:28 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:01:28 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:01:36 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:01:44 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.91s, branches=64482, conflicts=5
+2026-01-06 10:01:44 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:01:44 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:01:44 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:01:44 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:01:44 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:01:44 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:01:44 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:01:44 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:01:44 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:01:44 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:01:44 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:01:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:01:48 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:01:48 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:01:49 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:01:49 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:01:50 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:01:51 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:01:51 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:01:59 - escala.logic - INFO - Stage rule8_fairness_equity: value=542457
+2026-01-06 10:02:07 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.86s, branches=113430, conflicts=0
+2026-01-06 10:02:07 - escala.logic - INFO - Objective value: 542457.00
+2026-01-06 10:02:07 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:02:07 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:02:07 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:02:07 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:02:07 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:02:07 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:02:07 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:02:07 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:02:07 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:02:07 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:02:08 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:02:11 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:02:11 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:02:11 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:02:12 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:02:13 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:02:13 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:02:14 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:02:22 - escala.logic - INFO - Stage rule8_fairness_equity: value=542433
+2026-01-06 10:02:30 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.96s, branches=47786, conflicts=21
+2026-01-06 10:02:30 - escala.logic - INFO - Objective value: 542433.00
+2026-01-06 10:02:30 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:02:30 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:02:30 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:02:30 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:02:30 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:02:30 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:02:30 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:02:30 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:02:30 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:02:30 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:02:30 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:02:33 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:02:34 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:02:34 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:02:35 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:02:36 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:02:36 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:02:37 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:02:45 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:02:52 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.93s, branches=64479, conflicts=5
+2026-01-06 10:02:52 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:02:52 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:02:52 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:02:52 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:02:52 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:02:52 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:02:52 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:02:52 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:02:52 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:02:52 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:02:52 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:02:53 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:02:56 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:02:57 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:02:57 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:02:57 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:02:58 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:02:59 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:02:59 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:03:07 - escala.logic - INFO - Stage rule8_fairness_equity: value=542505
+2026-01-06 10:03:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.93s, branches=64477, conflicts=5
+2026-01-06 10:03:15 - escala.logic - INFO - Objective value: 542505.00
+2026-01-06 10:03:15 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:03:15 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:03:15 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:03:15 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:03:15 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:03:15 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:03:15 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:03:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:03:15 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:03:15 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:03:16 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:03:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:03:19 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:03:20 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:03:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:03:21 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:03:22 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:03:22 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:03:30 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:03:38 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.88s, branches=64478, conflicts=5
+2026-01-06 10:03:38 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:03:38 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:03:38 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:03:38 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:03:38 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:03:38 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:03:38 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:03:38 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:03:38 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:03:38 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:03:38 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:03:39 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:03:42 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:03:42 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:03:43 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:03:43 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:03:44 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:03:45 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:03:45 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:03:53 - escala.logic - INFO - Stage rule8_fairness_equity: value=542465
+2026-01-06 10:04:01 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.89s, branches=64480, conflicts=5
+2026-01-06 10:04:01 - escala.logic - INFO - Objective value: 542465.00
+2026-01-06 10:04:01 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:04:01 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:04:01 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:04:01 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:04:01 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:04:01 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:04:01 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:04:01 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:04:01 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:04:01 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:04:02 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:04:05 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:04:05 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:04:06 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:04:06 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:04:07 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:04:08 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:04:08 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:04:16 - escala.logic - INFO - Stage rule8_fairness_equity: value=542498
+2026-01-06 10:04:24 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.86s, branches=64478, conflicts=5
+2026-01-06 10:04:24 - escala.logic - INFO - Objective value: 542498.00
+2026-01-06 10:04:24 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:04:24 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:04:24 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:04:24 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:04:24 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:04:24 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:04:24 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:04:24 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:04:24 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:04:24 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:04:25 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:04:28 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:04:28 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:04:29 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:04:29 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:04:30 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:04:30 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:04:31 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:04:39 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:04:47 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.90s, branches=64479, conflicts=5
+2026-01-06 10:04:47 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:04:47 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:04:47 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:04:47 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:04:47 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:04:47 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:04:47 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:04:47 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:04:47 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:04:47 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:04:47 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:04:48 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:04:51 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:04:51 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:04:51 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:04:52 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:04:53 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:04:53 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:04:54 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:05:02 - escala.logic - INFO - Stage rule8_fairness_equity: value=543037
+2026-01-06 10:05:10 - escala.logic - INFO - Stage rule9_m2_priority: value=4
+2026-01-06 10:05:18 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.86s, branches=23745, conflicts=197
+2026-01-06 10:05:18 - escala.logic - INFO - Objective value: 4.00
+2026-01-06 10:05:18 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:05:18 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:05:18 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:05:18 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:05:18 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:05:18 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:05:18 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:05:18 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:05:18 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:05:18 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:05:19 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:05:22 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:05:22 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:05:22 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:05:23 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:05:24 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:05:24 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:05:25 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:05:33 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:05:41 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.90s, branches=64480, conflicts=5
+2026-01-06 10:05:41 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:05:41 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:05:41 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:05:41 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:05:41 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:05:41 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:05:41 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:05:41 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:05:41 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:05:41 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:05:41 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:05:41 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:05:45 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:05:45 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:05:45 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:05:46 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:05:47 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:05:47 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:05:48 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:05:56 - escala.logic - INFO - Stage rule8_fairness_equity: value=542485
+2026-01-06 10:06:04 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.93s, branches=64479, conflicts=5
+2026-01-06 10:06:04 - escala.logic - INFO - Objective value: 542485.00
+2026-01-06 10:06:04 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:06:04 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:06:04 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:06:04 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:06:04 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:06:04 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:06:04 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:06:04 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:06:04 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:06:04 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:06:04 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:06:07 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:06:08 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:06:08 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:06:09 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:06:10 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:06:10 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:06:11 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:06:19 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:06:27 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.86s, branches=64482, conflicts=5
+2026-01-06 10:06:27 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:06:27 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:06:27 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:06:27 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:06:27 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:06:27 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:06:27 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:06:27 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:06:27 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:06:27 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:06:27 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:06:27 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:06:28 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:06:31 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:06:31 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:06:32 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:06:32 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:06:34 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:06:34 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:06:35 - escala.logic - INFO - Stage rule7_consec_night: value=0

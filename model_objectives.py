@@ -403,40 +403,61 @@ def build_night_shift_min_interval_cost(model, assigned, shifts, num_shifts, num
 
 
 def build_consecutive_night_shift_avoidance_cost(model, assigned, shifts, num_shifts, num_workers):
-    """Return IntVar penalizing consecutive night shifts unless 96h apart.
+    """Return IntVar penalizing night-to-night sequences.
     
-    This implements Flexible Rule 13: avoid 2 night shifts in a row, unless
-    the begin of one shift and the begin of the next are separated by at least
-    NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS (96h).
+    This implements Flexible Rule 7: When a worker is assigned a night shift,
+    avoid having their next assigned shift also be a night shift. The goal is
+    to prevent workers from doing consecutive night shifts without a day shift
+    in between.
     
-    "Consecutive" means back-to-back nights (day N and day N+1). The penalty
-    is applied unless the start times are at least 96h apart.
+    The penalty is reduced (not applied) if the start times are separated by
+    at least NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS (96h), allowing longer rest
+    periods to partially compensate.
+    
+    Note: This checks ALL pairs of night shifts for a worker. If both are
+    assigned AND there's no intervening shift, it's penalized.
     """
     terms = []
+    
     night_shift_indices = [i for i in range(num_shifts) if shifts[i].get("night", False)]
+    all_shift_indices_sorted = sorted(range(num_shifts), key=lambda s: shifts[s]["start"])
     
     for w in range(num_workers):
+        # For each pair of night shifts, check if they could be consecutive assignments
         for idx_i, i in enumerate(night_shift_indices):
             for j in night_shift_indices[idx_i + 1:]:
                 si = shifts[i]
                 sj = shifts[j]
                 
-                # Check if these are consecutive nights (1 day apart)
-                day_i = si["day"]
-                day_j = sj["day"]
-                days_apart = abs((day_j - day_i).days)
-                
-                if days_apart != 1:
-                    continue  # Not consecutive nights
-                
-                # Calculate hours between start times
+                # Find shifts between i and j (by time)
                 start_i = si["start"]
                 start_j = sj["start"]
-                delta_hours = abs((start_j - start_i).total_seconds()) / 3600
                 
-                # Penalize consecutive nights unless start times are >= 96h apart
-                # (which would happen in special scheduling scenarios like 3-day weekends)
-                if delta_hours < NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS:
+                # Only penalize if < 96h apart
+                delta_hours = abs((start_j - start_i).total_seconds()) / 3600
+                if delta_hours >= NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS:
+                    continue
+                
+                # Get indices of shifts that fall between these two night shifts
+                shifts_between = [
+                    s for s in all_shift_indices_sorted
+                    if s != i and s != j and shifts[s]["start"] > start_i and shifts[s]["start"] < start_j
+                ]
+                
+                if shifts_between:
+                    # Create a bool var that is 1 if worker has any shift between i and j
+                    has_shift_between = model.NewBoolVar(f"has_between_w{w}_i{i}_j{j}")
+                    model.Add(sum(assigned[w][s] for s in shifts_between) >= 1).OnlyEnforceIf(has_shift_between)
+                    model.Add(sum(assigned[w][s] for s in shifts_between) == 0).OnlyEnforceIf(has_shift_between.Not())
+                    
+                    # Penalize if: both nights assigned AND no shift between them
+                    violate = model.NewBoolVar(f"consec_night_w{w}_i{i}_j{j}")
+                    # violate = assigned[w][i] AND assigned[w][j] AND NOT has_shift_between
+                    model.AddBoolAnd([assigned[w][i], assigned[w][j], has_shift_between.Not()]).OnlyEnforceIf(violate)
+                    model.AddBoolOr([assigned[w][i].Not(), assigned[w][j].Not(), has_shift_between]).OnlyEnforceIf(violate.Not())
+                    terms.append(violate)
+                else:
+                    # No shifts between, so if both nights are assigned, they're consecutive
                     violate = model.NewBoolVar(f"consec_night_w{w}_i{i}_j{j}")
                     model.Add(violate <= assigned[w][i])
                     model.Add(violate <= assigned[w][j])
@@ -969,12 +990,14 @@ def add_night_shift_min_interval_objective(model, obj, weight_flex, assigned, sh
 
 
 def add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers):
-    """Add penalty for consecutive night shifts unless 96h apart (Flexible Rule 13).
+    """Add penalty for night-to-night sequences (Flexible Rule 7).
     
-    Penalizes having two consecutive nights (day N and day N+1) unless the
-    start times are at least NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS (96h) apart.
+    Penalizes when a worker's next shift after a night shift is also a night shift,
+    with no day shift in between. The penalty is not applied if the start times
+    are at least NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS (96h) apart.
     """
     night_shift_indices = [i for i in range(num_shifts) if shifts[i].get("night", False)]
+    all_shift_indices_sorted = sorted(range(num_shifts), key=lambda s: shifts[s]["start"])
     
     for w in range(num_workers):
         for idx_i, i in enumerate(night_shift_indices):
@@ -982,19 +1005,30 @@ def add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, ass
                 si = shifts[i]
                 sj = shifts[j]
                 
-                # Check if consecutive nights (1 day apart)
-                day_i = si["day"]
-                day_j = sj["day"]
-                days_apart = abs((day_j - day_i).days)
-                
-                if days_apart != 1:
-                    continue
-                
                 start_i = si["start"]
                 start_j = sj["start"]
-                delta_hours = abs((start_j - start_i).total_seconds()) / 3600
                 
-                if delta_hours < NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS:
+                # Only penalize if < 96h apart
+                delta_hours = abs((start_j - start_i).total_seconds()) / 3600
+                if delta_hours >= NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS:
+                    continue
+                
+                # Get indices of shifts that fall between these two night shifts
+                shifts_between = [
+                    s for s in all_shift_indices_sorted
+                    if s != i and s != j and shifts[s]["start"] > start_i and shifts[s]["start"] < start_j
+                ]
+                
+                if shifts_between:
+                    has_shift_between = model.NewBoolVar(f"has_between_obj_w{w}_i{i}_j{j}")
+                    model.Add(sum(assigned[w][s] for s in shifts_between) >= 1).OnlyEnforceIf(has_shift_between)
+                    model.Add(sum(assigned[w][s] for s in shifts_between) == 0).OnlyEnforceIf(has_shift_between.Not())
+                    
+                    violate = model.NewBoolVar(f"consec_night_obj_w{w}_i{i}_j{j}")
+                    model.AddBoolAnd([assigned[w][i], assigned[w][j], has_shift_between.Not()]).OnlyEnforceIf(violate)
+                    model.AddBoolOr([assigned[w][i].Not(), assigned[w][j].Not(), has_shift_between]).OnlyEnforceIf(violate.Not())
+                    obj += weight_flex * violate
+                else:
                     violate = model.NewBoolVar(f"consec_night_obj_w{w}_i{i}_j{j}")
                     model.Add(violate <= assigned[w][i])
                     model.Add(violate <= assigned[w][j])

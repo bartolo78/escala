@@ -431,10 +431,10 @@ def _add_night_shift_min_interval_objective(model, obj, weight_flex, assigned, s
 
 def _add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers):
     """
-    Flexible Rule 13: Consecutive Night Shift Avoidance
-    Avoid scheduling two night shifts in a row (consecutive days) unless the start times
-    are at least 96 hours apart. This helps ensure workers get adequate rest between
-    night shift rotations.
+    Flexible Rule 7: Consecutive Night Shift Avoidance
+    When a worker is assigned a night shift, avoid having their next shift also be
+    a night shift. The goal is to prevent night-to-night sequences without a day
+    shift in between. Penalty is reduced if shifts are 96+ hours apart.
     """
     return _mo.add_consecutive_night_shift_avoidance_objective(model, obj, weight_flex, assigned, shifts, num_shifts, num_workers)
 
