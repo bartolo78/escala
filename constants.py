@@ -55,8 +55,9 @@ EQUITY_STATS = [
 # - Increasing a weight: Makes the schedule fairer for that specific metric but may worsen other aspects like load balancing.
 # - Decreasing a weight: Allows more flexibility in assignments, potentially improving overall feasibility or other objectives, but may lead to unfair distributions.
 EQUITY_WEIGHTS = {
+    # Weights ordered by EQUITY_STATS priority (highest priority = highest weight)
     'sun_holiday_m2': 10000.0,   # Priority 1: Sunday or Holiday M2
-    'sat_n': 9500.0,             # Priority 2: Saturday Night
+    'sat_n': 9500.0,             # Priority 2: Saturday N
     'sat_m2': 9200.0,            # Priority 3: Saturday M2
     'sun_holiday_n': 8300.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
     'sun_holiday_m1': 7600.0,    # Priority 5: Sunday or Holiday M1

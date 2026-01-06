@@ -175,11 +175,11 @@ def _compute_past_stats(history, workers):
     """Compute historical equity stats from history for RULES.md priority order.
     
     Equity Priority Order (highest to lowest):
-      1) Saturday N
-      2) Sunday or Holiday M2
-      3) Sunday or Holiday M1
+      1) Sunday or Holiday M2
+      2) Saturday N
+      3) Saturday M2
       4) Sunday or Holiday N (holidays on Saturday excluded)
-      5) Saturday M2
+      5) Sunday or Holiday M1
       6) Saturday M1
       7) Friday N
       8) Weekday (not Friday) N

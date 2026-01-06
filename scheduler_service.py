@@ -116,11 +116,11 @@ class SchedulerService:
 
     DEFAULT_CONFIG_FILE = "config.yaml"
     DEFAULT_THRESHOLDS = {
-        'sat_n': 2,                 # Priority 1: Saturday Night
-        'sun_holiday_m2': 2,        # Priority 2: Sunday or Holiday M2
-        'sun_holiday_m1': 2,        # Priority 3: Sunday or Holiday M1
-        'sun_holiday_n': 2,         # Priority 4: Sunday or Holiday N
-        'sat_m2': 2,                # Priority 5: Saturday M2
+        'sun_holiday_m2': 2,        # Priority 1: Sunday or Holiday M2
+        'sat_n': 2,                 # Priority 2: Saturday Night
+        'sat_m2': 2,                # Priority 3: Saturday M2
+        'sun_holiday_n': 2,         # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+        'sun_holiday_m1': 2,        # Priority 5: Sunday or Holiday M1
         'sat_m1': 2,                # Priority 6: Saturday M1
         'fri_night': 1,             # Priority 7: Friday N
         'weekday_not_fri_n': 2,     # Priority 8: Weekday (not Friday) N

@@ -1007,10 +1007,11 @@ def add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, worker
     """Add a deterministic, stable tie-break term.
 
     RULES.md requires stable tie-breaks to avoid oscillations across runs.
-    We rank workers by (id, name) and add a tiny penalty proportional to the
-    rank so the solver prefers earlier workers when costs are otherwise equal.
+    We rank workers by (id, name) and add a small integer penalty proportional
+    to the rank so the solver prefers earlier workers when costs are otherwise equal.
 
-    This is intentionally tiny so it should only affect true ties.
+    NOTE: CP-SAT objectives are integer-based, so we use integer weights.
+    The weight is kept small (1 per rank) to only affect true ties.
     """
 
     def _worker_key(worker: dict) -> tuple[str, str]:
@@ -1021,11 +1022,12 @@ def add_tiebreak_objective(model, obj, assigned, num_workers, num_shifts, worker
     order = sorted(range(num_workers), key=lambda i: _worker_key(workers[i]))
     rank_by_index = {idx: rank for rank, idx in enumerate(order)}
 
-    tiebreak_weight = 1e-9
+    # Use integer weight of 1 per rank (CP-SAT requires integer coefficients)
     for w in range(num_workers):
         rank = rank_by_index[w]
         for s in range(num_shifts):
-            obj += tiebreak_weight * rank * assigned[w][s]
+            if rank:
+                obj += rank * assigned[w][s]
     return obj
 
 
