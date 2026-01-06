@@ -624,11 +624,11 @@ def generate_schedule(
             ("rule2_3day_min_workers", three_day_cost),
             ("rule3_weekend_limits", weekend_limits_cost),
             ("rule4_consec_weekend", consec_weekend_cost),
-            ("rule5_m2_priority", m2_cost),
-            ("rule11_consec48", consec48_cost),
-            ("rule12_night_interval", night_interval_cost),
-            ("rule13_consec_night", consec_night_cost),
-            ("fairness_load_equity", fairness_cost),
+            ("rule5_consec48", consec48_cost),
+            ("rule6_night_interval", night_interval_cost),
+            ("rule7_consec_night", consec_night_cost),
+            ("rule8_fairness_equity", fairness_cost),
+            ("rule9_m2_priority", m2_cost),
             ("tiebreak", tiebreak_cost),
         ]
 

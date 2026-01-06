@@ -136,11 +136,11 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
     """Define shift indices for each equity stat category per RULES.md priority order.
     
     Equity Priority Order (highest to lowest):
-      1) Saturday N
-      2) Sunday or Holiday M2
-      3) Sunday or Holiday M1
+      1) Sunday or Holiday M2
+      2) Saturday N
+      3) Saturday M2
       4) Sunday or Holiday N (holidays on Saturday excluded)
-      5) Saturday M2
+      5) Sunday or Holiday M1
       6) Saturday M1
       7) Friday N
       8) Weekday (not Friday) N
