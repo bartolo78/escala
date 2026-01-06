@@ -1835,3 +1835,209 @@
 2026-01-06 10:09:24 - escala.logic - INFO - Objective value: 549562.00
 2026-01-06 10:09:24 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 3
 2026-01-06 10:09:24 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:28 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:42:28 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:42:28 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:42:28 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:42:28 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:42:28 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:42:28 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:42:28 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:42:28 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:42:29 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:42:32 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:42:33 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:42:33 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:42:33 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:42:35 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:42:35 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:42:35 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:42:43 - escala.logic - INFO - Stage rule8_fairness_equity: value=542495
+2026-01-06 10:42:51 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.92s, branches=64479, conflicts=5
+2026-01-06 10:42:51 - escala.logic - INFO - Objective value: 542495.00
+2026-01-06 10:42:51 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:42:51 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:42:51 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:42:51 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:42:51 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:42:51 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:42:51 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:42:51 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:42:51 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:42:51 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:42:51 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:42:51 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:42:51 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:42:52 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:42:55 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:42:56 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:42:56 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:42:56 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:42:57 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:42:58 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:42:58 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:43:06 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:43:14 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.93s, branches=64476, conflicts=5
+2026-01-06 10:43:14 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:43:14 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:43:14 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:43:14 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:43:14 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:43:14 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:43:14 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:43:14 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:43:14 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:43:14 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:43:14 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:43:14 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:43:14 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:43:14 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:43:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:43:18 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:43:18 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:43:19 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:43:19 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:43:20 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:43:21 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:43:21 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:43:29 - escala.logic - INFO - Stage rule8_fairness_equity: value=542501
+2026-01-06 10:43:37 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.94s, branches=64479, conflicts=5
+2026-01-06 10:43:37 - escala.logic - INFO - Objective value: 542501.00
+2026-01-06 10:43:37 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:43:37 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:43:37 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:43:37 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:43:37 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:43:37 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:43:37 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:43:37 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:43:37 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:43:37 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:43:37 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:43:37 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:43:37 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:43:38 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:43:41 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:43:41 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:43:42 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:43:42 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:43:43 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:43:44 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:43:44 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:43:52 - escala.logic - INFO - Stage rule8_fairness_equity: value=542498
+2026-01-06 10:44:00 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.89s, branches=64482, conflicts=5
+2026-01-06 10:44:00 - escala.logic - INFO - Objective value: 542498.00
+2026-01-06 10:44:00 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:44:00 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:44:00 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:44:00 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:00 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:00 - escala.scheduler_service - WARNING - No history to save
+2026-01-06 10:44:00 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:00 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:44:00 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:44:00 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:44:00 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:44:00 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:44:00 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:44:00 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:44:00 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:44:00 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:44:01 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:44:04 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:44:04 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:44:05 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:44:05 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:44:06 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:44:06 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:44:07 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:44:15 - escala.logic - INFO - Stage rule8_fairness_equity: value=542491
+2026-01-06 10:44:23 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.89s, branches=64479, conflicts=5
+2026-01-06 10:44:23 - escala.logic - INFO - Objective value: 542491.00
+2026-01-06 10:44:23 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:44:23 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - History saved to /tmp/tmpgnb2qoeo.json
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - History cleared
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - History loaded from /tmp/tmpgnb2qoeo.json
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:23 - escala.scheduler_service - ERROR - Invalid JSON in /tmp/tmppthbfmu2.json
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:23 - escala.scheduler_service - ERROR - Failed to load history: [Errno 2] No such file or directory: '/nonexistent/file.json'
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:23 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-06 10:44:23 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-06 10:44:23 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-06 10:44:23 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-06 10:44:23 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-06 10:44:23 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-06 10:44:23 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-06 10:44:23 - escala.logic - INFO - Scheduling 2026-01: scheduled_weeks=[], overlap_week_keys=[(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2026, 5)], excluded=[]
+2026-01-06 10:44:23 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-06 10:44:24 - escala.logic - INFO - Starting schedule optimization...
+2026-01-06 10:44:27 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-06 10:44:27 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-06 10:44:27 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-06 10:44:28 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-06 10:44:29 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-06 10:44:29 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-06 10:44:30 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-06 10:44:38 - escala.logic - INFO - Stage rule8_fairness_equity: value=542520
+2026-01-06 10:44:46 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=7.89s, branches=56225, conflicts=5
+2026-01-06 10:44:46 - escala.logic - INFO - Objective value: 542520.00
+2026-01-06 10:44:46 - escala.schedule_pipeline - INFO - Merging excluded weeks [] for month 1
+2026-01-06 10:44:46 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - History cleared
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration loaded from /tmp/tmpw3h39n5b.yaml
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Added worker: TestWorker
+2026-01-06 10:44:46 - escala.scheduler_service - INFO - Configuration saved to /tmp/tmpw3h39n5b.yaml
