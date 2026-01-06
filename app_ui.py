@@ -525,7 +525,6 @@ class ShiftSchedulerApp:
             logger.info(f"Schedule generated successfully with {len(result.assignments)} assignments")
             all_holidays = self.scheduler.get_holidays(year, month)
             self.update_schedule_display(result.schedule, all_holidays)
-            self.check_imbalances()
             self.generate_report()
         else:
             logger.warning(f"Schedule generation failed: {result.error_message}")
@@ -536,12 +535,6 @@ class ShiftSchedulerApp:
                 error_msg += "\n\nDiagnostic Report:\n" + result.diagnostic_report.format_report()[:1000]
             
             messagebox.showerror("Error", error_msg)
-
-    def check_imbalances(self):
-        alerts = self.scheduler.check_imbalances()
-        if alerts:
-            alert_messages = [a.message for a in alerts]
-            messagebox.showwarning("Fairness Alert", "\n".join(alert_messages))
 
     def update_worker_stats(self, event=None):
         worker = self.worker_var.get()
