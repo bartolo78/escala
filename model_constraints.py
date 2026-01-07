@@ -167,7 +167,7 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
 
 def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers):
     import logging
-    logger = logging.getLogger('weekly_participation_debug')
+    logger = logging.getLogger('escala')
     for key in iso_weeks:
         week = iso_weeks[key]
         relevant = []
