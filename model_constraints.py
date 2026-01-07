@@ -186,9 +186,11 @@ def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed
         logger.info(f"  weekday_shifts_for_distribution: {week['weekday_shifts_for_distribution']}")
         logger.info(f"  all shifts: {week['shifts']}")
 
-        for w in relevant:
-            num_shifts_week = sum(assigned[w][s] for s in week["shifts"])
-            model.Add(num_shifts_week >= 1)
+        # Only require >=1 shift per worker if enough shifts exist
+        if total_weekday_shifts >= num_relevant:
+            for w in relevant:
+                num_shifts_week = sum(assigned[w][s] for s in week["shifts"])
+                model.Add(num_shifts_week >= 1)
 
         # Count weekday shifts using distribution list (holidays on Mon-Fri count as weekday shifts)
         num_weekday = [sum(assigned[w][s] for s in week["weekday_shifts_for_distribution"]) for w in range(num_workers)]
