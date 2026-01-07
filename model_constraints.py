@@ -166,6 +166,8 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
 
 
 def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers):
+    import logging
+    logger = logging.getLogger('weekly_participation_debug')
     for key in iso_weeks:
         week = iso_weeks[key]
         relevant = []
@@ -178,6 +180,11 @@ def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed
 
         num_relevant = len(relevant)
         total_weekday_shifts = len(week["weekday_shifts_for_distribution"])
+
+        logger.info(f"WEEK {key}: num_relevant={num_relevant}, total_weekday_shifts={total_weekday_shifts}, relevant_workers={relevant}")
+        logger.info(f"  weekdays_for_distribution: {week['weekdays_for_distribution']}")
+        logger.info(f"  weekday_shifts_for_distribution: {week['weekday_shifts_for_distribution']}")
+        logger.info(f"  all shifts: {week['shifts']}")
 
         for w in relevant:
             num_shifts_week = sum(assigned[w][s] for s in week["shifts"])
@@ -199,7 +206,10 @@ def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed
                 model.Add(num_weekday[ww] <= 1).OnlyEnforceIf(all_have_one.Not())
 
             if total_weekday_shifts >= num_relevant:
+                logger.info(f"  Enforcing all_have_one == 1 for week {key}")
                 model.Add(all_have_one == 1)
+            else:
+                logger.info(f"  NOT enforcing all_have_one == 1 for week {key} (not enough shifts)")
 
     return model
 
