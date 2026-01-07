@@ -232,11 +232,21 @@ def merge_history_into_results(schedule, weekly, assignments, all_days, history,
 
     worker_loads = {w["name"]: w.get("weekly_load", 0) for w in workers}
 
-    for key in excluded_week_keys:
+    # Compute weekly stats for weeks with history assignments in the selected month
+    weeks_with_history = set()
+    for d_str, entries in history_by_date.items():
+        try:
+            d = date.fromisoformat(d_str)
+            if d.month == selected_month:
+                weeks_with_history.add(d.isocalendar()[:2])
+        except ValueError:
+            continue
+
+    for key in weeks_with_history:
         if key not in weekly:
             weekly[key] = {}
 
-        days_in_week = {str(d) for d in iso_week_days.get(key, [])}
+        days_in_week = {str(d) for d in iso_week_days.get(key, []) if d.month == selected_month}
         hours_by_worker = {}
         for d_str in days_in_week:
             for entry in history_by_date.get(d_str, []):
