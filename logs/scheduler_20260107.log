@@ -1,0 +1,9 @@
+2026-01-07 18:43:42 - escala.logic - WARNING - Invalid shift type 'INVALID' in entry '2026-01-15 INVALID'. Valid types: ['M1', 'M2', 'N']
+2026-01-07 18:43:42 - escala.logic - WARNING - Failed to parse entry 'not-a-date': Invalid isoformat string: 'not-a-date'
+2026-01-07 18:43:42 - escala.logic - WARNING - Invalid date range '2026-01-15 to 2026-01-10': end date before start date
+2026-01-07 18:43:42 - escala.logic - WARNING - Skipping invalid assignment (not a dict): not-a-dict
+2026-01-07 18:43:42 - escala.logic - WARNING - Skipping assignment missing required keys: {'worker': 'Test'}
+2026-01-07 18:43:42 - escala.logic - WARNING - Failed to process assignment {'date': 'invalid-date', 'worker': 'Test', 'shift': 'M1'}: Invalid isoformat string: 'invalid-date'
+2026-01-07 18:43:42 - escala.logic - ERROR - No workers provided for scheduling
+2026-01-07 18:43:42 - escala.logic - ERROR - Worker 'Test' missing required key 'can_night'
+2026-01-07 18:43:42 - escala.logic - ERROR - Worker at index 0 is not a dict: not-a-dict

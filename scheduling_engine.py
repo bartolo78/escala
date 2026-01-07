@@ -48,37 +48,72 @@ def is_vacation_week(worker_name: str, week_days: list, unav_parsed: set) -> boo
 def parse_unavail_or_req(unav_list, is_unavail=True):
     unav_set = set()
     for item in unav_list:
-        parts = item.split()
-        if len(parts) == 1:
-            # Single date only (no range, no shift)
-            unav_set.add((date.fromisoformat(item), None))
-        elif len(parts) == 2:
-            # date shift
-            d = date.fromisoformat(parts[0])
-            sh = parts[1]
-            if sh in SHIFT_TYPES:
-                unav_set.add((d, sh))
+        try:
+            parts = item.split()
+            if len(parts) == 1:
+                # Single date only (no range, no shift)
+                unav_set.add((date.fromisoformat(item), None))
+            elif len(parts) == 2:
+                # date shift
+                d = date.fromisoformat(parts[0])
+                sh = parts[1]
+                if sh in SHIFT_TYPES:
+                    unav_set.add((d, sh))
+                else:
+                    # Invalid shift type - log warning
+                    logger.warning(f"Invalid shift type '{sh}' in entry '{item}'. Valid types: {SHIFT_TYPES}")
+            elif len(parts) == 3 and parts[1] == 'to':
+                # Date range: "YYYY-MM-DD to YYYY-MM-DD"
+                start_d = date.fromisoformat(parts[0])
+                end_d = date.fromisoformat(parts[2])
+                if end_d < start_d:
+                    logger.warning(f"Invalid date range '{item}': end date before start date")
+                    continue
+                d = start_d
+                while d <= end_d:
+                    unav_set.add((d, None))
+                    d += timedelta(days=1)
             else:
-                # Invalid, ignore
-                pass
-        elif len(parts) == 3 and parts[1] == 'to':
-            # Date range: "YYYY-MM-DD to YYYY-MM-DD"
-            start_d = date.fromisoformat(parts[0])
-            end_d = date.fromisoformat(parts[2])
-            d = start_d
-            while d <= end_d:
-                unav_set.add((d, None))
-                d += timedelta(days=1)
+                logger.warning(f"Invalid entry format '{item}'. Expected: 'YYYY-MM-DD', 'YYYY-MM-DD SHIFT', or 'YYYY-MM-DD to YYYY-MM-DD'")
+        except (ValueError, IndexError) as e:
+            logger.warning(f"Failed to parse entry '{item}': {e}")
+            continue
     return unav_set
 
 def update_history(assignments, history):
+    """Update history with new assignments, validating data structure.
+    
+    Args:
+        assignments: List of assignment dicts with 'date', 'worker', 'shift' keys
+        history: Dict mapping worker_name -> month_key -> list of assignments
+    
+    Returns:
+        Updated history dict
+    """
+    if not isinstance(assignments, list):
+        logger.error(f"Invalid assignments type: {type(assignments)}. Expected list.")
+        return history
+    
     ass_by_month = {}
     for ass in assignments:
-        day = date.fromisoformat(ass['date'])
-        m_y = day.strftime('%Y-%m')
-        if m_y not in ass_by_month:
-            ass_by_month[m_y] = []
-        ass_by_month[m_y].append(ass)
+        # Validate assignment structure
+        if not isinstance(ass, dict):
+            logger.warning(f"Skipping invalid assignment (not a dict): {ass}")
+            continue
+        if 'date' not in ass or 'worker' not in ass:
+            logger.warning(f"Skipping assignment missing required keys: {ass}")
+            continue
+        
+        try:
+            day = date.fromisoformat(ass['date'])
+            m_y = day.strftime('%Y-%m')
+            if m_y not in ass_by_month:
+                ass_by_month[m_y] = []
+            ass_by_month[m_y].append(ass)
+        except (ValueError, TypeError, AttributeError) as e:
+            logger.warning(f"Failed to process assignment {ass}: {e}")
+            continue
+    
     for m_y in ass_by_month:
         for ass in ass_by_month[m_y]:
             w_name = ass['worker']
@@ -231,8 +266,11 @@ def _compute_past_stats(history, workers):
         is_weekday_holiday = is_holiday and is_weekday
         is_saturday_holiday = is_holiday and is_saturday
         
-        # Track day-of-week
-        past_stats[worker_name]['dow'][wd] += 1
+        # Track day-of-week (with bounds check)
+        if 0 <= wd <= 6:
+            past_stats[worker_name]['dow'][wd] += 1
+        else:
+            logger.warning(f"Invalid weekday value {wd} for date {day}")
         
         # Priority 1: Saturday N (includes Saturday holidays - N on Sat holiday counts as Sat N)
         if is_saturday and is_night:
@@ -315,17 +353,22 @@ def compute_automatic_equity_credits(unavail_data: dict, workers: list, year: in
             if len(parts) == 1:
                 try:
                     unav_dates.add(date.fromisoformat(item))
-                except ValueError:
+                except ValueError as e:
+                    logger.warning(f"Invalid date format in unavailability for {w_name}: '{item}' - {e}")
                     continue
             elif len(parts) == 3 and parts[1] == 'to':
                 try:
                     start_d = date.fromisoformat(parts[0])
                     end_d = date.fromisoformat(parts[2])
+                    if end_d < start_d:
+                        logger.warning(f"Invalid date range for {w_name}: end date before start date in '{item}'")
+                        continue
                     d = start_d
                     while d <= end_d:
                         unav_dates.add(d)
                         d += timedelta(days=1)
-                except ValueError:
+                except ValueError as e:
+                    logger.warning(f"Invalid date format in range for {w_name}: '{item}' - {e}")
                     continue
         
         if not unav_dates:
@@ -509,6 +552,22 @@ def generate_schedule(
     lexicographic: bool = True,
     equity_credits: dict | None = None,
 ):
+    # Validate inputs
+    if not workers:
+        logger.error("No workers provided for scheduling")
+        return {}, {}, [], {"error": "No workers provided"}, {}
+    
+    # Validate worker structure
+    required_keys = ['name', 'can_night']
+    for i, worker in enumerate(workers):
+        if not isinstance(worker, dict):
+            logger.error(f"Worker at index {i} is not a dict: {worker}")
+            return {}, {}, [], {"error": f"Invalid worker structure at index {i}"}, {}
+        for key in required_keys:
+            if key not in worker:
+                logger.error(f"Worker '{worker.get('name', f'index {i}')}' missing required key '{key}'")
+                return {}, {}, [], {"error": f"Worker missing '{key}' key"}, {}
+    
     if equity_weights is None:
         equity_weights = EQUITY_WEIGHTS
     if dow_equity_weight is None:

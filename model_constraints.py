@@ -48,6 +48,10 @@ def add_basic_constraints(model, assigned, num_workers, num_shifts, shifts_by_da
 
 
 def add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shifts_by_day, shifts, num_workers):
+    """Add unavailability and required shift constraints with validation."""
+    from logger import get_logger
+    logger = get_logger('constraints')
+    
     for w in range(num_workers):
         for d, sh in unav_parsed[w]:
             if sh is None:
@@ -56,10 +60,14 @@ def add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shifts
                         model.Add(assigned[w][s] == 0)
             else:
                 if d in shifts_by_day:
+                    shift_found = False
                     for s in shifts_by_day[d]:
                         if shifts[s]["type"] == sh:
                             model.Add(assigned[w][s] == 0)
+                            shift_found = True
                             break
+                    if not shift_found:
+                        logger.warning(f"No shift of type '{sh}' found on {d} for unavailability constraint")
 
         for d, sh in req_parsed[w]:
             if sh is None:
@@ -67,10 +75,14 @@ def add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shifts
                     model.Add(sum(assigned[w][s] for s in shifts_by_day[d]) >= 1)
             else:
                 if d in shifts_by_day:
+                    shift_found = False
                     for s in shifts_by_day[d]:
                         if shifts[s]["type"] == sh:
                             model.Add(assigned[w][s] == 1)
+                            shift_found = True
                             break
+                    if not shift_found:
+                        logger.warning(f"No shift of type '{sh}' found on {d} for required constraint (worker {w})")
 
     return model
 
