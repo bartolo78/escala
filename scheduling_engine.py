@@ -545,7 +545,12 @@ def generate_schedule(
 
     # Filter days to schedule: exclude all days in previously scheduled ISO weeks
     days = [d for d in all_days if d.isocalendar()[:2] not in excluded_week_keys]
-    logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
+    if days:
+        logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
+    else:
+        logger.info("No days to optimize after exclusion")
+        # Return empty results if no days to schedule
+        return {}, {}, {}, {}, {}
 
     # Proceed with model only for unscheduled weeks/days
     shifts, num_shifts = _create_shifts(days)
