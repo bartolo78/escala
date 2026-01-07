@@ -533,18 +533,18 @@ def generate_schedule(
     # Build full visualization window (all days from first Monday to last Sunday around month)
     holiday_set, all_days = _setup_holidays_and_days(year, month, holidays)
 
-    # Determine which ISO weeks within the visualization window are already scheduled
-    scheduled_weeks = get_scheduled_iso_weeks(history)
-    overlap_week_keys = set()
-    for d in all_days:
-        iso = d.isocalendar()
-        overlap_week_keys.add((iso[0], iso[1]))
-    excluded_week_keys = scheduled_weeks.intersection(overlap_week_keys)
+    # Determine which days within the visualization window are already scheduled
+    scheduled_dates = HistoryView(history).scheduled_dates()
+    overlap_dates = {str(d) for d in all_days}
+    excluded_dates = scheduled_dates.intersection(overlap_dates)
     
-    logger.info(f"Scheduling {year}-{month:02d}: scheduled_weeks={sorted(scheduled_weeks)}, overlap_week_keys={sorted(overlap_week_keys)}, excluded={sorted(excluded_week_keys)}")
+    logger.info(f"Scheduling {year}-{month:02d}: {len(scheduled_dates)} scheduled dates, {len(excluded_dates)} excluded in window")
 
-    # Filter days to schedule: exclude all days in previously scheduled ISO weeks
-    days = [d for d in all_days if d.isocalendar()[:2] not in excluded_week_keys]
+    # Filter days to schedule: exclude all days that have been scheduled
+    days = [d for d in all_days if str(d) not in excluded_dates]
+    if days:
+        logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
+    else:
     if days:
         logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
     else:
@@ -679,15 +679,15 @@ def generate_schedule(
             diagnostic_context=diagnostic_context,
         )
 
-    # Merge previously scheduled (excluded) ISO weeks into results for visualization
-    schedule, weekly, assignments = _merge_excluded_weeks_into_results(
-        schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, month
+    # Merge history for the selected month into results for visualization
+    schedule, weekly, assignments = _merge_history_into_results(
+        schedule, weekly, assignments, all_days, history, workers, month
     )
 
     return schedule, weekly, assignments, stats, current_stats_computed
 
 
-def _merge_excluded_weeks_into_results(schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, selected_month):
-    return _sp.merge_excluded_weeks_into_results(
-        schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, selected_month
+def _merge_history_into_results(schedule, weekly, assignments, all_days, history, workers, selected_month):
+    return _sp.merge_history_into_results(
+        schedule, weekly, assignments, all_days, history, workers, selected_month
     )
