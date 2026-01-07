@@ -92,6 +92,7 @@ def solve_and_extract_results(
 
     # If staged solving failed before any feasible stage, fall back to an empty result.
     if solver is None or status is None:
+        logger.error("Solver or status is None - no feasible solution found in any stage")
         stats = {
             "wall_time": 0.0,
             "branches": 0,
@@ -99,6 +100,7 @@ def solve_and_extract_results(
             "objective_value": None,
             "status": cp_model.UNKNOWN,
             "diagnostic_report": None,
+            "error": "No feasible solution found in staged optimization"
         }
         if stage_values:
             stats["stage_values"] = stage_values
