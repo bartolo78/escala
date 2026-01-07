@@ -103,9 +103,10 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - *Example:* Night shift on Monday 20:00 → next night shift should be no earlier than Thursday 20:00 (96h later) to fully avoid penalty, or at least after Wednesday 20:00 (48h) to partially reduce the penalty.
 
 7. **Consecutive Night Shift Avoidance:**
-   - Avoid assigning two night shifts on consecutive days (e.g., day N and day N+1) to the same worker, unless the start times are separated by at least 96 hours.
-   - *Clarification:* "Consecutive" means back-to-back nights where the calendar days are exactly 1 day apart. Night shifts that are not on consecutive days are not penalized by this rule (but may still be penalized by the "Night Shift Minimum Interval" rule above).
-   - *Note:* In practice, consecutive night shifts at normal 24h intervals will always be penalized since they are only 24h apart (start-to-start), far less than the 96h threshold. The 96h exception allows for special cases in scheduling algorithms.
+   - When a worker is assigned a night shift, avoid having their next assigned shift also be a night shift. The goal is to prevent "night-to-night" sequences where a worker's shifts alternate between nights without any day shifts in between.
+   - *Clarification:* This rule applies regardless of the number of days between the shifts. If a worker does a night shift on Monday and their next shift is on Thursday, that Thursday shift should preferably NOT be a night shift.
+   - *Penalty Reduction:* The penalty is reduced if the start times of the two consecutive night shifts are separated by at least 96 hours (4 days). This allows for longer rest periods to partially compensate for back-to-back night assignments.
+   - *Example:* Worker does N on Monday (20:00) → next shift on Wednesday should be M1 or M2, not N. If it must be N, having it on Friday (96h+ later) is better than Thursday (72h later).
 
 8. **Shift Equity:**
    - Shifts should be distributed equitably among workers over the year, with different shift types having different equity priority (higher priority = more important to balance first).

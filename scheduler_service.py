@@ -92,15 +92,6 @@ class WorkerStats:
     fri_night: int = 0
 
 
-@dataclass
-class ImbalanceAlert:
-    """Represents an equity imbalance alert."""
-    stat: str
-    imbalance: int
-    threshold: int
-    message: str
-
-
 class SchedulerService:
     """
     Service layer for shift scheduling operations.
@@ -116,11 +107,11 @@ class SchedulerService:
 
     DEFAULT_CONFIG_FILE = "config.yaml"
     DEFAULT_THRESHOLDS = {
-        'sat_n': 2,                 # Priority 1: Saturday Night
-        'sun_holiday_m2': 2,        # Priority 2: Sunday or Holiday M2
-        'sun_holiday_m1': 2,        # Priority 3: Sunday or Holiday M1
-        'sun_holiday_n': 2,         # Priority 4: Sunday or Holiday N
-        'sat_m2': 2,                # Priority 5: Saturday M2
+        'sun_holiday_m2': 2,        # Priority 1: Sunday or Holiday M2
+        'sat_n': 2,                 # Priority 2: Saturday Night
+        'sat_m2': 2,                # Priority 3: Saturday M2
+        'sun_holiday_n': 2,         # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+        'sun_holiday_m1': 2,        # Priority 5: Sunday or Holiday M1
         'sat_m1': 2,                # Priority 6: Saturday M1
         'fri_night': 1,             # Priority 7: Friday N
         'weekday_not_fri_n': 2,     # Priority 8: Weekday (not Friday) N
@@ -634,42 +625,6 @@ class SchedulerService:
                 success=False,
                 error_message=str(e)
             )
-
-    # =========================================================================
-    # Imbalance Detection
-    # =========================================================================
-
-    def check_imbalances(self) -> list[ImbalanceAlert]:
-        """Check for equity imbalances based on thresholds.
-
-        Returns:
-            List of ImbalanceAlert for any stats exceeding thresholds
-        """
-        if not self._current_stats or self._past_stats is None:
-            return []
-
-        alerts = []
-        worker_names = [w.name for w in self._workers]
-
-        for stat in EQUITY_STATS:
-            totals = [
-                self._past_stats[worker_names[i]][stat] + self._current_stats[stat][i]
-                for i in range(len(self._workers))
-            ]
-            imbalance = max(totals) - min(totals) if totals else 0
-            threshold = self._thresholds.get(stat, 5)
-
-            if imbalance > threshold:
-                alert = ImbalanceAlert(
-                    stat=stat,
-                    imbalance=imbalance,
-                    threshold=threshold,
-                    message=f"{stat}: imbalance {imbalance} > {threshold}"
-                )
-                alerts.append(alert)
-                logger.warning(f"Fairness imbalance detected: {alert.message}")
-
-        return alerts
 
     # =========================================================================
     # Statistics and Reports

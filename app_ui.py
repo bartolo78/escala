@@ -525,7 +525,6 @@ class ShiftSchedulerApp:
             logger.info(f"Schedule generated successfully with {len(result.assignments)} assignments")
             all_holidays = self.scheduler.get_holidays(year, month)
             self.update_schedule_display(result.schedule, all_holidays)
-            self.check_imbalances()
             self.generate_report()
         else:
             logger.warning(f"Schedule generation failed: {result.error_message}")
@@ -536,12 +535,6 @@ class ShiftSchedulerApp:
                 error_msg += "\n\nDiagnostic Report:\n" + result.diagnostic_report.format_report()[:1000]
             
             messagebox.showerror("Error", error_msg)
-
-    def check_imbalances(self):
-        alerts = self.scheduler.check_imbalances()
-        if alerts:
-            alert_messages = [a.message for a in alerts]
-            messagebox.showwarning("Fairness Alert", "\n".join(alert_messages))
 
     def update_worker_stats(self, event=None):
         worker = self.worker_var.get()
@@ -674,7 +667,93 @@ class ShiftSchedulerApp:
         else:
             messagebox.showerror("Error", "Failed to save configuration file")
 
+    def show_import_format_dialog(self, title, format_info, example):
+        """Show a dialog with file format information before importing.
+        
+        Returns True if user clicks Continue, False if Cancel.
+        """
+        dialog = tk.Toplevel(self.root)
+        dialog.title(title)
+        dialog.geometry("450x300")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        dialog.resizable(False, False)
+        
+        # Center the dialog
+        dialog.update_idletasks()
+        x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (450 // 2)
+        y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (300 // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        result = {"continue": False}
+        
+        # Main frame with padding
+        main_frame = ttk.Frame(dialog, padding=20)
+        main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Title label
+        title_label = ttk.Label(main_frame, text="Expected File Format", 
+                                font=('TkDefaultFont', 11, 'bold'))
+        title_label.pack(anchor=tk.W, pady=(0, 10))
+        
+        # Format description
+        format_label = ttk.Label(main_frame, text=format_info, wraplength=400, justify=tk.LEFT)
+        format_label.pack(anchor=tk.W, pady=(0, 15))
+        
+        # Example section
+        example_title = ttk.Label(main_frame, text="Example:", 
+                                  font=('TkDefaultFont', 10, 'bold'))
+        example_title.pack(anchor=tk.W, pady=(0, 5))
+        
+        # Example in a frame with border
+        example_frame = ttk.Frame(main_frame, relief=tk.SUNKEN, borderwidth=1)
+        example_frame.pack(fill=tk.X, pady=(0, 20))
+        
+        example_text = tk.Text(example_frame, height=4, width=50, wrap=tk.NONE,
+                               font=('Courier', 10), bg='#f5f5f5', relief=tk.FLAT)
+        example_text.insert('1.0', example)
+        example_text.config(state=tk.DISABLED)
+        example_text.pack(padx=5, pady=5)
+        
+        # Button frame
+        btn_frame = ttk.Frame(main_frame)
+        btn_frame.pack(fill=tk.X, side=tk.BOTTOM)
+        
+        def on_continue():
+            result["continue"] = True
+            dialog.destroy()
+        
+        def on_cancel():
+            result["continue"] = False
+            dialog.destroy()
+        
+        cancel_btn = ttk.Button(btn_frame, text="Cancel", command=on_cancel, width=12)
+        cancel_btn.pack(side=tk.RIGHT, padx=(10, 0))
+        
+        continue_btn = ttk.Button(btn_frame, text="Continue", command=on_continue, width=12)
+        continue_btn.pack(side=tk.RIGHT)
+        
+        # Handle window close button
+        dialog.protocol("WM_DELETE_WINDOW", on_cancel)
+        
+        # Wait for dialog to close
+        dialog.wait_window()
+        
+        return result["continue"]
+
     def import_workers(self):
+        format_info = (
+            "The file should be a CSV (Comma-Separated Values) file with one worker name per row.\n\n"
+            "• Each row should contain a single worker name in the first column\n"
+            "• Additional columns are ignored\n"
+            "• Empty rows are skipped\n"
+            "• Duplicate workers will not be added"
+        )
+        example = "John Smith\nMaria Garcia\nAhmed Hassan\nEmma Johnson"
+        
+        if not self.show_import_format_dialog("Import Workers", format_info, example):
+            return
+        
         file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if file:
             logger.info(f"Importing workers from {file}")
@@ -689,6 +768,18 @@ class ShiftSchedulerApp:
             self.status_var.set(f"Workers imported: {added_count} new workers added")
 
     def import_holidays(self):
+        format_info = (
+            "The file should be a CSV (Comma-Separated Values) file with one day number per row.\n\n"
+            "• Each row should contain a day of the month (1-31) in the first column\n"
+            "• Days are added to the currently selected month/year\n"
+            "• Additional columns are ignored\n"
+            "• This will replace any existing manual holidays"
+        )
+        example = "1\n15\n25\n31"
+        
+        if not self.show_import_format_dialog("Import Holidays", format_info, example):
+            return
+        
         file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if file:
             self.scheduler.clear_manual_holidays()

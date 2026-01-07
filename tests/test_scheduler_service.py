@@ -22,7 +22,6 @@ from scheduler_service import (
     Worker,
     ScheduleResult,
     WorkerStats,
-    ImbalanceAlert,
 )
 
 
@@ -568,25 +567,3 @@ class TestConfigPersistence:
             config = yaml.safe_load(f)
         assert 'workers' in config
         assert any(w['name'] == 'TestWorker' for w in config['workers'])
-
-
-class TestImbalanceDetection:
-    """Tests for equity imbalance detection."""
-
-    def test_check_imbalances_no_stats(self):
-        """check_imbalances should return empty list without stats."""
-        service = SchedulerService()
-        alerts = service.check_imbalances()
-        assert alerts == []
-
-    def test_imbalance_alert_dataclass(self):
-        """ImbalanceAlert should have correct structure."""
-        alert = ImbalanceAlert(
-            stat="sat_n",
-            imbalance=5,
-            threshold=2,
-            message="sat_n: imbalance 5 > 2"
-        )
-        assert alert.stat == "sat_n"
-        assert alert.imbalance == 5
-        assert alert.threshold == 2

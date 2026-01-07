@@ -55,8 +55,9 @@ EQUITY_STATS = [
 # - Increasing a weight: Makes the schedule fairer for that specific metric but may worsen other aspects like load balancing.
 # - Decreasing a weight: Allows more flexibility in assignments, potentially improving overall feasibility or other objectives, but may lead to unfair distributions.
 EQUITY_WEIGHTS = {
+    # Weights ordered by EQUITY_STATS priority (highest priority = highest weight)
     'sun_holiday_m2': 10000.0,   # Priority 1: Sunday or Holiday M2
-    'sat_n': 9500.0,             # Priority 2: Saturday Night
+    'sat_n': 9500.0,             # Priority 2: Saturday N
     'sat_m2': 9200.0,            # Priority 3: Saturday M2
     'sun_holiday_n': 8300.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
     'sun_holiday_m1': 7600.0,    # Priority 5: Sunday or Holiday M1
@@ -87,7 +88,7 @@ OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0
 # [5-9]: Unused in current code (placeholders for future objectives).
 # [10]: Consecutive Shifts 48h - penalizes shifts with rest periods between 24-48 hours.
 # [11]: Night Shift Min Interval - penalizes night shifts within 48h of each other.
-# [12]: Consecutive Night Shift Avoidance - penalizes consecutive night shifts unless 96h apart (start to start).
+# [12]: Consecutive Night Shift Avoidance - penalizes night-to-night sequences (next shift after a night being a night).
 
 # Solver and constraint parameters
 SOLVER_TIMEOUT_SECONDS = 30.0
@@ -97,7 +98,7 @@ MAX_STAT_VALUE = 10000  # Upper bound for stat variables in model
 
 # Night shift spacing parameters (flexible rules)
 NIGHT_SHIFT_MIN_INTERVAL_HOURS = 48  # Minimum hours between night shift starts to avoid penalty
-NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS = 96  # Minimum hours between starts to allow consecutive nights without penalty
+NIGHT_SHIFT_CONSECUTIVE_MIN_HOURS = 96  # If night-to-night sequence has 96h+ gap, reduced/no penalty
 
 # Worker and schedule parameters
 WEEKLY_LOADS = [12, 18]  # Possible standard weekly hours

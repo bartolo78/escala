@@ -1,8 +1,8 @@
 """Tests for night shift spacing flexible rules.
 
 Tests the following flexible rules:
-- Rule 12: Night Shift Minimum Interval - avoid night shifts within 48h of each other
-- Rule 13: Consecutive Night Shift Avoidance - avoid consecutive night shifts unless 96h apart
+- Rule 6: Night Shift Minimum Interval - avoid night shifts within 48h of each other
+- Rule 7: Consecutive Night Shift Avoidance - avoid night-to-night sequences (next shift after night being night)
 """
 
 import pytest
@@ -109,10 +109,14 @@ class TestNightShiftMinIntervalCost:
 
 
 class TestConsecutiveNightShiftAvoidanceCost:
-    """Tests for build_consecutive_night_shift_avoidance_cost function."""
+    """Tests for build_consecutive_night_shift_avoidance_cost function.
     
-    def test_consecutive_nights_penalized(self):
-        """Two consecutive nights should be penalized (unless 96h apart)."""
+    This rule penalizes when a worker's next shift after a night shift is also
+    a night shift (night-to-night sequence), regardless of days apart.
+    """
+    
+    def test_back_to_back_nights_penalized(self):
+        """Two back-to-back nights (day N and day N+1) should be penalized."""
         model = cp_model.CpModel()
         days = [date(2026, 1, 5), date(2026, 1, 6)]
         shifts = create_night_shifts(days)
@@ -130,11 +134,12 @@ class TestConsecutiveNightShiftAvoidanceCost:
         status = solver.Solve(model)
         
         assert status == cp_model.OPTIMAL
-        assert solver.Value(cost) == 1  # Should be penalized (consecutive, 24h < 96h)
+        assert solver.Value(cost) == 1  # Should be penalized (night-to-night, 24h < 96h)
     
-    def test_non_consecutive_nights_not_penalized(self):
-        """Non-consecutive nights (day N and day N+2) should NOT be penalized by this rule."""
+    def test_night_to_night_with_gap_still_penalized(self):
+        """Night-to-night sequence with days gap (no intervening shift) should be penalized."""
         model = cp_model.CpModel()
+        # Only night shifts, no day shifts between
         days = [date(2026, 1, 5), date(2026, 1, 6), date(2026, 1, 7)]
         shifts = create_night_shifts(days)
         num_shifts = len(shifts)
@@ -143,7 +148,8 @@ class TestConsecutiveNightShiftAvoidanceCost:
         assigned = [[model.NewBoolVar(f"ass_w{w}_s{s}") for s in range(num_shifts)] for w in range(num_workers)]
         cost = build_consecutive_night_shift_avoidance_cost(model, assigned, shifts, num_shifts, num_workers)
         
-        # Night on day 1 and day 3 (not consecutive days)
+        # Night on day 1 and day 3 (skipping day 2), but day 2's night is not assigned
+        # So the worker's sequence is: N on day1 -> N on day3 (next shift is night)
         model.Add(assigned[0][0] == 1)
         model.Add(assigned[0][1] == 0)
         model.Add(assigned[0][2] == 1)
@@ -153,7 +159,8 @@ class TestConsecutiveNightShiftAvoidanceCost:
         status = solver.Solve(model)
         
         assert status == cp_model.OPTIMAL
-        assert solver.Value(cost) == 0  # Should NOT be penalized (not consecutive days)
+        # Should be penalized: next shift after night is another night (48h apart < 96h)
+        assert solver.Value(cost) == 1
     
     def test_single_night_no_penalty(self):
         """A single night shift should have no penalty."""
@@ -181,7 +188,7 @@ class TestMultipleWorkers:
     """Tests with multiple workers."""
     
     def test_penalty_per_worker(self):
-        """Each worker's consecutive nights should be penalized independently."""
+        """Each worker's night-to-night sequences should be penalized independently."""
         model = cp_model.CpModel()
         days = [date(2026, 1, 5), date(2026, 1, 6)]
         shifts = create_night_shifts(days)
@@ -191,7 +198,7 @@ class TestMultipleWorkers:
         assigned = [[model.NewBoolVar(f"ass_w{w}_s{s}") for s in range(num_shifts)] for w in range(num_workers)]
         cost = build_consecutive_night_shift_avoidance_cost(model, assigned, shifts, num_shifts, num_workers)
         
-        # Worker 0 has both nights (penalized)
+        # Worker 0 has both nights (penalized - night-to-night)
         model.Add(assigned[0][0] == 1)
         model.Add(assigned[0][1] == 1)
         # Worker 1 has no nights (not penalized)
