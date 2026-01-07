@@ -458,6 +458,16 @@ class ShiftSchedulerApp:
         add_holiday_btn.grid(row=0, column=7, padx=10, pady=5)
         Tooltip(add_holiday_btn, "Add a manual holiday for the selected month")
 
+        # Add export history button
+        export_btn = ttk.Button(control_frame, text="Export History", command=self.export_history)
+        export_btn.grid(row=0, column=8, padx=10, pady=5)
+        Tooltip(export_btn, "Export the scheduling history to a JSON file")
+
+        # Add import history button
+        import_btn = ttk.Button(control_frame, text="Import History", command=self.import_history)
+        import_btn.grid(row=0, column=9, padx=10, pady=5)
+        Tooltip(import_btn, "Import scheduling history from a JSON file")
+
         # Holidays display
         ttk.Label(control_frame, text="Holidays:").grid(row=1, column=0, padx=10, pady=5)
         self.holidays_var = tk.StringVar()
@@ -920,6 +930,36 @@ class ShiftSchedulerApp:
 
         ttk.Button(top, text="Confirm", command=confirm).pack(pady=5)
         ttk.Button(top, text="Cancel", command=top.destroy).pack(pady=5)
+
+    def export_history(self):
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".json",
+            filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
+            title="Export History"
+        )
+        if file_path:
+            try:
+                with open(file_path, 'w') as f:
+                    json.dump(self.scheduler._history, f, indent=2)
+                messagebox.showinfo("Success", "History exported successfully")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to export history: {e}")
+
+    def import_history(self):
+        file_path = filedialog.askopenfilename(
+            filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
+            title="Import History"
+        )
+        if file_path:
+            try:
+                with open(file_path, 'r') as f:
+                    loaded_history = json.load(f)
+                self.scheduler._history = loaded_history
+                messagebox.showinfo("Success", "History imported successfully")
+                # Optionally refresh the display
+                self.update_holidays_display()
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to import history: {e}")
 
     def add_worker(self):
         top = tk.Toplevel(self.root)

@@ -542,6 +542,8 @@ def generate_schedule(
 
     # Filter days to schedule: exclude all days that have been scheduled
     days = [d for d in all_days if str(d) not in excluded_dates]
+    # Further filter to only schedule days in the selected month
+    days = [d for d in days if d.month == month]
     if days:
         logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
     else:
