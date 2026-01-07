@@ -545,9 +545,6 @@ def generate_schedule(
     if days:
         logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
     else:
-    if days:
-        logger.info(f"Days to optimize after exclusion: {days[0]} to {days[-1]} ({len(days)} days)")
-    else:
         logger.info("No days to optimize after exclusion")
         # Return empty results if no days to schedule
         return {}, {}, {}, {}, {}
