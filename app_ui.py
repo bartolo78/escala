@@ -443,14 +443,19 @@ class ShiftSchedulerApp:
         generate_btn.grid(row=0, column=4, padx=10, pady=5)
         Tooltip(generate_btn, "Generate the shift schedule for the selected month")
 
+        view_history_btn = ttk.Button(control_frame, text="View History",
+                                      command=self.view_history_wrapper)
+        view_history_btn.grid(row=0, column=5, padx=10, pady=5)
+        Tooltip(view_history_btn, "View the historical schedule for the selected month")
+
         # Add Today button
         today_btn = ttk.Button(control_frame, text="Today", command=self.set_today)
-        today_btn.grid(row=0, column=5, padx=10, pady=5)
+        today_btn.grid(row=0, column=6, padx=10, pady=5)
         Tooltip(today_btn, "Reset to current month and year")
 
         # Add manual holiday button
         add_holiday_btn = ttk.Button(control_frame, text="Add Holiday", command=self.add_manual_holiday)
-        add_holiday_btn.grid(row=0, column=6, padx=10, pady=5)
+        add_holiday_btn.grid(row=0, column=7, padx=10, pady=5)
         Tooltip(add_holiday_btn, "Add a manual holiday for the selected month")
 
         # Holidays display
@@ -510,6 +515,20 @@ class ShiftSchedulerApp:
 
         self.root.after(100, lambda: self._run_generate_schedule(year, month))
 
+    def view_history_wrapper(self):
+        try:
+            month = list(month_name).index(self.month_var.get())
+            year = self.year_var.get()
+        except ValueError:
+            messagebox.showerror("Error", "Invalid month or year")
+            return
+
+        self.progress.grid()
+        self.progress.start()
+        self.status_var.set("Loading history...")
+
+        self.root.after(100, lambda: self._run_view_history(year, month))
+
     def _run_generate_schedule(self, year, month):
         logger.info(f"Generating schedule for {month}/{year} with {len(self.scheduler.workers)} workers")
         
@@ -535,6 +554,45 @@ class ShiftSchedulerApp:
                 error_msg += "\n\nDiagnostic Report:\n" + result.diagnostic_report.format_report()[:1000]
             
             messagebox.showerror("Error", error_msg)
+
+    def _run_view_history(self, year, month):
+        logger.info(f"Viewing history for {month}/{year}")
+        
+        # Get history for the month
+        from history_view import HistoryView
+        history_view = HistoryView(self.scheduler._history)
+        assignments_by_date = history_view.assignments_by_date()
+        
+        # Build schedule dict
+        schedule = {}
+        assignments = []
+        for date_str, entries in assignments_by_date.items():
+            try:
+                d = date.fromisoformat(date_str)
+                if d.year == year and d.month == month:
+                    schedule[date_str] = {}
+                    for entry in entries:
+                        schedule[date_str][entry["shift"]] = entry["worker"]
+                        assignments.append({
+                            "worker": entry["worker"],
+                            "date": date_str,
+                            "shift": entry["shift"],
+                            "dur": entry.get("dur", 0),
+                        })
+            except ValueError:
+                continue
+        
+        self._last_result = None  # Not a generated result
+
+        self.progress.stop()
+        self.progress.grid_remove()
+        self.status_var.set("History loaded")
+
+        logger.info(f"History loaded with {len(assignments)} assignments")
+        all_holidays = self.scheduler.get_holidays(year, month)
+        self.update_schedule_display(schedule, all_holidays)
+        # Optionally generate report
+        # self.generate_report()
 
     def update_worker_stats(self, event=None):
         worker = self.worker_var.get()

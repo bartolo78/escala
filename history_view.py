@@ -50,6 +50,15 @@ class HistoryView:
             scheduled.add((iso[0], iso[1]))
         return scheduled
 
+    def scheduled_dates(self) -> set[str]:
+        """Date strings that have any assignment in history."""
+        scheduled: set[str] = set()
+        for _worker, _month, ass in self.iter_assignments():
+            d_str = ass.get("date")
+            if d_str:
+                scheduled.add(d_str)
+        return scheduled
+
     def fixed_shift_for(self, worker_name: str, day: date) -> Optional[str]:
         """Return shift type if the worker has a historical assignment for this day."""
         month_key = day.strftime("%Y-%m")

@@ -201,17 +201,16 @@ def solve_and_extract_results(
     return {}, {}, [], stats, {}
 
 
-def merge_excluded_weeks_into_results(schedule, weekly, assignments, excluded_week_keys, all_days, history, workers, selected_month):
-    """Integrate prior assignments for ISO weeks that were excluded from optimization."""
+def merge_history_into_results(schedule, weekly, assignments, all_days, history, workers, selected_month):
+    """Integrate prior assignments for the selected month from history."""
 
     history_by_date = HistoryView(history).assignments_by_date()
     
-    _pipeline_logger.info(f"Merging excluded weeks {sorted(excluded_week_keys)} for month {selected_month}")
+    _pipeline_logger.info(f"Merging history for month {selected_month}")
     _pipeline_logger.info(f"History has {len(history_by_date)} dates with assignments")
 
     for d in all_days:
-        iso_key = d.isocalendar()[:2]
-        if iso_key in excluded_week_keys and d.month == selected_month:
+        if d.month == selected_month:
             d_str = str(d)
             if d_str not in schedule:
                 schedule[d_str] = {}
