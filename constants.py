@@ -25,10 +25,11 @@ SHIFT_DISPLAY_NAMES = {'M1': 'M1', 'M2': 'M2', 'N': 'Night'}
 #   4) Sunday or Holiday N (holidays on Saturday excluded—see below)
 #   5) Sunday or Holiday M1
 #   6) Saturday M1
-#   7) Friday N
-#   8) Weekday (not Friday) N
-#   9) Monday M1 or M2
-#   10) Weekday (not Monday) M1 or M2
+#   7) Weekday N (all weekday nights combined, to balance total night burden)
+#   8) Friday N
+#   9) Weekday (not Friday) N
+#   10) Monday M1 or M2
+#   11) Weekday (not Monday) M1 or M2
 #
 # Holiday Counting Rules for Equity:
 #   - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
@@ -41,10 +42,11 @@ EQUITY_STATS = [
     'sun_holiday_n',            # Priority 4: Sunday or Holiday N (Sat holidays excluded)
     'sun_holiday_m1',           # Priority 5: Sunday or Holiday M1
     'sat_m1',                   # Priority 6: Saturday M1
-    'fri_night',                # Priority 7: Friday N
-    'weekday_not_fri_n',        # Priority 8: Weekday (not Friday) N
-    'monday_day',               # Priority 9: Monday M1 or M2
-    'weekday_not_mon_day',      # Priority 10: Weekday (not Monday) M1 or M2
+    'weekday_n',                # Priority 7: Weekday N (all Mon-Fri nights, to balance total night burden)
+    'fri_night',                # Priority 8: Friday N
+    'weekday_not_fri_n',        # Priority 9: Weekday (not Friday) N
+    'monday_day',               # Priority 10: Monday M1 or M2
+    'weekday_not_mon_day',      # Priority 11: Weekday (not Monday) M1 or M2
 ]
 
 # Weights for equity objectives in the optimization model.
@@ -62,10 +64,11 @@ EQUITY_WEIGHTS = {
     'sun_holiday_n': 8300.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
     'sun_holiday_m1': 7600.0,    # Priority 5: Sunday or Holiday M1
     'sat_m1': 6800.0,            # Priority 6: Saturday M1
-    'fri_night': 1000.0,         # Priority 7: Friday N
-    'weekday_not_fri_n': 700.0,  # Priority 8: Weekday (not Friday) N
-    'monday_day': 300.0,         # Priority 9: Monday M1 or M2
-    'weekday_not_mon_day': 50.0, # Priority 10: Weekday (not Monday) M1 or M2
+    'weekday_n': 1500.0,         # Priority 7: Weekday N (all Mon-Fri nights combined)
+    'fri_night': 1000.0,         # Priority 8: Friday N
+    'weekday_not_fri_n': 700.0,  # Priority 9: Weekday (not Friday) N
+    'monday_day': 300.0,         # Priority 10: Monday M1 or M2
+    'weekday_not_mon_day': 50.0, # Priority 11: Weekday (not Monday) M1 or M2
 }
 
 # Weight for day-of-week equity (balances shifts per specific weekday across workers).

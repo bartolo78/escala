@@ -117,10 +117,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       4) Sunday or Holiday N (holidays on Saturday excluded—see below)
       5) Sunday or Holiday M1
       6) Saturday M1
-      7) Friday N
-      8) Weekday (not Friday) N
-      9) Monday M1 or M2
-      10) Weekday (not Monday) M1 or M2
+      7) Weekday N (all Mon-Fri nights combined, to balance total night burden)
+      8) Friday N
+      9) Weekday (not Friday) N
+      10) Monday M1 or M2
+      11) Weekday (not Monday) M1 or M2
 
    - *Holiday Counting Rules for Equity:*
       - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
