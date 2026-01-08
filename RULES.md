@@ -137,6 +137,7 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - Prevent extreme imbalances in total shift counts within a single scheduled month, even when long-term category equity would otherwise cause it.
    - *Rationale:* Category-specific equity objectives (e.g., balancing Saturday nights, holiday M2s) could inadvertently cause one worker to receive many more total shifts than others in a single month—for example, if a worker needs "catch-up" assignments in multiple categories simultaneously.
    - *Implementation:* The scheduler penalizes the difference between the worker with the most total shifts and the worker with the fewest total shifts in the scheduling period.
+   - *Scope:* This rule applies to the entire scheduling window (all ISO weeks containing any day of the selected month), which is optimized as a single problem—not week-by-week.
    - *Priority:* This objective sits between weekend/holiday equity (higher priority) and weekday equity (lower priority), with a default weight of 5000. This ensures premium shift fairness takes precedence, but monthly totals remain reasonably balanced.
    - *Tuning:* The weight can be adjusted in `constants.py` via `MONTHLY_SHIFT_BALANCE_WEIGHT`:
       - Increase (e.g., 8000) for stricter monthly balance at the cost of some long-term category equity
