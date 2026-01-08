@@ -327,6 +327,56 @@ def build_dow_equity_cost_scaled(model, dow_equity_weight, past_stats, current_d
     return cost
 
 
+def build_monthly_shift_balance_cost(model, assigned, num_workers, num_shifts, weight: float, scale: int = 10):
+    """Return IntVar penalizing imbalance in total monthly shifts across workers.
+    
+    This prevents the situation where category-specific equity objectives cause
+    some workers to receive many more total shifts than others within a single month
+    (e.g., one worker being 'compensated' in multiple categories simultaneously).
+    
+    The cost is: weight * (max_total_shifts - min_total_shifts) across all workers.
+    
+    Args:
+        model: CP-SAT model
+        assigned: 2D list of BoolVars [worker][shift]
+        num_workers: Number of workers
+        num_shifts: Number of shifts in the scheduling period
+        weight: Penalty weight for shift count imbalance
+        scale: Integer scaling factor for weights
+    
+    Returns:
+        IntVar representing the weighted imbalance cost
+    """
+    weight_i = int(round(float(weight) * scale))
+    
+    if weight_i == 0 or num_workers == 0 or num_shifts == 0:
+        cost = model.NewIntVar(0, 0, "monthly_shift_balance_cost")
+        model.Add(cost == 0)
+        return cost
+    
+    # Calculate total shifts per worker
+    totals = []
+    for w in range(num_workers):
+        total_w = model.NewIntVar(0, num_shifts, f"total_monthly_shifts_w{w}")
+        model.Add(total_w == sum(assigned[w][s] for s in range(num_shifts)))
+        totals.append(total_w)
+    
+    # Find max and min across workers
+    max_total = model.NewIntVar(0, num_shifts, "max_monthly_shifts")
+    min_total = model.NewIntVar(0, num_shifts, "min_monthly_shifts")
+    for t in totals:
+        model.Add(max_total >= t)
+        model.Add(min_total <= t)
+    
+    # Cost = weighted difference
+    imbalance = model.NewIntVar(0, num_shifts, "monthly_shift_imbalance")
+    model.Add(imbalance == max_total - min_total)
+    
+    cost = model.NewIntVar(0, num_shifts * weight_i, "monthly_shift_balance_cost")
+    model.Add(cost == weight_i * imbalance)
+    return cost
+
+
 def build_consec_shifts_48h_cost(model, assigned, shifts, num_shifts, num_workers):
     """Return IntVar counting <48h-rest-but-legal consecutive shift pairs."""
     min_penalty, max_penalty = CONSECUTIVE_SHIFT_PENALTY_RANGE

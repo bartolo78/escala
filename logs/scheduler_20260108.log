@@ -1287,3 +1287,274 @@
 2026-01-08 09:45:47 - escala.logic - INFO - Objective value: 571997.00
 2026-01-08 09:45:47 - escala.schedule_pipeline - INFO - Merging history for month 1
 2026-01-08 09:45:47 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-08 10:14:33 - escala.model_objectives - INFO - Three-day weekend detected in week (2026, 2): 2026-01-09 (Fri) to 2026-01-11 (Sun)
+2026-01-08 10:14:33 - escala.model_objectives - INFO - Three-day period 2026-01-09 to 2026-01-11 has 3 shifts
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Config file not found at /nonexistent/path.yaml, using defaults
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Added worker: NewWorker
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Added worker: Worker16
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Added worker: Worker17
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Removed worker: Tome
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:14:43 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-08 10:14:43 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:14:43 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:14:43 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:14:43 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:14:43 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-08 10:14:43 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:14:43 - escala.logic - INFO - Scheduling 2026-01: 0 scheduled dates, 0 excluded in window
+2026-01-08 10:14:43 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-08 10:14:43 - escala - INFO - WEEK (2026, 1): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   weekdays_for_distribution: [datetime.date(2025, 12, 29), datetime.date(2025, 12, 30), datetime.date(2025, 12, 31), datetime.date(2026, 1, 1), datetime.date(2026, 1, 2)]
+2026-01-08 10:14:43 - escala - INFO -   weekday_shifts_for_distribution: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   all shifts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+2026-01-08 10:14:43 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 1)
+2026-01-08 10:14:43 - escala - INFO - WEEK (2026, 2): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 5), datetime.date(2026, 1, 6), datetime.date(2026, 1, 7), datetime.date(2026, 1, 8), datetime.date(2026, 1, 9)]
+2026-01-08 10:14:43 - escala - INFO -   weekday_shifts_for_distribution: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+2026-01-08 10:14:43 - escala - INFO -   all shifts: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+2026-01-08 10:14:43 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 2)
+2026-01-08 10:14:43 - escala - INFO - WEEK (2026, 3): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 12), datetime.date(2026, 1, 13), datetime.date(2026, 1, 14), datetime.date(2026, 1, 15), datetime.date(2026, 1, 16)]
+2026-01-08 10:14:43 - escala - INFO -   weekday_shifts_for_distribution: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56]
+2026-01-08 10:14:43 - escala - INFO -   all shifts: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+2026-01-08 10:14:43 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 3)
+2026-01-08 10:14:43 - escala - INFO - WEEK (2026, 4): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 19), datetime.date(2026, 1, 20), datetime.date(2026, 1, 21), datetime.date(2026, 1, 22), datetime.date(2026, 1, 23)]
+2026-01-08 10:14:43 - escala - INFO -   weekday_shifts_for_distribution: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+2026-01-08 10:14:43 - escala - INFO -   all shifts: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83]
+2026-01-08 10:14:43 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 4)
+2026-01-08 10:14:43 - escala - INFO - WEEK (2026, 5): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:14:43 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 26), datetime.date(2026, 1, 27), datetime.date(2026, 1, 28), datetime.date(2026, 1, 29), datetime.date(2026, 1, 30)]
+2026-01-08 10:14:43 - escala - INFO -   weekday_shifts_for_distribution: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
+2026-01-08 10:14:43 - escala - INFO -   all shifts: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
+2026-01-08 10:14:43 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 5)
+2026-01-08 10:14:44 - escala.logic - INFO - Starting schedule optimization...
+2026-01-08 10:14:47 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-08 10:14:47 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-08 10:14:48 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-08 10:14:48 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-08 10:14:49 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-08 10:14:50 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-08 10:14:50 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-08 10:14:58 - escala.logic - INFO - Stage rule8_fairness_equity: value=740000
+2026-01-08 10:15:06 - escala.logic - INFO - Stage rule9_m2_priority: value=0
+2026-01-08 10:15:14 - escala.logic - INFO - Stage tiebreak: value=685
+2026-01-08 10:15:14 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.18s, branches=78975, conflicts=8
+2026-01-08 10:15:14 - escala.logic - INFO - Objective value: 685.00
+2026-01-08 10:15:14 - escala.schedule_pipeline - INFO - Merging history for month 1
+2026-01-08 10:15:14 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-08 10:15:14 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-08 10:15:14 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:15:14 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-08 10:15:14 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:15:14 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:15:14 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:15:14 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:15:14 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-08 10:15:14 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:15:14 - escala.logic - INFO - Scheduling 2026-01: 0 scheduled dates, 0 excluded in window
+2026-01-08 10:15:14 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-08 10:15:14 - escala - INFO - WEEK (2026, 1): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   weekdays_for_distribution: [datetime.date(2025, 12, 29), datetime.date(2025, 12, 30), datetime.date(2025, 12, 31), datetime.date(2026, 1, 1), datetime.date(2026, 1, 2)]
+2026-01-08 10:15:14 - escala - INFO -   weekday_shifts_for_distribution: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   all shifts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+2026-01-08 10:15:14 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 1)
+2026-01-08 10:15:14 - escala - INFO - WEEK (2026, 2): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 5), datetime.date(2026, 1, 6), datetime.date(2026, 1, 7), datetime.date(2026, 1, 8), datetime.date(2026, 1, 9)]
+2026-01-08 10:15:14 - escala - INFO -   weekday_shifts_for_distribution: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+2026-01-08 10:15:14 - escala - INFO -   all shifts: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+2026-01-08 10:15:14 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 2)
+2026-01-08 10:15:14 - escala - INFO - WEEK (2026, 3): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 12), datetime.date(2026, 1, 13), datetime.date(2026, 1, 14), datetime.date(2026, 1, 15), datetime.date(2026, 1, 16)]
+2026-01-08 10:15:14 - escala - INFO -   weekday_shifts_for_distribution: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56]
+2026-01-08 10:15:14 - escala - INFO -   all shifts: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+2026-01-08 10:15:14 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 3)
+2026-01-08 10:15:14 - escala - INFO - WEEK (2026, 4): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 19), datetime.date(2026, 1, 20), datetime.date(2026, 1, 21), datetime.date(2026, 1, 22), datetime.date(2026, 1, 23)]
+2026-01-08 10:15:14 - escala - INFO -   weekday_shifts_for_distribution: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+2026-01-08 10:15:14 - escala - INFO -   all shifts: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83]
+2026-01-08 10:15:14 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 4)
+2026-01-08 10:15:14 - escala - INFO - WEEK (2026, 5): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:14 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 26), datetime.date(2026, 1, 27), datetime.date(2026, 1, 28), datetime.date(2026, 1, 29), datetime.date(2026, 1, 30)]
+2026-01-08 10:15:14 - escala - INFO -   weekday_shifts_for_distribution: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
+2026-01-08 10:15:14 - escala - INFO -   all shifts: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
+2026-01-08 10:15:14 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 5)
+2026-01-08 10:15:15 - escala.logic - INFO - Starting schedule optimization...
+2026-01-08 10:15:18 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-08 10:15:18 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-08 10:15:18 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-08 10:15:19 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-08 10:15:20 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-08 10:15:21 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-08 10:15:21 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-08 10:15:29 - escala.logic - INFO - Stage rule8_fairness_equity: value=738051
+2026-01-08 10:15:37 - escala.logic - INFO - Stage rule9_m2_priority: value=0
+2026-01-08 10:15:45 - escala.logic - INFO - Stage tiebreak: value=686
+2026-01-08 10:15:45 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.11s, branches=65929, conflicts=5
+2026-01-08 10:15:45 - escala.logic - INFO - Objective value: 686.00
+2026-01-08 10:15:45 - escala.schedule_pipeline - INFO - Merging history for month 1
+2026-01-08 10:15:45 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-08 10:15:45 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-08 10:15:45 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:15:45 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-08 10:15:45 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:15:45 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:15:45 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:15:45 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:15:45 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-08 10:15:45 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:15:45 - escala.logic - INFO - Scheduling 2026-01: 0 scheduled dates, 0 excluded in window
+2026-01-08 10:15:45 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-08 10:15:45 - escala - INFO - WEEK (2026, 1): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   weekdays_for_distribution: [datetime.date(2025, 12, 29), datetime.date(2025, 12, 30), datetime.date(2025, 12, 31), datetime.date(2026, 1, 1), datetime.date(2026, 1, 2)]
+2026-01-08 10:15:45 - escala - INFO -   weekday_shifts_for_distribution: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   all shifts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+2026-01-08 10:15:45 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 1)
+2026-01-08 10:15:45 - escala - INFO - WEEK (2026, 2): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 5), datetime.date(2026, 1, 6), datetime.date(2026, 1, 7), datetime.date(2026, 1, 8), datetime.date(2026, 1, 9)]
+2026-01-08 10:15:45 - escala - INFO -   weekday_shifts_for_distribution: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+2026-01-08 10:15:45 - escala - INFO -   all shifts: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+2026-01-08 10:15:45 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 2)
+2026-01-08 10:15:45 - escala - INFO - WEEK (2026, 3): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 12), datetime.date(2026, 1, 13), datetime.date(2026, 1, 14), datetime.date(2026, 1, 15), datetime.date(2026, 1, 16)]
+2026-01-08 10:15:45 - escala - INFO -   weekday_shifts_for_distribution: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56]
+2026-01-08 10:15:45 - escala - INFO -   all shifts: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+2026-01-08 10:15:45 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 3)
+2026-01-08 10:15:45 - escala - INFO - WEEK (2026, 4): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 19), datetime.date(2026, 1, 20), datetime.date(2026, 1, 21), datetime.date(2026, 1, 22), datetime.date(2026, 1, 23)]
+2026-01-08 10:15:45 - escala - INFO -   weekday_shifts_for_distribution: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+2026-01-08 10:15:45 - escala - INFO -   all shifts: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83]
+2026-01-08 10:15:45 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 4)
+2026-01-08 10:15:45 - escala - INFO - WEEK (2026, 5): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:15:45 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 26), datetime.date(2026, 1, 27), datetime.date(2026, 1, 28), datetime.date(2026, 1, 29), datetime.date(2026, 1, 30)]
+2026-01-08 10:15:45 - escala - INFO -   weekday_shifts_for_distribution: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
+2026-01-08 10:15:45 - escala - INFO -   all shifts: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
+2026-01-08 10:15:45 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 5)
+2026-01-08 10:15:45 - escala.logic - INFO - Starting schedule optimization...
+2026-01-08 10:15:48 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-08 10:15:49 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-08 10:15:49 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-08 10:15:50 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-08 10:15:51 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-08 10:15:51 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-08 10:15:52 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-08 10:16:00 - escala.logic - INFO - Stage rule8_fairness_equity: value=740000
+2026-01-08 10:16:07 - escala.logic - INFO - Stage rule9_m2_priority: value=0
+2026-01-08 10:16:15 - escala.logic - INFO - Stage tiebreak: value=682
+2026-01-08 10:16:15 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=8.17s, branches=78973, conflicts=8
+2026-01-08 10:16:15 - escala.logic - INFO - Objective value: 682.00
+2026-01-08 10:16:15 - escala.schedule_pipeline - INFO - Merging history for month 1
+2026-01-08 10:16:15 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-08 10:16:15 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-08 10:16:15 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:16:15 - escala.scheduler_service - INFO - Generating schedule for 1/2026 with 15 workers
+2026-01-08 10:16:15 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:16:15 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:16:15 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:16:15 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:16:15 - escala.logic - INFO - Final holiday_set (5 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-08 10:16:15 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:16:15 - escala.logic - INFO - Scheduling 2026-01: 0 scheduled dates, 0 excluded in window
+2026-01-08 10:16:15 - escala.logic - INFO - Days to optimize after exclusion: 2025-12-29 to 2026-02-01 (35 days)
+2026-01-08 10:16:16 - escala - INFO - WEEK (2026, 1): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   weekdays_for_distribution: [datetime.date(2025, 12, 29), datetime.date(2025, 12, 30), datetime.date(2025, 12, 31), datetime.date(2026, 1, 1), datetime.date(2026, 1, 2)]
+2026-01-08 10:16:16 - escala - INFO -   weekday_shifts_for_distribution: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   all shifts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+2026-01-08 10:16:16 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 1)
+2026-01-08 10:16:16 - escala - INFO - WEEK (2026, 2): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 5), datetime.date(2026, 1, 6), datetime.date(2026, 1, 7), datetime.date(2026, 1, 8), datetime.date(2026, 1, 9)]
+2026-01-08 10:16:16 - escala - INFO -   weekday_shifts_for_distribution: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+2026-01-08 10:16:16 - escala - INFO -   all shifts: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+2026-01-08 10:16:16 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 2)
+2026-01-08 10:16:16 - escala - INFO - WEEK (2026, 3): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 12), datetime.date(2026, 1, 13), datetime.date(2026, 1, 14), datetime.date(2026, 1, 15), datetime.date(2026, 1, 16)]
+2026-01-08 10:16:16 - escala - INFO -   weekday_shifts_for_distribution: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56]
+2026-01-08 10:16:16 - escala - INFO -   all shifts: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+2026-01-08 10:16:16 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 3)
+2026-01-08 10:16:16 - escala - INFO - WEEK (2026, 4): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 19), datetime.date(2026, 1, 20), datetime.date(2026, 1, 21), datetime.date(2026, 1, 22), datetime.date(2026, 1, 23)]
+2026-01-08 10:16:16 - escala - INFO -   weekday_shifts_for_distribution: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77]
+2026-01-08 10:16:16 - escala - INFO -   all shifts: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83]
+2026-01-08 10:16:16 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 4)
+2026-01-08 10:16:16 - escala - INFO - WEEK (2026, 5): num_relevant=15, total_weekday_shifts=15, relevant_workers=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+2026-01-08 10:16:16 - escala - INFO -   weekdays_for_distribution: [datetime.date(2026, 1, 26), datetime.date(2026, 1, 27), datetime.date(2026, 1, 28), datetime.date(2026, 1, 29), datetime.date(2026, 1, 30)]
+2026-01-08 10:16:16 - escala - INFO -   weekday_shifts_for_distribution: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
+2026-01-08 10:16:16 - escala - INFO -   all shifts: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
+2026-01-08 10:16:16 - escala - INFO -   Enforcing all_have_one == 1 for week (2026, 5)
+2026-01-08 10:16:16 - escala.logic - INFO - Starting schedule optimization...
+2026-01-08 10:16:19 - escala.logic - INFO - Stage rule1_sat_pref: value=25
+2026-01-08 10:16:20 - escala.logic - INFO - Stage rule2_3day_min_workers: value=0
+2026-01-08 10:16:20 - escala.logic - INFO - Stage rule3_weekend_limits: value=0
+2026-01-08 10:16:20 - escala.logic - INFO - Stage rule4_consec_weekend: value=0
+2026-01-08 10:16:22 - escala.logic - INFO - Stage rule5_consec48: value=0
+2026-01-08 10:16:22 - escala.logic - INFO - Stage rule6_night_interval: value=0
+2026-01-08 10:16:23 - escala.logic - INFO - Stage rule7_consec_night: value=0
+2026-01-08 10:16:30 - escala.logic - INFO - Stage rule8_fairness_equity: value=738027
+2026-01-08 10:16:33 - escala.logic - INFO - Stage rule9_m2_priority: value=0
+2026-01-08 10:16:46 - escala.logic - INFO - Stage tiebreak: value=684
+2026-01-08 10:16:46 - escala.logic - INFO - Solver finished: status=FEASIBLE, time=12.68s, branches=45641, conflicts=8
+2026-01-08 10:16:46 - escala.logic - INFO - Objective value: 684.00
+2026-01-08 10:16:46 - escala.schedule_pipeline - INFO - Merging history for month 1
+2026-01-08 10:16:46 - escala.schedule_pipeline - INFO - History has 0 dates with assignments
+2026-01-08 10:16:46 - escala.scheduler_service - INFO - Schedule generated successfully with 105 assignments
+2026-01-08 10:16:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:16:46 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-08 10:16:46 - escala.scheduler_service - WARNING - No history to save
+2026-01-08 10:20:21 - escala.logic - WARNING - Invalid shift type 'INVALID' in entry '2026-01-15 INVALID'. Valid types: ['M1', 'M2', 'N']
+2026-01-08 10:20:21 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:20:21 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-08 10:20:21 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:20:21 - escala.logic - INFO - Auto-extending holidays for months: [(2025, 12), (2026, 1), (2026, 2)]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2025-12: [1, 8, 25]
+2026-01-08 10:20:21 - escala.logic - INFO - Final holiday_set (6 holidays): [datetime.date(2025, 12, 1), datetime.date(2025, 12, 8), datetime.date(2025, 12, 25), datetime.date(2026, 1, 1), datetime.date(2026, 1, 6), datetime.date(2026, 2, 17)]
+2026-01-08 10:20:21 - escala.logic - INFO - Scheduling 35 days from 2025-12-29 to 2026-02-01 for 2026-01
+2026-01-08 10:20:21 - escala.logic - INFO - Auto-extending holidays for months: [(2026, 1), (2026, 2), (2026, 3)]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-01: [1]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-02: [17]
+2026-01-08 10:20:21 - escala.logic - INFO -   Computed holidays for 2026-03: []
+2026-01-08 10:20:21 - escala.logic - INFO - Final holiday_set (2 holidays): [datetime.date(2026, 1, 1), datetime.date(2026, 2, 17)]
+2026-01-08 10:20:21 - escala.logic - INFO - Scheduling 35 days from 2026-01-26 to 2026-03-01 for 2026-02

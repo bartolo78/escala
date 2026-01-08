@@ -4,6 +4,7 @@ from utils import compute_holidays
 from constants import (
     DOW_EQUITY_WEIGHT,
     EQUITY_WEIGHTS,
+    MONTHLY_SHIFT_BALANCE_WEIGHT,
     OBJECTIVE_FLEX_WEIGHTS,
     OBJECTIVE_WEIGHT_LOAD,
     SHIFT_TYPES,
@@ -669,9 +670,10 @@ def generate_schedule(
         load_cost = _mo.build_load_balancing_cost(model, iso_weeks, shifts, assigned, workers)
         equity_cost = _mo.build_equity_cost_scaled(model, equity_weights, past_stats, current_stats, workers, num_workers)
         dow_cost = _mo.build_dow_equity_cost_scaled(model, dow_equity_weight, past_stats, current_dow, workers, num_workers)
+        monthly_balance_cost = _mo.build_monthly_shift_balance_cost(model, assigned, num_workers, num_shifts, MONTHLY_SHIFT_BALANCE_WEIGHT)
         # Generous upper bound; exact tightness isn't required.
         fairness_cost = model.NewIntVar(0, 10_000_000, "fairness_cost")
-        model.Add(fairness_cost == load_cost + equity_cost + dow_cost)
+        model.Add(fairness_cost == load_cost + equity_cost + dow_cost + monthly_balance_cost)
 
         # Rule 11: prefer >48h gaps (penalize 24-48h gaps)
         consec48_cost = _mo.build_consec_shifts_48h_cost(model, assigned, shifts, num_shifts, num_workers)

@@ -76,6 +76,13 @@ EQUITY_WEIGHTS = {
 # Changing it: Increase to make shift counts per day of week more even; decrease for more flexibility.
 DOW_EQUITY_WEIGHT = 1
 
+# Weight for monthly total shift balance (prevents extreme imbalances within a single month).
+# This addresses the risk of category-specific equity objectives creating monthly unfairness
+# (e.g., one worker getting many shifts to compensate for multiple categories simultaneously).
+# Higher value = stricter monthly balance; lower value = more freedom for long-term equity.
+# Recommended range: 2000-8000 (between weekday equity and weekend equity priorities).
+MONTHLY_SHIFT_BALANCE_WEIGHT = 5000.0
+
 # Objective function weights
 # Weight for weekly load balancing (penalizes deviations from workers' standard weekly hours).
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
