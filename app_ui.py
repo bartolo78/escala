@@ -511,6 +511,17 @@ class ShiftSchedulerApp:
             messagebox.showerror("Error", "Invalid month or year")
             return
 
+        # Check if schedule already exists for this month
+        if self.scheduler.has_schedule_for_month(year, month):
+            result = messagebox.askyesno(
+                "Schedule Already Exists", 
+                f"A schedule already exists for {self.month_var.get()} {year}.\n\n"
+                "Generating a new schedule will overwrite the existing one.\n\n"
+                "Do you want to continue?"
+            )
+            if not result:
+                return
+
         self.progress.grid()
         self.progress.start()
         self.status_var.set("Generating schedule...")

@@ -629,6 +629,30 @@ class SchedulerService:
                 error_message=str(e)
             )
 
+    def has_schedule_for_month(self, year: int, month: int) -> bool:
+        """Check if a schedule already exists for the given month.
+
+        Args:
+            year: Year to check
+            month: Month to check (1-12)
+
+        Returns:
+            True if any assignments exist for the month, False otherwise
+        """
+        from history_view import HistoryView
+        history_view = HistoryView(self._history)
+        
+        # Check if any dates in the month have assignments
+        from calendar import monthrange
+        _, last_day = monthrange(year, month)
+        
+        for day in range(1, last_day + 1):
+            date_str = f"{year:04d}-{month:02d}-{day:02d}"
+            if date_str in history_view.scheduled_dates():
+                return True
+        
+        return False
+
     # =========================================================================
     # Statistics and Reports
     # =========================================================================
