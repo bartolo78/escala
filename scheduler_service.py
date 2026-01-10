@@ -285,16 +285,18 @@ class SchedulerService:
             return True
         
         cutoff_date = date.today() - timedelta(weeks=weeks_lookback)
-        for entry in self._history:
-            if entry.get('worker') == worker_name:
-                entry_date_str = entry.get('date')
-                if entry_date_str:
-                    try:
-                        entry_date = date.fromisoformat(entry_date_str)
-                        if entry_date >= cutoff_date:
-                            return False  # Has recent history
-                    except ValueError:
-                        continue
+        for worker_data in self._history.values():
+            for month_data in worker_data.values():
+                for entry in month_data:
+                    if entry.get('worker') == worker_name:
+                        entry_date_str = entry.get('date')
+                        if entry_date_str:
+                            try:
+                                entry_date = date.fromisoformat(entry_date_str)
+                                if entry_date >= cutoff_date:
+                                    return False  # Has recent history
+                            except ValueError:
+                                continue
         return True  # No history in lookback period
 
     def add_worker(self, name: str, can_night: bool = True, weekly_load: int = 18,
