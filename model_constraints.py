@@ -131,6 +131,12 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
     hv = HistoryView(history)
     first_day = days[0]
     
+    # Only check shifts in the first 2 days of the window — later shifts can't
+    # possibly conflict with history from 1-2 days before (24h rest is satisfied).
+    early_window_cutoff = datetime.datetime.combine(
+        first_day + timedelta(days=2), datetime.time()
+    )
+    
     # Check shifts from the 2 days before the scheduling window starts.
     # This covers all scenarios since the maximum rest needed is 24 hours:
     # - A night shift ending at 08:00 on day-0 (first_day) could conflict with day shifts on first_day
@@ -156,9 +162,13 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
             hist_day_dt = datetime.datetime.combine(hist_day, datetime.time())
             hist_end = hist_day_dt + timedelta(hours=hist_config["end_hour"])
             
-            # Check against all shifts on days in the scheduling window that could conflict
+            # Check only early shifts in the scheduling window that could conflict
             for s_idx, shift in enumerate(shifts):
                 shift_start = shift["start"]
+                
+                # Skip shifts that are far enough into the window to never conflict
+                if shift_start >= early_window_cutoff:
+                    continue
                 
                 # If the new shift starts before or exactly when the historical shift ends,
                 # they overlap, which is definitely not allowed
