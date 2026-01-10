@@ -27,6 +27,32 @@ if TYPE_CHECKING:
     from constraint_diagnostics import DiagnosticReport
 
 
+def _add_decision_strategy(model, assigned, num_workers, num_shifts):
+    """Add decision strategy to guide solver variable ordering.
+    
+    This helps the solver find feasible solutions faster by:
+    1. Assigning shifts in order (shift 0, shift 1, etc.)
+    2. For each shift, trying workers in order
+    3. Preferring to assign (value=1) before not-assign (value=0)
+    
+    This mimics how a human scheduler would work: fill each shift one at a time.
+    """
+    # Flatten assigned variables in shift-major order (all workers for shift 0, then shift 1, etc.)
+    # This encourages the solver to fully assign one shift before moving to the next
+    all_vars = []
+    for s in range(num_shifts):
+        for w in range(num_workers):
+            all_vars.append(assigned[w][s])
+    
+    # CHOOSE_FIRST: pick the first unbound variable (respects our ordering)
+    # SELECT_MAX_VALUE: try assigning 1 first (assign the worker to the shift)
+    model.AddDecisionStrategy(
+        all_vars,
+        cp_model.CHOOSE_FIRST,
+        cp_model.SELECT_MAX_VALUE
+    )
+
+
 def solve_and_extract_results(
     logger,
     model,
@@ -42,6 +68,10 @@ def solve_and_extract_results(
     stage_objectives: list[tuple[str, cp_model.IntVar]] | None = None,
     diagnostic_context: dict | None = None,
 ):
+    # Add decision strategy for faster feasibility finding
+    num_workers = len(workers)
+    _add_decision_strategy(model, assigned, num_workers, num_shifts)
+    
     # One shared time budget for either single-shot or staged solves.
     start_t = time.time()
 
@@ -79,8 +109,11 @@ def solve_and_extract_results(
             stage_solver = cp_model.CpSolver()
             stage_solver.parameters.max_time_in_seconds = per_stage
             stage_solver.parameters.log_search_progress = False
-            # Use parallel search for all stages
+            # Performance optimizations
             stage_solver.parameters.num_search_workers = 8
+            stage_solver.parameters.linearization_level = 2  # Aggressive linearization
+            stage_solver.parameters.cp_model_presolve = True
+            stage_solver.parameters.cp_model_probing_level = 2  # More probing
 
             model.Minimize(obj_var)
             stage_status = stage_solver.Solve(model)
@@ -117,6 +150,11 @@ def solve_and_extract_results(
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
         solver.parameters.log_search_progress = False
+        # Performance optimizations
+        solver.parameters.num_search_workers = 8
+        solver.parameters.linearization_level = 2
+        solver.parameters.cp_model_presolve = True
+        solver.parameters.cp_model_probing_level = 2
         status = solver.Solve(model)
 
     # If staged solving failed before any feasible stage, fall back to an empty result.
