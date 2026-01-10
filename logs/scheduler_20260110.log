@@ -3791,3 +3791,4 @@
 2026-01-10 15:16:01 - escala.logic - ERROR - Worker 'Test' missing required key 'can_night'
 2026-01-10 15:16:01 - escala.logic - ERROR - Worker at index 0 is not a dict: not-a-dict
 2026-01-10 15:46:45 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml
+2026-01-10 16:42:09 - escala.scheduler_service - INFO - Configuration loaded from /workspaces/escala/config.yaml

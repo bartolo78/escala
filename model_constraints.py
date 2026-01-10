@@ -204,7 +204,7 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
                 if shift_start <= hist_end:
                     model.Add(assigned[w_idx][s_idx] == 0)
                     blocked_count += 1
-                    logger.debug(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} (overlap with {hist_shift_type} on {hist_day})")
+                    logger.info(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} (overlap with {hist_shift_type} on {hist_day})")
                     continue
                 
                 # If the new shift starts after the historical shift ends,
@@ -215,13 +215,11 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
                     # This shift would violate the 24-hour rest rule
                     model.Add(assigned[w_idx][s_idx] == 0)
                     blocked_count += 1
-                    logger.debug(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} ({delta_hours:.1f}h rest after {hist_shift_type} on {hist_day})")
+                    logger.info(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} ({delta_hours:.1f}h rest after {hist_shift_type} on {hist_day})")
     
     if blocked_count > 0:
         logger.info(f"Cross-week constraints: {blocked_count} worker-shift combinations blocked due to history")
     
-    return model
-
 
 def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers):
     """Add weekly participation constraints per RULES.md.
