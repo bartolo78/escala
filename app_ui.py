@@ -515,7 +515,7 @@ class ShiftSchedulerApp:
         if self.scheduler.has_schedule_for_month(year, month):
             result = messagebox.askyesno(
                 "Schedule Already Exists", 
-                f"A schedule already exists for {self.month_var.get()} {year}.\n\n"
+                f"A schedule already exists for the first complete ISO week of {self.month_var.get()} {year}.\n\n"
                 "Generating a new schedule will overwrite the existing one.\n\n"
                 "Do you want to continue?"
             )

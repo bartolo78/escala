@@ -630,24 +630,47 @@ class SchedulerService:
             )
 
     def has_schedule_for_month(self, year: int, month: int) -> bool:
-        """Check if a schedule already exists for the given month.
+        """Check if a schedule already exists for the first complete ISO week of the given month.
 
+        An ISO week is considered complete if all 7 days (Monday-Sunday) are within the month.
+        
         Args:
             year: Year to check
             month: Month to check (1-12)
 
         Returns:
-            True if any assignments exist for the month, False otherwise
+            True if any assignments exist for the first complete ISO week, False otherwise
         """
+        from datetime import date
         from history_view import HistoryView
         history_view = HistoryView(self._history)
         
-        # Check if any dates in the month have assignments
-        from calendar import monthrange
-        _, last_day = monthrange(year, month)
+        # Get the first day of the month
+        first_day = date(year, month, 1)
         
-        for day in range(1, last_day + 1):
-            date_str = f"{year:04d}-{month:02d}-{day:02d}"
+        # Find the Monday that starts the first complete ISO week in this month
+        # ISO weeks start on Monday
+        days_to_monday = (7 - first_day.weekday()) % 7  # weekday() returns 0=Monday, 6=Sunday
+        
+        if days_to_monday == 0:
+            # First day is Monday, so first complete week starts on day 1
+            week_start = first_day
+        else:
+            # First complete week starts on the Monday of the next week
+            week_start = first_day.replace(day=1 + (7 - first_day.weekday()))
+            
+            # Make sure this Monday is still in the same month
+            if week_start.month != month:
+                # No complete ISO week in this month
+                return False
+        
+        # Check if any dates in this week (Monday to Sunday) have assignments
+        for i in range(7):  # Monday to Sunday
+            check_date = week_start.replace(day=week_start.day + i)
+            if check_date.month != month:
+                # We've gone into the next month, stop checking
+                break
+            date_str = check_date.isoformat()
             if date_str in history_view.scheduled_dates():
                 return True
         
