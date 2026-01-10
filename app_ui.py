@@ -70,7 +70,10 @@ class WorkerTab(ttk.Frame):
         self.build_ui()
 
     def build_ui(self):
-        self.columnconfigure(0, weight=1)
+        self.columnconfigure(0, weight=0)  # Label column
+        self.columnconfigure(1, weight=1)  # Listbox column
+        self.columnconfigure(2, weight=0)  # Buttons column
+        self.columnconfigure(3, weight=1)  # Frames column
         self.rowconfigure(0, weight=0)
         self.rowconfigure(1, weight=1)
 
@@ -93,7 +96,7 @@ class WorkerTab(ttk.Frame):
         Tooltip(remove_worker_btn, "Remove the selected worker")
 
         unavailable_frame = ttk.LabelFrame(self, text="Unavailable Shifts", padding="10")
-        unavailable_frame.grid(row=1, column=0, columnspan=2, pady=10, sticky="nsew")
+        unavailable_frame.grid(row=1, column=3, columnspan=1, pady=10, sticky="nsew")
         unavailable_frame.rowconfigure(0, weight=1)
         unavailable_frame.columnconfigure(0, weight=1)
 
@@ -111,7 +114,7 @@ class WorkerTab(ttk.Frame):
         Tooltip(remove_unavail_btn, "Remove the selected unavailable shift")
 
         required_frame = ttk.LabelFrame(self, text="Required Shifts", padding="10")
-        required_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
+        required_frame.grid(row=2, column=3, columnspan=1, pady=10, sticky="nsew")
         required_frame.rowconfigure(0, weight=1)
         required_frame.columnconfigure(0, weight=1)
 
@@ -129,6 +132,7 @@ class WorkerTab(ttk.Frame):
         Tooltip(remove_req_btn, "Remove the selected required shift")
 
         self.columnconfigure(1, weight=1)
+        self.columnconfigure(3, weight=1)
         self.rowconfigure(1, weight=2)
         self.rowconfigure(2, weight=2)
 
