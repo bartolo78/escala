@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog, messagebox
 from tkcalendar import Calendar, DateEntry
 from calendar import month_name, monthrange, day_name
 from datetime import datetime, timedelta, date
+from typing import Optional, Any
 import tkinter.font as tkfont
 import csv
 import json  # For potential saves
@@ -347,18 +348,19 @@ class ShiftSchedulerApp:
         
         # UI state variables (workers/history/etc. are now managed by scheduler service)
         self.worker_var = tk.StringVar()
-        self.unavailable_list = None
-        self.required_list = None
-        self.schedule_grid_frame = None  # Custom grid frame for schedule display
-        self.schedule_canvas = None  # Canvas for scrollable schedule
-        self.schedule_legend_frame = None  # Legend frame for worker colors
+        self.worker_listbox: Any = None
+        self.unavailable_list: Any = None
+        self.required_list: Any = None
+        self.schedule_grid_frame: Any = None  # Custom grid frame for schedule display
+        self.schedule_canvas: Any = None  # Canvas for scrollable schedule
+        self.schedule_legend_frame: Any = None  # Legend frame for worker colors
         self._schedule_cells = {}  # Store cell labels for editing
         self._schedule_data = []   # Store row data for export/save
-        self.reports_tree = None
-        self.holidays_var = None  # Initialize to None
+        self.reports_tree: Any = None
+        self.holidays_var: Any = None  # Initialize to None
         
         # Last schedule result for dashboard updates
-        self._last_result: ScheduleResult = None
+        self._last_result: Optional[ScheduleResult] = None
 
     # Property aliases for backwards compatibility with tab classes
     @property
@@ -912,9 +914,9 @@ class ShiftSchedulerApp:
                 import openpyxl
                 wb = openpyxl.Workbook()
                 ws = wb.active
-                ws.append(columns)
+                ws.append(columns)  # type: ignore
                 for row in self._schedule_data:
-                    ws.append(row)
+                    ws.append(row)  # type: ignore
                 wb.save(file)
             elif ext == 'csv':
                 import csv

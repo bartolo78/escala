@@ -69,7 +69,7 @@ class ScheduleResult:
     assignments: list[dict] = field(default_factory=list)
     stats: dict = field(default_factory=dict)
     current_stats: dict = field(default_factory=dict)
-    past_stats: dict = field(default_factory=dict)
+    past_stats: Optional[dict] = None
     error_message: str = ""
     diagnostic_report: Any = None
 
