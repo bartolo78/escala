@@ -1,0 +1,2972 @@
+{
+  "Angela": {
+    "2025-12": [
+      {
+        "worker": "Angela",
+        "date": "2025-12-29",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Angela",
+        "date": "2026-01-04",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-01-08",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-01-15",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-01-18",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-01-22",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-01-27",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Angela",
+        "date": "2026-02-06",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-02-11",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-02-14",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-02-17",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-02-21",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-02-27",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Angela",
+        "date": "2026-03-06",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-10",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-14",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-20",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-26",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-29",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-03-31",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Angela",
+        "date": "2026-04-06",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-04-11",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-04-17",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-04-20",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-04-26",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-04-29",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Angela",
+        "date": "2026-05-06",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-13",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-16",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-19",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-28",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-31",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Angela",
+        "date": "2026-05-02",
+        "shift": "M1",
+        "dur": 12
+      }
+    ]
+  },
+  "Rosario": {
+    "2025-12": [
+      {
+        "worker": "Rosario",
+        "date": "2025-12-29",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Rosario",
+        "date": "2026-01-09",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-01-13",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-01-22",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-01-26",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-01-31",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Rosario",
+        "date": "2026-02-04",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-02-09",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-02-15",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-02-19",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-02-27",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Rosario",
+        "date": "2026-03-03",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-03-13",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-03-20",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-03-22",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-03-25",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Rosario",
+        "date": "2026-04-09",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-04-13",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-04-22",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-04-25",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-04-03",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-04-05",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Rosario",
+        "date": "2026-05-06",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-09",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-12",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-16",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-19",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-25",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosario",
+        "date": "2026-05-01",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Nuno": {
+    "2025-12": [
+      {
+        "worker": "Nuno",
+        "date": "2025-12-29",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Nuno",
+        "date": "2026-01-07",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-01-10",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-01-14",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-01-20",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-01-25",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-01-30",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Nuno",
+        "date": "2026-02-02",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-02-11",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-02-14",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-02-16",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-02-22",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-02-26",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Nuno",
+        "date": "2026-03-04",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-03-07",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-03-12",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-03-19",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-03-27",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Nuno",
+        "date": "2026-04-10",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-04-16",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-04-21",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-04-27",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-04-03",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-04-05",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Nuno",
+        "date": "2026-05-04",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-05-09",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-05-12",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-05-21",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-05-24",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Nuno",
+        "date": "2026-05-29",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Fernando": {
+    "2025-12": [
+      {
+        "worker": "Fernando",
+        "date": "2025-12-30",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Fernando",
+        "date": "2026-01-08",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-01-13",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-01-17",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-01-23",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-01-28",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Fernando",
+        "date": "2026-02-03",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-02-08",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-02-12",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-02-17",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-02-23",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Fernando",
+        "date": "2026-03-02",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-03-13",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-03-16",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-03-26",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-03-28",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-03-31",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Fernando",
+        "date": "2026-04-06",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-04-12",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-04-17",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-04-22",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-04-28",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Fernando",
+        "date": "2026-05-07",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-05-10",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-05-13",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-05-21",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-05-27",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Fernando",
+        "date": "2026-05-30",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Sofia": {
+    "2025-12": [
+      {
+        "worker": "Sofia",
+        "date": "2025-12-30",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Sofia",
+        "date": "2026-01-06",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-01-14",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-01-20",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-01-24",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-01-27",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Sofia",
+        "date": "2026-02-05",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-09",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-15",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-20",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-25",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-28",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-02-01",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Sofia",
+        "date": "2026-03-02",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-03-11",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-03-14",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-03-16",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-03-21",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-03-23",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Sofia",
+        "date": "2026-04-08",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-04-11",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-04-15",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-04-21",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-04-25",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-04-01",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Sofia",
+        "date": "2026-05-07",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-11",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-22",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-24",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-28",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-01",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Sofia",
+        "date": "2026-05-03",
+        "shift": "N",
+        "dur": 12
+      }
+    ]
+  },
+  "Bartolo": {
+    "2025-12": [
+      {
+        "worker": "Bartolo",
+        "date": "2025-12-30",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-03",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-05",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-10",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-16",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-19",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-24",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-28",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-01-31",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Bartolo",
+        "date": "2026-02-04",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-02-09",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-02-18",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-02-22",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-02-26",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-05",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-09",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-16",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-21",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-27",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-29",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-03-01",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-10",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-14",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-24",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-26",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-30",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-01",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-04-04",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-07",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-15",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-21",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-26",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-31",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Bartolo",
+        "date": "2026-05-03",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Lucilia": {
+    "2025-12": [
+      {
+        "worker": "Lucilia",
+        "date": "2025-12-31",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-05",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-11",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-14",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-17",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-21",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-01-29",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-02",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-07",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-12",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-15",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-20",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-02-24",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-06",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-08",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-11",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-14",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-19",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-22",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-27",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-03-29",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-07",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-11",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-16",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-20",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-27",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-30",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-04-01",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Lucilia",
+        "date": "2026-05-08",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-05-15",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-05-18",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-05-23",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucilia",
+        "date": "2026-05-26",
+        "shift": "M1",
+        "dur": 12
+      }
+    ]
+  },
+  "Celeste": {
+    "2025-12": [
+      {
+        "worker": "Celeste",
+        "date": "2025-12-31",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Celeste",
+        "date": "2026-01-03",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-01-09",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-01-13",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-01-18",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-01-23",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-01-30",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Celeste",
+        "date": "2026-02-02",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-02-07",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-02-10",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-02-19",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-02-24",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Celeste",
+        "date": "2026-03-04",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-03-08",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-03-12",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-03-15",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-03-18",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-03-24",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Celeste",
+        "date": "2026-04-10",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-04-16",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-04-18",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-04-24",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-04-29",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-04-04",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Celeste",
+        "date": "2026-05-04",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-05-10",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-05-14",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-05-18",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Celeste",
+        "date": "2026-05-29",
+        "shift": "N",
+        "dur": 12
+      }
+    ]
+  },
+  "Rosa": {
+    "2025-12": [
+      {
+        "worker": "Rosa",
+        "date": "2025-12-31",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-01": [
+      {
+        "worker": "Rosa",
+        "date": "2026-01-03",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-01-07",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-01-11",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-01-16",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-01-23",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-01-29",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Rosa",
+        "date": "2026-02-03",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-02-08",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-02-13",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-02-19",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-02-23",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Rosa",
+        "date": "2026-03-03",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-10",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-15",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-17",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-24",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-28",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-30",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-03-01",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Rosa",
+        "date": "2026-04-07",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-04-13",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-04-18",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-04-22",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-04-25",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-04-30",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Rosa",
+        "date": "2026-05-06",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-05-10",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-05-15",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-05-18",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-05-25",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Rosa",
+        "date": "2026-05-30",
+        "shift": "N",
+        "dur": 12
+      }
+    ]
+  },
+  "Tome": {
+    "2026-01": [
+      {
+        "worker": "Tome",
+        "date": "2026-01-01",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-01-04",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-01-07",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-01-12",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-01-20",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-01-26",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Tome",
+        "date": "2026-02-05",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-02-13",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-02-18",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-02-21",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-02-24",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-02-01",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Tome",
+        "date": "2026-03-05",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-03-13",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-03-15",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-03-17",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-03-26",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Tome",
+        "date": "2026-04-09",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-04-12",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-04-17",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-04-21",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-04-28",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-04-03",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Tome",
+        "date": "2026-05-08",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-05-11",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-05-16",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-05-20",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-05-27",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Tome",
+        "date": "2026-05-02",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Filomena": {
+    "2026-01": [
+      {
+        "worker": "Filomena",
+        "date": "2026-01-01",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-06",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-11",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-15",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-18",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-22",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-26",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-01-31",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Filomena",
+        "date": "2026-02-06",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-02-10",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-02-20",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-02-25",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-02-28",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Filomena",
+        "date": "2026-03-06",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-03-12",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-03-19",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-03-23",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-03-30",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Filomena",
+        "date": "2026-04-08",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-04-14",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-04-18",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-04-24",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-04-27",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Filomena",
+        "date": "2026-05-05",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-05-13",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-05-20",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-05-24",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Filomena",
+        "date": "2026-05-29",
+        "shift": "M1",
+        "dur": 12
+      }
+    ]
+  },
+  "Teresa": {
+    "2026-01": [
+      {
+        "worker": "Teresa",
+        "date": "2026-01-01",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-01-09",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-01-15",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-01-21",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-01-25",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-01-30",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Teresa",
+        "date": "2026-02-03",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-02-13",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-02-16",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-02-22",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-02-26",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-02-28",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Teresa",
+        "date": "2026-03-05",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-03-09",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-03-18",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-03-24",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-03-28",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-03-30",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Teresa",
+        "date": "2026-04-08",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-04-12",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-04-15",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-04-20",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-04-29",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-04-02",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Teresa",
+        "date": "2026-05-05",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-05-09",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-05-12",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-05-17",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-05-22",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Teresa",
+        "date": "2026-05-26",
+        "shift": "M2",
+        "dur": 15
+      }
+    ]
+  },
+  "Pego": {
+    "2026-01": [
+      {
+        "worker": "Pego",
+        "date": "2026-01-02",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-04",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-08",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-10",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-16",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-19",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-25",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-01-29",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Pego",
+        "date": "2026-02-06",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-02-10",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-02-16",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-02-21",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-02-25",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-02-01",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Pego",
+        "date": "2026-03-04",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-07",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-08",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-10",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-17",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-23",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-03-31",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Pego",
+        "date": "2026-04-09",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-04-15",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-04-19",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-04-23",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-04-28",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-04-04",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Pego",
+        "date": "2026-05-04",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-05-11",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-05-17",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-05-19",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-05-23",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Pego",
+        "date": "2026-05-27",
+        "shift": "N",
+        "dur": 12
+      }
+    ]
+  },
+  "Lucas": {
+    "2026-01": [
+      {
+        "worker": "Lucas",
+        "date": "2026-01-02",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-01-05",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-01-12",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-01-17",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-01-21",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-01-28",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Lucas",
+        "date": "2026-02-04",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-02-07",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-02-12",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-02-17",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-02-27",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Lucas",
+        "date": "2026-03-03",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-03-11",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-03-18",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-03-21",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-03-25",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-03-01",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Lucas",
+        "date": "2026-04-06",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-14",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-19",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-23",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-26",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-02",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-04-05",
+        "shift": "M1",
+        "dur": 12
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Lucas",
+        "date": "2026-05-08",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-14",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-17",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-22",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-25",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-30",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Lucas",
+        "date": "2026-05-02",
+        "shift": "N",
+        "dur": 12
+      }
+    ]
+  },
+  "Gilberto": {
+    "2026-01": [
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-02",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-06",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-12",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-19",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-24",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-01-27",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-02": [
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-05",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-08",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-11",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-14",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-18",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-02-23",
+        "shift": "N",
+        "dur": 12
+      }
+    ],
+    "2026-03": [
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-02",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-07",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-09",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-20",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-22",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-03-25",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-04": [
+      {
+        "worker": "Gilberto",
+        "date": "2026-04-07",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-04-13",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-04-19",
+        "shift": "M1",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-04-23",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-04-02",
+        "shift": "M2",
+        "dur": 15
+      }
+    ],
+    "2026-05": [
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-05",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-14",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-20",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-23",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-28",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-31",
+        "shift": "M2",
+        "dur": 15
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-01",
+        "shift": "N",
+        "dur": 12
+      },
+      {
+        "worker": "Gilberto",
+        "date": "2026-05-03",
+        "shift": "M1",
+        "dur": 12
+      }
+    ]
+  }
+}
