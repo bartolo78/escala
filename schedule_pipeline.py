@@ -178,79 +178,82 @@ def solve_and_extract_results(
         best_solver = None
         best_status = None
 
-        # Staged optimization: process each objective in priority order.
-        # Unlike a pure feasibility check (no objective), we use the first stage's
-        # objective from the start. This helps OR-Tools' search strategy find
-        # feasible solutions more effectively, especially for tightly constrained
-        # problems with cross-week history constraints.
-        for idx, (stage_name, obj_var) in enumerate(stage_objectives):
-            elapsed = time.time() - start_t
-            remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
-            stages_left = max(1, len(stage_objectives) - idx)
+        # PHASE 1: Find initial feasibility WITHOUT any objective
+        # This is critical - searching for feasibility is much faster than
+        # searching for feasibility while also optimizing an objective.
+        logger.info("Phase 1: Finding initial feasible solution...")
+        feasibility_solver = cp_model.CpSolver()
+        feasibility_solver.parameters.max_time_in_seconds = min(60.0, SOLVER_TIMEOUT_SECONDS * 0.25)
+        feasibility_solver.parameters.log_search_progress = False
+        feasibility_solver.parameters.num_search_workers = 8
+        feasibility_solver.parameters.cp_model_presolve = True
+        
+        feasibility_status = feasibility_solver.Solve(model)
+        
+        if feasibility_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            status_name = {
+                cp_model.INFEASIBLE: "INFEASIBLE",
+                cp_model.MODEL_INVALID: "MODEL_INVALID",
+                cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
+            }.get(feasibility_status, f"STATUS_{feasibility_status}")
+            logger.error(f"No feasible solution found in Phase 1 ({status_name}) after {feasibility_solver.WallTime():.1f}s")
+            solver = None
+            status = feasibility_status
+        else:
+            logger.info(f"Phase 1 complete: feasible solution found in {feasibility_solver.WallTime():.1f}s")
             
-            # First stage gets most of the time budget to find feasibility
-            if idx == 0:
-                per_stage = max(220.0, remaining * 0.9)
-            else:
+            # PHASE 2: Staged optimization - optimize each objective in order
+            logger.info("Phase 2: Staged optimization...")
+            for idx, (stage_name, obj_var) in enumerate(stage_objectives):
+                elapsed = time.time() - start_t
+                remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
+                stages_left = max(1, len(stage_objectives) - idx)
+                
+                # Distribute remaining time across stages
                 per_stage = max(1.0, remaining / stages_left)
-            
-            # Stop if we're running low on time
-            if remaining < 2.0 and idx > 0:
-                logger.info(f"Stopping optimization early - {remaining:.1f}s remaining")
-                break
+                
+                # Stop if we're running low on time
+                if remaining < 2.0:
+                    logger.info(f"Stopping optimization early - {remaining:.1f}s remaining")
+                    break
 
-            stage_solver = cp_model.CpSolver()
-            stage_solver.parameters.max_time_in_seconds = per_stage
-            stage_solver.parameters.log_search_progress = False
-            # Performance optimizations
-            stage_solver.parameters.num_search_workers = 8
-            stage_solver.parameters.linearization_level = 2  # Aggressive linearization
-            stage_solver.parameters.cp_model_presolve = True
-            stage_solver.parameters.cp_model_probing_level = 2  # More probing
+                stage_solver = cp_model.CpSolver()
+                stage_solver.parameters.max_time_in_seconds = per_stage
+                stage_solver.parameters.log_search_progress = False
+                # Performance optimizations
+                stage_solver.parameters.num_search_workers = 8
+                stage_solver.parameters.linearization_level = 2
+                stage_solver.parameters.cp_model_presolve = True
+                stage_solver.parameters.cp_model_probing_level = 2
 
-            model.Minimize(obj_var)
-            
-            # Use early stopping callback for first stage (main optimization)
-            if idx == 0:
+                model.Minimize(obj_var)
+                
+                # Use early stopping callback
                 callback = EarlyStoppingCallback(
                     logger=logger,
-                    min_time=SOLVER_MIN_TIME_SECONDS,
-                    no_improvement_time=SOLVER_NO_IMPROVEMENT_SECONDS,
+                    min_time=min(SOLVER_MIN_TIME_SECONDS, per_stage * 0.3),
+                    no_improvement_time=min(SOLVER_NO_IMPROVEMENT_SECONDS, per_stage * 0.2),
                     threshold=SOLVER_IMPROVEMENT_THRESHOLD,
                 )
                 stage_status = stage_solver.Solve(model, callback)
-                logger.info(f"Stage '{stage_name}': {callback.solution_count} solutions explored")
-            else:
-                stage_status = stage_solver.Solve(model)
-            
-            if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                if idx == 0:
-                    # First stage failed - no feasible solution found
-                    status_name = {
-                        cp_model.INFEASIBLE: "INFEASIBLE",
-                        cp_model.MODEL_INVALID: "MODEL_INVALID",
-                        cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
-                    }.get(stage_status, f"STATUS_{stage_status}")
-                    logger.error(f"Stage '{stage_name}' failed with status {status_name} after {stage_solver.WallTime():.1f}s")
-                    solver = None
-                    status = None
-                    break
-                else:
-                    # Later stage timed out - keep the best solution we have
+                logger.info(f"Stage '{stage_name}': {callback.solution_count} solutions in {stage_solver.WallTime():.1f}s")
+                
+                if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                    # Stage timed out - keep the best solution we have
                     logger.warning(f"Stage '{stage_name}' timed out, keeping previous solution")
                     break
 
-            v = int(stage_solver.Value(obj_var))
-            stage_values[stage_name] = v
-            logger.info(f"Stage {stage_name}: value={v}")
+                v = int(stage_solver.Value(obj_var))
+                stage_values[stage_name] = v
+                logger.info(f"Stage {stage_name}: value={v}")
 
-            # Fix the optimal value for the next stage.
-            model.Add(obj_var == v)
+                # Fix the optimal value for the next stage
+                model.Add(obj_var == v)
 
-            best_solver = stage_solver
-            best_status = stage_status
-            solver = stage_solver
-            status = stage_status
+                best_solver = stage_solver
+                best_status = stage_status
+                solver = stage_solver
+                status = stage_status
     else:
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
