@@ -707,6 +707,68 @@ class SchedulerService:
         
         return False
 
+    def reset_schedule_for_month(self, year: int, month: int) -> bool:
+        """Remove generated schedule assignments for the first complete ISO week of the given month.
+
+        This removes the assignments that were generated for scheduling, restoring the state
+        to only historic data for that month.
+
+        Args:
+            year: Year to reset
+            month: Month to reset (1-12)
+
+        Returns:
+            True if assignments were removed, False if no assignments found
+        """
+        from datetime import date
+        from history_view import HistoryView
+        history_view = HistoryView(self._history)
+        
+        # Get the first day of the month
+        first_day = date(year, month, 1)
+        
+        # Find the Monday that starts the first complete ISO week in this month
+        # ISO weeks start on Monday
+        days_to_monday = (7 - first_day.weekday()) % 7  # weekday() returns 0=Monday, 6=Sunday
+        
+        if days_to_monday == 0:
+            # First day is Monday, so first complete week starts on day 1
+            week_start = first_day
+        else:
+            # First complete week starts on the Monday of the next week
+            week_start = first_day.replace(day=1 + (7 - first_day.weekday()))
+            
+            # Make sure this Monday is still in the same month
+            if week_start.month != month:
+                # No complete ISO week in this month
+                return False
+        
+        # Remove assignments for dates in this week (Monday to Sunday)
+        removed = False
+        for i in range(7):  # Monday to Sunday
+            check_date = week_start.replace(day=week_start.day + i)
+            if check_date.month != month:
+                # We've gone into the next month, stop checking
+                break
+            date_str = check_date.isoformat()
+            
+            # Remove assignments for this date from all workers
+            for worker_name in list(self._history.keys()):
+                if worker_name in self._history:
+                    month_key = check_date.strftime('%Y-%m')
+                    if month_key in self._history[worker_name]:
+                        original_count = len(self._history[worker_name][month_key])
+                        self._history[worker_name][month_key] = [
+                            ass for ass in self._history[worker_name][month_key] 
+                            if ass['date'] != date_str
+                        ]
+                        if len(self._history[worker_name][month_key]) < original_count:
+                            removed = True
+        
+        if removed:
+            logger.info(f"Reset schedule for {month}/{year}")
+        return removed
+
     # =========================================================================
     # Statistics and Reports
     # =========================================================================

@@ -465,6 +465,12 @@ class ShiftSchedulerApp:
         self.holidays_var = tk.StringVar()
         ttk.Label(control_frame, textvariable=self.holidays_var).grid(row=1, column=1, columnspan=3, sticky="w", padx=10, pady=5)
 
+        # Add Reset button
+        reset_btn = ttk.Button(control_frame, text="Reset Schedule",
+                               command=self.reset_schedule_wrapper)
+        reset_btn.grid(row=1, column=4, padx=10, pady=5)
+        Tooltip(reset_btn, "Reset the schedule and reload historic data for the selected month")
+
     def open_rules(self):
         """Open a window displaying the scheduling rules from RULES.md."""
         try:
@@ -607,6 +613,52 @@ class ShiftSchedulerApp:
         self.update_schedule_display(schedule, all_holidays)
         # Optionally generate report
         # self.generate_report()
+
+    def reset_schedule_wrapper(self):
+        try:
+            month = list(month_name).index(self.month_var.get())
+            year = self.year_var.get()
+        except ValueError:
+            messagebox.showerror("Error", "Invalid month or year")
+            return
+
+        # Check if schedule exists for this month
+        if not self.scheduler.has_schedule_for_month(year, month):
+            messagebox.showinfo("No Schedule", f"No generated schedule found for {self.month_var.get()} {year}.")
+            return
+
+        result = messagebox.askyesno(
+            "Reset Schedule", 
+            f"This will remove the generated schedule for {self.month_var.get()} {year} and reload the historic data.\n\n"
+            "Do you want to continue?"
+        )
+        if not result:
+            return
+
+        self.progress.grid()
+        self.progress.start()
+        self.status_var.set("Resetting schedule...")
+
+        self.root.after(100, lambda: self._run_reset_schedule(year, month))
+
+    def _run_reset_schedule(self, year, month):
+        logger.info(f"Resetting schedule for {month}/{year}")
+        
+        # Reset the schedule
+        removed = self.scheduler.reset_schedule_for_month(year, month)
+        
+        self.progress.stop()
+        self.progress.grid_remove()
+
+        if removed:
+            self.status_var.set("Schedule reset")
+            logger.info("Schedule reset successfully")
+        else:
+            self.status_var.set("No schedule to reset")
+            logger.info("No schedule found to reset")
+
+        # Reload and display the historic data
+        self._run_view_history(year, month)
 
     def update_worker_stats(self, event=None):
         # Get selected worker from listbox
