@@ -142,10 +142,11 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
       4) Sunday or Holiday N (holidays on Saturday excluded)
       5) Sunday or Holiday M1
       6) Saturday M1
-      7) Friday N
-      8) Weekday (not Friday) N
-      9) Monday M1 or M2
-      10) Weekday (not Monday) M1 or M2
+      7) Weekday N (all Mon-Fri nights combined, to balance total night burden)
+      8) Friday N
+      9) Weekday (not Friday) N
+      10) Monday M1 or M2
+      11) Weekday (not Monday) M1 or M2
     
     Holiday Counting Rules:
       - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
@@ -224,13 +225,20 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
         if is_saturday(s) and is_m1(s) and not is_holiday(s)
     ]
     
-    # Priority 7: Friday N (non-holiday Friday nights)
+    # Priority 7: Weekday N (all Mon-Fri nights, non-holiday - combines fri_night and weekday_not_fri_n)
+    # This tracks total weekday night burden to prevent a worker from being overloaded on nights overall
+    weekday_n_indices = [
+        s for s in range(num_shifts)
+        if is_weekday(s) and is_night(s) and not is_holiday(s)
+    ]
+    
+    # Priority 8: Friday N (non-holiday Friday nights)
     fri_night_indices = [
         s for s in range(num_shifts)
         if is_friday(s) and is_night(s) and not is_holiday(s)
     ]
     
-    # Priority 8: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
+    # Priority 9: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
     weekday_not_fri_n_indices = [
         s for s in range(num_shifts)
         if is_weekday(s) and not is_friday(s) and is_night(s) and not is_holiday(s)
@@ -242,7 +250,7 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
         if is_monday(s) and is_day_shift(s) and not is_holiday(s)
     ]
     
-    # Priority 10: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
+    # Priority 11: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
     weekday_not_mon_day_indices = [
         s for s in range(num_shifts)
         if is_weekday(s) and not is_monday(s) and is_day_shift(s) and not is_holiday(s)
@@ -258,6 +266,7 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
         "sun_holiday_n": sun_holiday_n_indices,
         "sat_m2": sat_m2_indices,
         "sat_m1": sat_m1_indices,
+        "weekday_n": weekday_n_indices,
         "fri_night": fri_night_indices,
         "weekday_not_fri_n": weekday_not_fri_n_indices,
         "monday_day": monday_day_indices,

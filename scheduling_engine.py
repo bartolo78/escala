@@ -4,6 +4,7 @@ from utils import compute_holidays
 from constants import (
     DOW_EQUITY_WEIGHT,
     EQUITY_WEIGHTS,
+    MONTHLY_SHIFT_BALANCE_WEIGHT,
     OBJECTIVE_FLEX_WEIGHTS,
     OBJECTIVE_WEIGHT_LOAD,
     SHIFT_TYPES,
@@ -216,10 +217,11 @@ def _compute_past_stats(history, workers):
       4) Sunday or Holiday N (holidays on Saturday excluded)
       5) Sunday or Holiday M1
       6) Saturday M1
-      7) Friday N
-      8) Weekday (not Friday) N
-      9) Monday M1 or M2
-      10) Weekday (not Monday) M1 or M2
+      7) Weekday N (all Mon-Fri nights combined)
+      8) Friday N
+      9) Weekday (not Friday) N
+      10) Monday M1 or M2
+      11) Weekday (not Monday) M1 or M2
     """
     past_stats = {w['name']: {
         'sat_n': 0,
@@ -228,6 +230,7 @@ def _compute_past_stats(history, workers):
         'sun_holiday_n': 0,
         'sat_m2': 0,
         'sat_m1': 0,
+        'weekday_n': 0,
         'fri_night': 0,
         'weekday_not_fri_n': 0,
         'monday_day': 0,
@@ -296,19 +299,22 @@ def _compute_past_stats(history, workers):
         elif is_saturday and is_m1 and not is_holiday:
             past_stats[worker_name]['sat_m1'] += 1
         
-        # Priority 7: Friday N (non-holiday Friday nights)
-        elif is_friday and is_night and not is_holiday:
-            past_stats[worker_name]['fri_night'] += 1
+        # Priority 7: Weekday N (all Mon-Fri nights, non-holiday)
+        # Also increment fri_night or weekday_not_fri_n for granular tracking
+        elif is_weekday and is_night and not is_holiday:
+            past_stats[worker_name]['weekday_n'] += 1
+            # Priority 8: Friday N (non-holiday Friday nights)
+            if is_friday:
+                past_stats[worker_name]['fri_night'] += 1
+            # Priority 9: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
+            else:
+                past_stats[worker_name]['weekday_not_fri_n'] += 1
         
-        # Priority 8: Weekday (not Friday) N (Mon-Thu nights, non-holiday)
-        elif is_weekday and not is_friday and is_night and not is_holiday:
-            past_stats[worker_name]['weekday_not_fri_n'] += 1
-        
-        # Priority 9: Monday M1 or M2 (non-holiday Mondays)
+        # Priority 10: Monday M1 or M2 (non-holiday Mondays)
         elif is_monday and is_day_shift and not is_holiday:
             past_stats[worker_name]['monday_day'] += 1
         
-        # Priority 10: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
+        # Priority 11: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
         elif is_weekday and not is_monday and is_day_shift and not is_holiday:
             past_stats[worker_name]['weekday_not_mon_day'] += 1
     
@@ -664,9 +670,10 @@ def generate_schedule(
         load_cost = _mo.build_load_balancing_cost(model, iso_weeks, shifts, assigned, workers)
         equity_cost = _mo.build_equity_cost_scaled(model, equity_weights, past_stats, current_stats, workers, num_workers)
         dow_cost = _mo.build_dow_equity_cost_scaled(model, dow_equity_weight, past_stats, current_dow, workers, num_workers)
+        monthly_balance_cost = _mo.build_monthly_shift_balance_cost(model, assigned, num_workers, num_shifts, MONTHLY_SHIFT_BALANCE_WEIGHT)
         # Generous upper bound; exact tightness isn't required.
         fairness_cost = model.NewIntVar(0, 10_000_000, "fairness_cost")
-        model.Add(fairness_cost == load_cost + equity_cost + dow_cost)
+        model.Add(fairness_cost == load_cost + equity_cost + dow_cost + monthly_balance_cost)
 
         # Rule 11: prefer >48h gaps (penalize 24-48h gaps)
         consec48_cost = _mo.build_consec_shifts_48h_cost(model, assigned, shifts, num_shifts, num_workers)

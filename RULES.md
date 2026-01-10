@@ -117,10 +117,11 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       4) Sunday or Holiday N (holidays on Saturday excluded—see below)
       5) Sunday or Holiday M1
       6) Saturday M1
-      7) Friday N
-      8) Weekday (not Friday) N
-      9) Monday M1 or M2
-      10) Weekday (not Monday) M1 or M2
+      7) Weekday N (all Mon-Fri nights combined, to balance total night burden)
+      8) Friday N
+      9) Weekday (not Friday) N
+      10) Monday M1 or M2
+      11) Weekday (not Monday) M1 or M2
 
    - *Holiday Counting Rules for Equity:*
       - Holiday on Saturday: M1/M2 count as Holiday M1/M2; N counts as Saturday N (not double-counted).
@@ -132,9 +133,20 @@ These rules should be satisfied as much as possible, in the order listed, but ma
    - Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours to minimize overtime over the long term (one year of scheduling).
    - *Clarification:* Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible. This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
 
-10. **Weekend Definition for Behavioral Rules:**
+10. **Monthly Shift Balance:**
+   - Prevent extreme imbalances in total shift counts within a single scheduled month, even when long-term category equity would otherwise cause it.
+   - *Rationale:* Category-specific equity objectives (e.g., balancing Saturday nights, holiday M2s) could inadvertently cause one worker to receive many more total shifts than others in a single month—for example, if a worker needs "catch-up" assignments in multiple categories simultaneously.
+   - *Implementation:* The scheduler penalizes the difference between the worker with the most total shifts and the worker with the fewest total shifts in the scheduling period.
+   - *Scope:* This rule applies to the entire scheduling window (all ISO weeks containing any day of the selected month), which is optimized as a single problem—not week-by-week.
+   - *Priority:* This objective sits between weekend/holiday equity (higher priority) and weekday equity (lower priority), with a default weight of 5000. This ensures premium shift fairness takes precedence, but monthly totals remain reasonably balanced.
+   - *Tuning:* The weight can be adjusted in `constants.py` via `MONTHLY_SHIFT_BALANCE_WEIGHT`:
+      - Increase (e.g., 8000) for stricter monthly balance at the cost of some long-term category equity
+      - Decrease (e.g., 2000) for more flexibility in pursuing long-term category equity
+      - Recommended range: 2000–8000
+
+11. **Weekend Definition for Behavioral Rules:**
    - For rules such as **Weekend Shift Limits** (#3) and **Consecutive Weekend Shift Avoidance** (#4), only actual weekends (Saturday and Sunday) are considered "weekend."
-   - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#6).
+   - Holidays falling on weekdays (Monday–Friday) do NOT count as weekend for these behavioral rules—they only affect equity tracking (#8).
 
 ## Extended Absence Handling
 
