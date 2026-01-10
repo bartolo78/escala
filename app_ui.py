@@ -395,15 +395,20 @@ class ShiftSchedulerApp:
         self.root.config(menu=menubar)
         file_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="File", menu=file_menu)
-        file_menu.add_command(label="Load Historic Data", command=self.load_historic_data)
-        file_menu.add_command(label="Import Workers", command=self.import_workers)
-        file_menu.add_command(label="Import Holidays", command=self.import_holidays)
+        
         file_menu.add_command(label="Save Schedule", command=self.save_schedule)
         file_menu.add_command(label="Export Schedule", command=self.export_schedule)
+        file_menu.add_command(label="Export History", command=self.export_history)
+        file_menu.add_command(label="Import History", command=self.import_history)
         file_menu.add_separator()
         file_menu.add_command(label="Save Configuration", command=self.save_workers_config)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
+
+        workers_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Workers", menu=workers_menu)
+        workers_menu.add_command(label="Import Workers", command=self.import_workers)
+        workers_menu.add_command(label="Import Vacations", command=self.import_vacations)
 
         help_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Help", menu=help_menu)
@@ -452,16 +457,6 @@ class ShiftSchedulerApp:
         add_holiday_btn = ttk.Button(control_frame, text="Add Holiday", command=self.add_manual_holiday)
         add_holiday_btn.grid(row=0, column=7, padx=10, pady=5)
         Tooltip(add_holiday_btn, "Add a manual holiday for the selected month")
-
-        # Add export history button
-        export_btn = ttk.Button(control_frame, text="Export History", command=self.export_history)
-        export_btn.grid(row=0, column=8, padx=10, pady=5)
-        Tooltip(export_btn, "Export the scheduling history to a JSON file")
-
-        # Add import history button
-        import_btn = ttk.Button(control_frame, text="Import History", command=self.import_history)
-        import_btn.grid(row=0, column=9, padx=10, pady=5)
-        Tooltip(import_btn, "Import scheduling history from a JSON file")
 
         # Holidays display
         ttk.Label(control_frame, text="Holidays:").grid(row=1, column=0, padx=10, pady=5)
@@ -867,6 +862,35 @@ class ShiftSchedulerApp:
             self.update_schedule_columns()  # Refresh
             self.update_holidays_display()
             self.status_var.set("Holidays imported")
+
+    def import_vacations(self):
+        format_info = (
+            "The file should be a CSV (Comma-Separated Values) file with worker name and vacation date.\n\n"
+            "• First column: Worker name (must match existing worker)\n"
+            "• Second column: Vacation date in YYYY-MM-DD format\n"
+            "• Additional columns are ignored\n"
+            "• Empty rows are skipped\n"
+            "• Duplicate vacation dates will not be added"
+        )
+        example = "John Smith,2026-07-15\nMaria Garcia,2026-08-01\nMaria Garcia,2026-08-02\nAhmed Hassan,2026-12-24"
+        
+        if not self.show_import_format_dialog("Import Vacations", format_info, example):
+            return
+        
+        file = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+        if file:
+            logger.info(f"Importing vacations from {file}")
+            with open(file, 'r') as f:
+                reader = csv.reader(f)
+                added_count = 0
+                for row in reader:
+                    if len(row) >= 2:
+                        worker_name = row[0].strip()
+                        vacation_date = row[1].strip()
+                        if self.scheduler.add_unavailable(worker_name, vacation_date):
+                            added_count += 1
+            self.update_worker_stats()  # Refresh UI
+            self.status_var.set(f"Vacations imported: {added_count} vacation days added")
 
     def export_schedule(self):
         formats = [("PDF", ".pdf"), ("Excel", ".xlsx"), ("CSV", ".csv")]
