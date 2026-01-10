@@ -101,7 +101,7 @@ OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0
 # [12]: Consecutive Night Shift Avoidance - penalizes night-to-night sequences (next shift after a night being a night).
 
 # Solver and constraint parameters
-SOLVER_TIMEOUT_SECONDS = 180.0  # Increased from 30s to handle 5-week schedules
+SOLVER_TIMEOUT_SECONDS = 240.0  # Increased from 30s to handle 5-week schedules
 MIN_REST_HOURS = 24  # Minimum hours between shift ends/starts
 CONSECUTIVE_SHIFT_PENALTY_RANGE = (24, 48)  # Penalize shifts with rest in [min, max) hours
 MAX_STAT_VALUE = 10000  # Upper bound for stat variables in model
