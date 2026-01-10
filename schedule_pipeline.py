@@ -68,6 +68,14 @@ def solve_and_extract_results(
             model.Minimize(obj_var)
             stage_status = stage_solver.Solve(model)
             if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                # Log which stage failed
+                status_name = {
+                    cp_model.INFEASIBLE: "INFEASIBLE",
+                    cp_model.MODEL_INVALID: "MODEL_INVALID",
+                    cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
+                }.get(stage_status, f"STATUS_{stage_status}")
+                logger.error(f"Stage '{stage_name}' failed with status {status_name} (idx={idx})")
+                
                 # Preserve the last feasible solution, if any.
                 solver = best_solver
                 status = best_status

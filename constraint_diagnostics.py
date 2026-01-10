@@ -279,7 +279,15 @@ class ConstraintDiagnostics:
                     ))
 
     def _check_weekly_participation_feasibility(self, report: DiagnosticReport) -> None:
-        """Check if weekly participation constraint can be satisfied."""
+        """Check if weekly participation constraint can be satisfied.
+        
+        This checks two things:
+        1. Are there more eligible workers than total shifts? (pigeonhole)
+        2. After considering night restrictions + 24h rest, can each eligible
+           worker actually take at least one shift?
+        """
+        from constants import MIN_REST_HOURS
+        
         for key, week in self.iso_weeks.items():
             weekdays = week.get("weekdays_for_distribution", [])
             week_shifts = week.get("shifts", [])
@@ -289,10 +297,9 @@ class ConstraintDiagnostics:
             for w_idx, worker in enumerate(self.workers):
                 avail_weekdays = [wd for wd in weekdays if (wd, None) not in self.unav_parsed[w_idx]]
                 if avail_weekdays:
-                    eligible_workers.append(worker["name"])
+                    eligible_workers.append((w_idx, worker["name"]))
 
-            # Each eligible worker needs at least one shift
-            # Total shifts in week = len(week_shifts)
+            # Check 1: pigeonhole principle
             if len(eligible_workers) > len(week_shifts):
                 report.add_violation(ConstraintViolation(
                     category="weekly_participation",
@@ -302,7 +309,48 @@ class ConstraintDiagnostics:
                         "iso_week": key,
                         "eligible_workers": len(eligible_workers),
                         "total_shifts": len(week_shifts),
-                        "workers": eligible_workers,
+                        "workers": [name for _, name in eligible_workers],
+                    }
+                ))
+
+            # Check 2: Can each eligible worker take at least one shift?
+            # Consider: unavailability, night restrictions, 24h rest between shifts
+            workers_with_zero_options = []
+            for w_idx, w_name in eligible_workers:
+                worker = self.workers[w_idx]
+                can_night = worker.get("can_night", True)
+                
+                available_shifts = 0
+                for s_idx in week_shifts:
+                    shift = self.shifts[s_idx]
+                    shift_day = shift["day"]
+                    shift_type = shift["type"]
+                    is_night = shift.get("night", False)
+                    
+                    # Check unavailability
+                    if (shift_day, None) in self.unav_parsed[w_idx]:
+                        continue
+                    if (shift_day, shift_type) in self.unav_parsed[w_idx]:
+                        continue
+                    
+                    # Check night capability
+                    if is_night and not can_night:
+                        continue
+                    
+                    available_shifts += 1
+                
+                if available_shifts == 0:
+                    workers_with_zero_options.append(w_name)
+            
+            if workers_with_zero_options:
+                report.add_violation(ConstraintViolation(
+                    category="weekly_participation",
+                    severity="error",
+                    message=f"ISO week {key}: {len(workers_with_zero_options)} workers have no available shifts",
+                    details={
+                        "iso_week": key,
+                        "workers_blocked": workers_with_zero_options,
+                        "reason": "night restrictions + unavailability",
                     }
                 ))
 

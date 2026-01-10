@@ -125,6 +125,9 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
     This is critical because the main add_24h_interval_constraints function only
     considers shifts within the current scheduling window, not historical shifts.
     """
+    import logging
+    logger = logging.getLogger('escala')
+    
     if not days or not history:
         return model
 
@@ -146,6 +149,7 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
         first_day - timedelta(days=2),  # Day before yesterday (for completeness)
     ]
     
+    blocked_count = 0
     for w_idx, worker in enumerate(workers):
         w_name = worker["name"]
         
@@ -174,6 +178,8 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
                 # they overlap, which is definitely not allowed
                 if shift_start <= hist_end:
                     model.Add(assigned[w_idx][s_idx] == 0)
+                    blocked_count += 1
+                    logger.debug(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} (overlap with {hist_shift_type} on {hist_day})")
                     continue
                 
                 # If the new shift starts after the historical shift ends,
@@ -183,6 +189,11 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
                 if delta_hours < MIN_REST_HOURS:
                     # This shift would violate the 24-hour rest rule
                     model.Add(assigned[w_idx][s_idx] == 0)
+                    blocked_count += 1
+                    logger.debug(f"Cross-week block: {w_name} blocked from shift {s_idx} on {shift['day']} {shift['type']} ({delta_hours:.1f}h rest after {hist_shift_type} on {hist_day})")
+    
+    if blocked_count > 0:
+        logger.info(f"Cross-week constraints: {blocked_count} worker-shift combinations blocked due to history")
     
     return model
 
