@@ -662,11 +662,14 @@ def build_saturday_preference_cost(model, iso_weeks, assigned, num_workers, shif
                 else:
                     model.Add(has_weekend == 0)
                 
-                # t0 = has weekday day OR has weekend shift (both get no penalty during 3-day weekend)
-                model.AddBoolOr([has_weekday_day, has_weekend]).OnlyEnforceIf([has_any_shift, t0])
-                model.Add(t0 == 0).OnlyEnforceIf([has_weekday_day.Not(), has_weekend.Not()])
+                # t0 = 1 when has weekday day OR has weekend shift (both get no penalty during 3-day weekend)
+                # t0 = 0 when neither
+                model.Add(t0 >= has_weekday_day)
+                model.Add(t0 >= has_weekend)
+                model.Add(t0 <= has_weekday_day + has_weekend)
                 
                 # Tier 1: has weekday night only (slight penalty)
+                # t1 = 1 when has_weekday_night AND NOT (has_weekday_day OR has_weekend)
                 model.Add(t1 <= has_weekday_day.Not())
                 model.Add(t1 <= has_weekend.Not())
                 model.Add(t1 <= has_weekday_night)
