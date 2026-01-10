@@ -268,6 +268,35 @@ class SchedulerService:
                 return w
         return None
 
+    def is_new_worker(self, worker_name: str, weeks_lookback: int = 52) -> bool:
+        """Check if a worker has no assignments in the last N weeks.
+        
+        Treats workers with no history in the lookback period as "new",
+        similar to being absent for the full period.
+        
+        Args:
+            worker_name: Name of the worker
+            weeks_lookback: Number of weeks to look back (default 52)
+            
+        Returns:
+            True if worker has no assignments in the lookback period
+        """
+        if not self._history:
+            return True
+        
+        cutoff_date = date.today() - timedelta(weeks=weeks_lookback)
+        for entry in self._history:
+            if entry.get('worker') == worker_name:
+                entry_date_str = entry.get('date')
+                if entry_date_str:
+                    try:
+                        entry_date = date.fromisoformat(entry_date_str)
+                        if entry_date >= cutoff_date:
+                            return False  # Has recent history
+                    except ValueError:
+                        continue
+        return True  # No history in lookback period
+
     def add_worker(self, name: str, can_night: bool = True, weekly_load: int = 18,
                    color: str = "#000000") -> Worker:
         """Add a new worker.
@@ -821,6 +850,10 @@ class SchedulerService:
 
     def get_equity_totals(self) -> dict[str, list[int]]:
         """Get combined equity totals (past + current) for all workers.
+        
+        For new workers (no history in 52 weeks), applies credits equivalent
+        to 52 weeks of absence to prevent over-compensation, similar to
+        existing logic for workers absent >3 weeks.
 
         Returns:
             Dict mapping stat name to list of totals per worker
@@ -831,11 +864,34 @@ class SchedulerService:
         worker_names = [w.name for w in self._workers]
         result = {}
 
+        # Credits equivalent to 52 weeks of absence (same as existing away logic)
+        absence_credits_52_weeks = {
+            'sat_n': round(0.07 * 52),          # ~3.64 -> 4
+            'sun_holiday_m2': round(0.07 * 52), # ~3.64 -> 4
+            'sun_holiday_m1': round(0.07 * 52), # ~3.64 -> 4
+            'sun_holiday_n': round(0.07 * 52),  # ~3.64 -> 4
+            'sat_m2': round(0.07 * 52),         # ~3.64 -> 4
+            'sat_m1': round(0.07 * 52),         # ~3.64 -> 4
+            'fri_night': round(0.07 * 52),      # ~3.64 -> 4
+            'weekday_not_fri_n': round(0.20 * 52),  # ~10.4 -> 10
+            'monday_day': round(0.07 * 52),     # ~3.64 -> 4
+            'weekday_not_mon_day': round(0.47 * 52),  # ~24.44 -> 24
+        }
+
         for stat in EQUITY_STATS:
-            totals = [
-                self._past_stats[worker_names[i]][stat] + self._current_stats[stat][i]
-                for i in range(len(self._workers))
-            ]
+            totals = []
+            for i in range(len(self._workers)):
+                worker_name = worker_names[i]
+                base_total = self._past_stats[worker_name][stat] + self._current_stats[stat][i]
+                
+                # For new workers, add credits equivalent to 52 weeks absent
+                if self.is_new_worker(worker_name):
+                    credit = absence_credits_52_weeks.get(stat, 0)
+                    adjusted_total = base_total + credit
+                else:
+                    adjusted_total = base_total
+                
+                totals.append(adjusted_total)
             result[stat] = totals
 
         return result
