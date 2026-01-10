@@ -220,6 +220,8 @@ def add_cross_week_interval_constraints(model, assigned, shifts, workers, days, 
     if blocked_count > 0:
         logger.info(f"Cross-week constraints: {blocked_count} worker-shift combinations blocked due to history")
     
+    return model
+
 
 def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed, num_workers):
     """Add weekly participation constraints per RULES.md.
