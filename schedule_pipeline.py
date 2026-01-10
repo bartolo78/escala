@@ -55,49 +55,63 @@ def solve_and_extract_results(
         best_solver = None
         best_status = None
 
-        for idx, (stage_name, obj_var) in enumerate(stage_objectives):
-            elapsed = time.time() - start_t
-            remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
-            stages_left = max(1, len(stage_objectives) - idx)
+        # PHASE 1: Find ANY feasible solution first (no objective)
+        # This is much faster than optimizing from scratch
+        phase1_solver = cp_model.CpSolver()
+        phase1_solver.parameters.max_time_in_seconds = min(15.0, SOLVER_TIMEOUT_SECONDS * 0.25)
+        phase1_solver.parameters.log_search_progress = False
+        
+        phase1_status = phase1_solver.Solve(model)
+        if phase1_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            status_name = {
+                cp_model.INFEASIBLE: "INFEASIBLE",
+                cp_model.MODEL_INVALID: "MODEL_INVALID",
+                cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
+            }.get(phase1_status, f"STATUS_{phase1_status}")
+            logger.error(f"Phase 1 (feasibility) failed with status {status_name}")
+            solver = None
+            status = None
+        else:
+            logger.info(f"Phase 1: found feasible solution in {phase1_solver.WallTime():.1f}s")
+            best_solver = phase1_solver
+            best_status = phase1_status
+            solver = phase1_solver
+            status = phase1_status
             
-            # Give the first stage more time since it needs to find an initial solution
-            # Later stages have a warm start from the previous solution
-            if idx == 0:
-                per_stage = max(10.0, remaining * 0.4)  # 40% of budget for first stage
-            else:
-                per_stage = max(0.5, remaining / stages_left)
-
-            stage_solver = cp_model.CpSolver()
-            stage_solver.parameters.max_time_in_seconds = per_stage
-            stage_solver.parameters.log_search_progress = False
-
-            model.Minimize(obj_var)
-            stage_status = stage_solver.Solve(model)
-            if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                # Log which stage failed
-                status_name = {
-                    cp_model.INFEASIBLE: "INFEASIBLE",
-                    cp_model.MODEL_INVALID: "MODEL_INVALID",
-                    cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
-                }.get(stage_status, f"STATUS_{stage_status}")
-                logger.error(f"Stage '{stage_name}' failed with status {status_name} (idx={idx})")
+            # PHASE 2: Staged optimization to improve the solution
+            for idx, (stage_name, obj_var) in enumerate(stage_objectives):
+                elapsed = time.time() - start_t
+                remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
+                stages_left = max(1, len(stage_objectives) - idx)
+                per_stage = max(1.0, remaining / stages_left)
                 
-                # Preserve the last feasible solution, if any.
-                solver = best_solver
-                status = best_status
-                break
+                # Stop if we're running low on time
+                if remaining < 2.0:
+                    logger.info(f"Stopping optimization early - {remaining:.1f}s remaining")
+                    break
 
-            v = int(stage_solver.Value(obj_var))
-            stage_values[stage_name] = v
-            logger.info(f"Stage {stage_name}: value={v}")
+                stage_solver = cp_model.CpSolver()
+                stage_solver.parameters.max_time_in_seconds = per_stage
+                stage_solver.parameters.log_search_progress = False
 
-            # Fix the optimal value for the next stage.
-            model.Add(obj_var == v)
+                model.Minimize(obj_var)
+                stage_status = stage_solver.Solve(model)
+                if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                    # Keep the best solution we have and stop optimizing
+                    logger.warning(f"Stage '{stage_name}' timed out, keeping previous solution")
+                    break
 
-            best_solver = stage_solver
-            best_status = stage_status
-            solver = stage_solver
-            status = stage_status
+                v = int(stage_solver.Value(obj_var))
+                stage_values[stage_name] = v
+                logger.info(f"Stage {stage_name}: value={v}")
+
+                # Fix the optimal value for the next stage.
+                model.Add(obj_var == v)
+
+                best_solver = stage_solver
+                best_status = stage_status
+                solver = stage_solver
+                status = stage_status
     else:
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = SOLVER_TIMEOUT_SECONDS
