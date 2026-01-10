@@ -21,6 +21,8 @@ from typing import Any, Callable, Optional
 
 import yaml
 
+from ortools.sat.python import cp_model
+
 from constants import DOW_EQUITY_WEIGHT, EQUITY_STATS, EQUITY_WEIGHTS
 from scheduling_engine import _compute_past_stats, generate_schedule, update_history
 from utils import compute_holidays
@@ -595,12 +597,13 @@ class SchedulerService:
             if assignments:
                 self._history = update_history(assignments, self._history)
 
-            success = bool(schedule)
+            status = stats.get("status")
+            success = status in (cp_model.OPTIMAL, cp_model.FEASIBLE)
             diagnostic_report = stats.get("diagnostic_report")
 
             if not success:
                 logger.warning("No feasible schedule found")
-                error_msg = "No feasible schedule found"
+                error_msg = stats.get("error") or "No feasible schedule found"
                 if diagnostic_report:
                     error_msg += f". {diagnostic_report.summary}"
             else:

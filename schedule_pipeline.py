@@ -207,16 +207,29 @@ def merge_history_into_results(schedule, weekly, assignments, all_days, history,
     """Integrate prior assignments for the selected month from history."""
 
     history_by_date = HistoryView(history).assignments_by_date()
-    
+
+    month_history_dates = 0
+    for d_str in history_by_date.keys():
+        try:
+            d = date.fromisoformat(d_str)
+        except ValueError:
+            continue
+        if d.month == selected_month:
+            month_history_dates += 1
+
     _pipeline_logger.info(f"Merging history for month {selected_month}")
-    _pipeline_logger.info(f"History has {len(history_by_date)} dates with assignments")
+    _pipeline_logger.info(
+        f"History has {month_history_dates} dates with assignments in month {selected_month}"
+    )
 
     for d in all_days:
         if d.month == selected_month:
             d_str = str(d)
-            if d_str not in schedule:
-                schedule[d_str] = {}
-            for entry in history_by_date.get(d_str, []):
+            entries = history_by_date.get(d_str, [])
+            if not entries:
+                continue
+            schedule.setdefault(d_str, {})
+            for entry in entries:
                 schedule[d_str][entry["shift"]] = entry["worker"]
                 assignments.append(
                     {
