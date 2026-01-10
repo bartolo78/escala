@@ -88,28 +88,53 @@ def add_unavail_req_constraints(model, assigned, unav_parsed, req_parsed, shifts
 
 
 def add_24h_interval_constraints(model, assigned, shifts, num_shifts, num_workers):
+    """Add 24h rest interval constraints between shifts.
+    
+    Optimized to only check shift pairs that could actually conflict (within 48h),
+    rather than all O(n²) pairs which explodes for large schedules.
+    """
+    # Pre-sort shifts by start time for efficient neighbor finding
+    sorted_indices = sorted(range(num_shifts), key=lambda s: shifts[s]["start"])
+    
+    # For each shift, only check shifts within 48 hours (beyond that, 24h rest is guaranteed)
+    MAX_CHECK_HOURS = 48
+    
+    constraints_added = 0
     for w in range(num_workers):
-        for i in range(num_shifts):
-            for j in range(i + 1, num_shifts):
-                si = shifts[i]
+        for idx_i, i in enumerate(sorted_indices):
+            si = shifts[i]
+            start_i = si["start"]
+            end_i = si["end"]
+            
+            # Only check subsequent shifts within MAX_CHECK_HOURS
+            for idx_j in range(idx_i + 1, len(sorted_indices)):
+                j = sorted_indices[idx_j]
                 sj = shifts[j]
-                start_i = si["start"]
-                end_i = si["end"]
                 start_j = sj["start"]
                 end_j = sj["end"]
-
-                # overlap -> cannot do both
+                
+                # If shift j starts more than MAX_CHECK_HOURS after shift i ends,
+                # no need to check further shifts (they're sorted by start time)
+                hours_apart = (start_j - end_i).total_seconds() / 3600
+                if hours_apart >= MAX_CHECK_HOURS:
+                    break
+                
+                # Check for overlap
                 if max(start_i, start_j) < min(end_i, end_j):
-                    model.AddBoolOr(assigned[w][i].Not(), assigned[w][j].Not())
+                    model.AddBoolOr([assigned[w][i].Not(), assigned[w][j].Not()])
+                    constraints_added += 1
                 else:
+                    # Check rest interval
                     if start_j >= end_i:
                         delta = (start_j - end_i).total_seconds() / 3600
                         if delta < MIN_REST_HOURS:
-                            model.AddBoolOr(assigned[w][i].Not(), assigned[w][j].Not())
+                            model.AddBoolOr([assigned[w][i].Not(), assigned[w][j].Not()])
+                            constraints_added += 1
                     elif start_i >= end_j:
                         delta = (start_i - end_j).total_seconds() / 3600
                         if delta < MIN_REST_HOURS:
-                            model.AddBoolOr(assigned[w][i].Not(), assigned[w][j].Not())
+                            model.AddBoolOr([assigned[w][i].Not(), assigned[w][j].Not()])
+                            constraints_added += 1
 
     return model
 
