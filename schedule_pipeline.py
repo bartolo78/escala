@@ -17,7 +17,14 @@ from typing import TYPE_CHECKING
 
 from ortools.sat.python import cp_model
 
-from constants import EQUITY_STATS, SHIFT_TYPES, SOLVER_TIMEOUT_SECONDS
+from constants import (
+    EQUITY_STATS,
+    SHIFT_TYPES,
+    SOLVER_TIMEOUT_SECONDS,
+    SOLVER_MIN_TIME_SECONDS,
+    SOLVER_NO_IMPROVEMENT_SECONDS,
+    SOLVER_IMPROVEMENT_THRESHOLD,
+)
 from logger import get_logger
 
 _pipeline_logger = get_logger('schedule_pipeline')
@@ -25,6 +32,70 @@ from history_view import HistoryView
 
 if TYPE_CHECKING:
     from constraint_diagnostics import DiagnosticReport
+
+
+class EarlyStoppingCallback(cp_model.CpSolverSolutionCallback):
+    """Callback to stop solver early when no meaningful improvement is found.
+    
+    This saves time on "easy" months where optimal/near-optimal solutions
+    are found quickly, while still allowing full time for harder problems.
+    """
+    
+    def __init__(self, logger, min_time: float, no_improvement_time: float, threshold: float):
+        super().__init__()
+        self._logger = logger
+        self._min_time = min_time
+        self._no_improvement_time = no_improvement_time
+        self._threshold = threshold
+        self._start_time = time.time()
+        self._best_objective = None
+        self._last_improvement_time = None
+        self._solution_count = 0
+    
+    def on_solution_callback(self):
+        self._solution_count += 1
+        current_time = time.time()
+        elapsed = current_time - self._start_time
+        current_obj = self.ObjectiveValue()
+        
+        # Track improvements
+        if self._best_objective is None:
+            self._best_objective = current_obj
+            self._last_improvement_time = current_time
+            self._logger.info(f"First solution found: obj={current_obj:.0f} at {elapsed:.1f}s")
+        else:
+            # Check for meaningful improvement (relative threshold)
+            if self._best_objective != 0:
+                improvement = (self._best_objective - current_obj) / abs(self._best_objective)
+            else:
+                improvement = abs(current_obj) if current_obj != 0 else 0
+            
+            if improvement > self._threshold:
+                self._logger.debug(
+                    f"Solution #{self._solution_count}: obj={current_obj:.0f} "
+                    f"(improved {improvement*100:.2f}%) at {elapsed:.1f}s"
+                )
+                self._best_objective = current_obj
+                self._last_improvement_time = current_time
+        
+        # Early stopping logic
+        if self._last_improvement_time is not None:
+            time_since_improvement = current_time - self._last_improvement_time
+            
+            if elapsed >= self._min_time and time_since_improvement >= self._no_improvement_time:
+                self._logger.info(
+                    f"⚡ Early stopping: no improvement for {time_since_improvement:.1f}s "
+                    f"(best obj={self._best_objective:.0f}, {self._solution_count} solutions in {elapsed:.1f}s)"
+                )
+                self.StopSearch()
+    
+    @property
+    def solution_count(self) -> int:
+        return self._solution_count
+    
+    @property
+    def best_objective(self):
+        return self._best_objective
 
 
 def _add_decision_strategy(model, assigned, num_workers, num_shifts):
@@ -116,7 +187,19 @@ def solve_and_extract_results(
             stage_solver.parameters.cp_model_probing_level = 2  # More probing
 
             model.Minimize(obj_var)
-            stage_status = stage_solver.Solve(model)
+            
+            # Use early stopping callback for first stage (main optimization)
+            if idx == 0:
+                callback = EarlyStoppingCallback(
+                    logger=logger,
+                    min_time=SOLVER_MIN_TIME_SECONDS,
+                    no_improvement_time=SOLVER_NO_IMPROVEMENT_SECONDS,
+                    threshold=SOLVER_IMPROVEMENT_THRESHOLD,
+                )
+                stage_status = stage_solver.Solve(model, callback)
+                logger.info(f"Stage '{stage_name}': {callback.solution_count} solutions explored")
+            else:
+                stage_status = stage_solver.Solve(model)
             
             if stage_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                 if idx == 0:
@@ -155,7 +238,16 @@ def solve_and_extract_results(
         solver.parameters.linearization_level = 2
         solver.parameters.cp_model_presolve = True
         solver.parameters.cp_model_probing_level = 2
-        status = solver.Solve(model)
+        
+        # Use early stopping callback
+        callback = EarlyStoppingCallback(
+            logger=logger,
+            min_time=SOLVER_MIN_TIME_SECONDS,
+            no_improvement_time=SOLVER_NO_IMPROVEMENT_SECONDS,
+            threshold=SOLVER_IMPROVEMENT_THRESHOLD,
+        )
+        status = solver.Solve(model, callback)
+        logger.info(f"Non-staged solve: {callback.solution_count} solutions explored")
 
     # If staged solving failed before any feasible stage, fall back to an empty result.
     if solver is None or status is None:
