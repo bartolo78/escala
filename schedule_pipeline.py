@@ -39,6 +39,9 @@ class EarlyStoppingCallback(cp_model.CpSolverSolutionCallback):
     
     This saves time on "easy" months where optimal/near-optimal solutions
     are found quickly, while still allowing full time for harder problems.
+    
+    The callback checks for early stopping both on new solutions AND periodically
+    (every N branches) to avoid waiting when no new solutions are being found.
     """
     
     def __init__(self, logger, min_time: float, no_improvement_time: float, threshold: float):
@@ -51,6 +54,8 @@ class EarlyStoppingCallback(cp_model.CpSolverSolutionCallback):
         self._best_objective = None
         self._last_improvement_time = None
         self._solution_count = 0
+        self._last_log_time = 0.0  # For periodic progress logging
+        self._log_interval = 10.0  # Log progress every 10 seconds
     
     def on_solution_callback(self):
         self._solution_count += 1
@@ -71,23 +76,40 @@ class EarlyStoppingCallback(cp_model.CpSolverSolutionCallback):
                 improvement = abs(current_obj) if current_obj != 0 else 0
             
             if improvement > self._threshold:
-                self._logger.debug(
-                    f"Solution #{self._solution_count}: obj={current_obj:.0f} "
-                    f"(improved {improvement*100:.2f}%) at {elapsed:.1f}s"
-                )
                 self._best_objective = current_obj
                 self._last_improvement_time = current_time
+                # Log significant improvements (> 1%)
+                if improvement > 0.01:
+                    self._logger.info(
+                        f"Solution #{self._solution_count}: obj={current_obj:.0f} "
+                        f"(-{improvement*100:.1f}%) at {elapsed:.1f}s"
+                    )
+        
+        # Periodic progress logging
+        if elapsed - self._last_log_time >= self._log_interval:
+            self._last_log_time = elapsed
+            time_since_improvement = current_time - (self._last_improvement_time or current_time)
+            self._logger.debug(
+                f"Progress: {self._solution_count} solutions, best={self._best_objective:.0f}, "
+                f"no improvement for {time_since_improvement:.1f}s"
+            )
         
         # Early stopping logic
-        if self._last_improvement_time is not None:
-            time_since_improvement = current_time - self._last_improvement_time
+        self._check_early_stop(current_time, elapsed)
+    
+    def _check_early_stop(self, current_time: float, elapsed: float):
+        """Check if we should stop early due to no improvement."""
+        if self._last_improvement_time is None:
+            return
             
-            if elapsed >= self._min_time and time_since_improvement >= self._no_improvement_time:
-                self._logger.info(
-                    f"⚡ Early stopping: no improvement for {time_since_improvement:.1f}s "
-                    f"(best obj={self._best_objective:.0f}, {self._solution_count} solutions in {elapsed:.1f}s)"
-                )
-                self.StopSearch()
+        time_since_improvement = current_time - self._last_improvement_time
+        
+        if elapsed >= self._min_time and time_since_improvement >= self._no_improvement_time:
+            self._logger.info(
+                f"⚡ Early stopping: no improvement for {time_since_improvement:.1f}s "
+                f"(best obj={self._best_objective:.0f}, {self._solution_count} solutions in {elapsed:.1f}s)"
+            )
+            self.StopSearch()
     
     @property
     def solution_count(self) -> int:

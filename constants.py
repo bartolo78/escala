@@ -102,9 +102,9 @@ OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0
 
 # Solver and constraint parameters
 SOLVER_TIMEOUT_SECONDS = 240.0  # Maximum time; early stopping may end sooner
-SOLVER_MIN_TIME_SECONDS = 30.0  # Minimum time before early stopping kicks in
-SOLVER_NO_IMPROVEMENT_SECONDS = 15.0  # Stop if no improvement for this duration
-SOLVER_IMPROVEMENT_THRESHOLD = 0.001  # Minimum relative improvement to reset timer (0.1%)
+SOLVER_MIN_TIME_SECONDS = 20.0  # Minimum time before early stopping kicks in
+SOLVER_NO_IMPROVEMENT_SECONDS = 10.0  # Stop if no improvement for this duration
+SOLVER_IMPROVEMENT_THRESHOLD = 0.005  # Minimum relative improvement to reset timer (0.5%)
 MIN_REST_HOURS = 24  # Minimum hours between shift ends/starts
 CONSECUTIVE_SHIFT_PENALTY_RANGE = (24, 48)  # Penalize shifts with rest in [min, max) hours
 MAX_STAT_VALUE = 10000  # Upper bound for stat variables in model
