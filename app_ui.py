@@ -72,11 +72,10 @@ class WorkerTab(ttk.Frame):
     def build_ui(self):
         self.columnconfigure(0, weight=0)  # Label column
         self.columnconfigure(1, weight=1)  # Listbox column
-        self.columnconfigure(2, weight=0)  # Buttons column
-        self.columnconfigure(3, weight=1)  # Frames column
-        self.rowconfigure(0, weight=0)     # Worker selection row
-        self.rowconfigure(1, weight=1)     # Unavailable shifts row
-        self.rowconfigure(2, weight=1)     # Required shifts row
+        self.columnconfigure(2, weight=1)  # Unavailable shifts column
+        self.columnconfigure(3, weight=1)  # Required shifts column
+        self.rowconfigure(0, weight=0)     # Main controls row
+        self.rowconfigure(1, weight=0)     # Buttons row
 
         ttk.Label(self, text="Select Worker:", font=self.app.heading_font).grid(row=0, column=0, padx=10, pady=5, sticky="w")
         self.app.worker_listbox = tk.Listbox(self, height=15, font=self.app.body_font, exportselection=False)
@@ -89,19 +88,19 @@ class WorkerTab(ttk.Frame):
             self.app.worker_listbox.insert(tk.END, w['name'])
 
         add_worker_btn = ttk.Button(self, text="Add Worker", command=self.app.add_worker)
-        add_worker_btn.grid(row=0, column=2, padx=10, pady=5, sticky="w")
+        add_worker_btn.grid(row=1, column=1, padx=(10, 5), pady=5, sticky="ew")
         Tooltip(add_worker_btn, "Add a new worker")
 
         remove_worker_btn = ttk.Button(self, text="Remove Worker", command=self.app.remove_worker)
-        remove_worker_btn.grid(row=0, column=2, padx=10, pady=(45, 5), sticky="w")  # Position below Add button
+        remove_worker_btn.grid(row=1, column=2, padx=(5, 10), pady=5, sticky="ew")
         Tooltip(remove_worker_btn, "Remove the selected worker")
 
-        unavailable_frame = ttk.LabelFrame(self, text="Unavailable Shifts", padding="10")
-        unavailable_frame.grid(row=1, column=3, pady=10, padx=10, sticky="nsew")
+        unavailable_frame = ttk.LabelFrame(self, text="Unavailable Shifts", padding="5")
+        unavailable_frame.grid(row=0, column=2, pady=10, padx=5, sticky="nsew")
         unavailable_frame.rowconfigure(0, weight=1)
         unavailable_frame.columnconfigure(0, weight=1)
 
-        self.app.unavailable_list = tk.Listbox(unavailable_frame, height=8, font=self.app.body_font)
+        self.app.unavailable_list = tk.Listbox(unavailable_frame, height=5, font=self.app.body_font)
         self.app.unavailable_list.grid(row=0, column=0, columnspan=2, sticky="nsew", pady=5)
 
         add_unavail_btn = ttk.Button(unavailable_frame, text="Add Unavailable Shift",
@@ -114,8 +113,8 @@ class WorkerTab(ttk.Frame):
         remove_unavail_btn.grid(row=1, column=1, padx=10, pady=5)
         Tooltip(remove_unavail_btn, "Remove the selected unavailable shift")
 
-        required_frame = ttk.LabelFrame(self, text="Required Shifts", padding="10")
-        required_frame.grid(row=2, column=3, pady=10, padx=10, sticky="nsew")
+        required_frame = ttk.LabelFrame(self, text="Required Shifts", padding="5")
+        required_frame.grid(row=0, column=3, pady=10, padx=5, sticky="nsew")
         required_frame.rowconfigure(0, weight=1)
         required_frame.columnconfigure(0, weight=1)
 
@@ -134,8 +133,7 @@ class WorkerTab(ttk.Frame):
 
         self.columnconfigure(1, weight=1)
         self.columnconfigure(3, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.rowconfigure(2, weight=1)
+        self.rowconfigure(1, weight=0)
 
 
 class ScheduleTab(ttk.Frame):
