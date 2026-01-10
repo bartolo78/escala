@@ -59,7 +59,13 @@ def solve_and_extract_results(
             elapsed = time.time() - start_t
             remaining = max(0.1, SOLVER_TIMEOUT_SECONDS - elapsed)
             stages_left = max(1, len(stage_objectives) - idx)
-            per_stage = max(0.5, remaining / stages_left)
+            
+            # Give the first stage more time since it needs to find an initial solution
+            # Later stages have a warm start from the previous solution
+            if idx == 0:
+                per_stage = max(10.0, remaining * 0.4)  # 40% of budget for first stage
+            else:
+                per_stage = max(0.5, remaining / stages_left)
 
             stage_solver = cp_model.CpSolver()
             stage_solver.parameters.max_time_in_seconds = per_stage
