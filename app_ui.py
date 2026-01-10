@@ -75,11 +75,14 @@ class WorkerTab(ttk.Frame):
         self.rowconfigure(1, weight=1)
 
         ttk.Label(self, text="Select Worker:", font=self.app.heading_font).grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        self.app.worker_combo = ttk.Combobox(self, textvariable=self.app.worker_var,
-                                             values=[w['name'] for w in self.app.workers], state="readonly")
-        self.app.worker_combo.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
-        self.app.worker_combo.bind("<<ComboboxSelected>>", self.app.update_worker_stats)
-        Tooltip(self.app.worker_combo, "Select a worker to view stats and manage availability")
+        self.app.worker_listbox = tk.Listbox(self, height=3, font=self.app.body_font, exportselection=False)
+        self.app.worker_listbox.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
+        self.app.worker_listbox.bind("<<ListboxSelect>>", self.app.update_worker_stats)
+        Tooltip(self.app.worker_listbox, "Select a worker to view stats and manage availability")
+        
+        # Populate the listbox initially
+        for w in self.app.workers:
+            self.app.worker_listbox.insert(tk.END, w['name'])
 
         add_worker_btn = ttk.Button(self, text="Add Worker", command=self.app.add_worker)
         add_worker_btn.grid(row=0, column=2, padx=10, pady=5)
@@ -89,18 +92,8 @@ class WorkerTab(ttk.Frame):
         remove_worker_btn.grid(row=0, column=3, padx=10, pady=5)
         Tooltip(remove_worker_btn, "Remove the selected worker")
 
-        stats_frame = ttk.LabelFrame(self, text="Shift Statistics", padding="10")
-        stats_frame.grid(row=1, column=0, columnspan=2, pady=10, sticky="nsew")
-
-        self.app.stats_labels = {}
-        stats = ["Total Hours", "Weekend Shifts", "Night Shifts"]
-        for i, stat in enumerate(stats):
-            ttk.Label(stats_frame, text=f"{stat}:").grid(row=i, column=0, sticky="w", padx=10, pady=5)
-            self.app.stats_labels[stat] = ttk.Label(stats_frame, text="0")
-            self.app.stats_labels[stat].grid(row=i, column=1, sticky="w", padx=10, pady=5)
-
         unavailable_frame = ttk.LabelFrame(self, text="Unavailable Shifts", padding="10")
-        unavailable_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
+        unavailable_frame.grid(row=1, column=0, columnspan=2, pady=10, sticky="nsew")
         unavailable_frame.rowconfigure(0, weight=1)
         unavailable_frame.columnconfigure(0, weight=1)
 
@@ -118,7 +111,7 @@ class WorkerTab(ttk.Frame):
         Tooltip(remove_unavail_btn, "Remove the selected unavailable shift")
 
         required_frame = ttk.LabelFrame(self, text="Required Shifts", padding="10")
-        required_frame.grid(row=3, column=0, columnspan=2, pady=10, sticky="nsew")
+        required_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
         required_frame.rowconfigure(0, weight=1)
         required_frame.columnconfigure(0, weight=1)
 
@@ -136,8 +129,8 @@ class WorkerTab(ttk.Frame):
         Tooltip(remove_req_btn, "Remove the selected required shift")
 
         self.columnconfigure(1, weight=1)
+        self.rowconfigure(1, weight=2)
         self.rowconfigure(2, weight=2)
-        self.rowconfigure(3, weight=2)
 
 
 class ScheduleTab(ttk.Frame):
@@ -351,7 +344,6 @@ class ShiftSchedulerApp:
         
         # UI state variables (workers/history/etc. are now managed by scheduler service)
         self.worker_var = tk.StringVar()
-        self.stats_labels = {}
         self.unavailable_list = None
         self.required_list = None
         self.schedule_grid_frame = None  # Custom grid frame for schedule display
@@ -506,8 +498,8 @@ class ShiftSchedulerApp:
         self.notebook.grid(row=1, column=0, sticky="nsew")
         self.main_frame.rowconfigure(1, weight=1)
 
-        self.notebook.add(WorkerTab(self.notebook, self), text="Workers")
         self.notebook.add(ScheduleTab(self.notebook, self), text="Schedule")
+        self.notebook.add(WorkerTab(self.notebook, self), text="Workers")
         self.notebook.add(ReportsTab(self.notebook, self), text="Reports")
         self.notebook.add(SettingsTab(self.notebook, self), text="Settings")
 
@@ -606,16 +598,17 @@ class ShiftSchedulerApp:
         # self.generate_report()
 
     def update_worker_stats(self, event=None):
-        worker = self.worker_var.get()
-        if not worker:
+        # Get selected worker from listbox
+        selection = self.worker_listbox.curselection()
+        if not selection:
             return
+        worker = self.worker_listbox.get(selection[0])
+        
+        # Update the worker_var for compatibility
+        self.worker_var.set(worker)
 
         # Get stats from the service
         stats = self.scheduler.get_worker_stats(worker)
-
-        self.stats_labels["Total Hours"].config(text=stats.total_hours)
-        self.stats_labels["Weekend Shifts"].config(text=stats.weekend_holiday_shifts)
-        self.stats_labels["Night Shifts"].config(text=stats.night_shifts)
 
         # Update unavailable list from service
         self.unavailable_list.delete(0, tk.END)
@@ -833,7 +826,7 @@ class ShiftSchedulerApp:
             for name in new_names:
                 if self.scheduler.add_worker(name):
                     added_count += 1
-            self.update_worker_combo()
+            self.update_worker_listbox()
             self.status_var.set(f"Workers imported: {added_count} new workers added")
 
     def import_holidays(self):
@@ -974,7 +967,10 @@ class ShiftSchedulerApp:
             name = name_var.get().strip()
             if name and self.scheduler.add_worker(name):
                 self.worker_var.set(name)
-                self.update_worker_combo()
+                self.update_worker_listbox()
+                # Select the newly added worker
+                last_index = self.worker_listbox.size() - 1
+                self.worker_listbox.selection_set(last_index)
                 top.destroy()
             else:
                 messagebox.showwarning("Warning", "Invalid or duplicate name")
@@ -987,11 +983,16 @@ class ShiftSchedulerApp:
             self.scheduler.remove_worker(worker)
             names = self.scheduler.worker_names
             self.worker_var.set(names[0] if names else "")
-            self.update_worker_combo()
+            self.update_worker_listbox()
+            # Select the first worker if any exist
+            if names:
+                self.worker_listbox.selection_set(0)
 
-    def update_worker_combo(self):
-        self.worker_combo['values'] = self.scheduler.worker_names
-        self.update_worker_stats()
+    def update_worker_listbox(self):
+        self.worker_listbox.delete(0, tk.END)
+        for name in self.scheduler.worker_names:
+            self.worker_listbox.insert(tk.END, name)
+        # Don't call update_worker_stats here as there might not be a selection
 
     def add_shift_availability(self, mode):
         worker = self.worker_var.get()
