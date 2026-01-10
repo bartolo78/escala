@@ -198,32 +198,38 @@ def add_weekly_participation_constraints(model, assigned, iso_weeks, unav_parsed
         logger.info(f"  weekday_shifts_for_distribution: {week['weekday_shifts_for_distribution']}")
         logger.info(f"  all shifts: {week['shifts']}")
 
-        # Only require >=1 shift per worker if enough shifts exist
-        if total_weekday_shifts >= num_relevant:
-            for w in relevant:
-                num_shifts_week = sum(assigned[w][s] for s in week["shifts"])
-                model.Add(num_shifts_week >= 1)
+        # Weekly Participation (RULES.md): each eligible worker must have >=1 shift in the ISO week.
+        # Eligibility is based on having at least one available weekday in that ISO week.
+        for w in relevant:
+            num_shifts_week = sum(assigned[w][s] for s in week["shifts"])
+            model.Add(num_shifts_week >= 1)
 
         # Count weekday shifts using distribution list (holidays on Mon-Fri count as weekday shifts)
-        num_weekday = [sum(assigned[w][s] for s in week["weekday_shifts_for_distribution"]) for w in range(num_workers)]
-        has_at_least_one = [model.NewBoolVar(f"has1_w{w}_wk{key[0]}_{key[1]}") for w in range(num_workers)]
-        for ww in range(num_workers):
-            model.Add(num_weekday[ww] >= 1).OnlyEnforceIf(has_at_least_one[ww])
-            model.Add(num_weekday[ww] == 0).OnlyEnforceIf(has_at_least_one[ww].Not())
+        num_weekday = [
+            sum(assigned[w][s] for s in week["weekday_shifts_for_distribution"]) for w in range(num_workers)
+        ]
+        has_at_least_one = {}
+        for ww in relevant:
+            b = model.NewBoolVar(f"has1_w{ww}_wk{key[0]}_{key[1]}")
+            has_at_least_one[ww] = b
+            model.Add(num_weekday[ww] >= 1).OnlyEnforceIf(b)
+            model.Add(num_weekday[ww] == 0).OnlyEnforceIf(b.Not())
 
         all_have_one = model.NewBoolVar(f"all_have_wk{key[0]}_{key[1]}")
         if relevant:
+            # Weekday Shift Distribution (RULES.md):
+            # If not everyone has a weekday shift yet, nobody may take a 2nd weekday shift.
+            # This prevents "second weekday before everyone has first" without forcing
+            # every eligible worker to have a weekday shift.
             model.AddBoolAnd([has_at_least_one[w] for w in relevant]).OnlyEnforceIf(all_have_one)
             model.AddBoolOr([has_at_least_one[w].Not() for w in relevant]).OnlyEnforceIf(all_have_one.Not())
 
-            for ww in range(num_workers):
+            for ww in relevant:
                 model.Add(num_weekday[ww] <= 1).OnlyEnforceIf(all_have_one.Not())
 
-            if total_weekday_shifts >= num_relevant:
-                logger.info(f"  Enforcing all_have_one == 1 for week {key}")
-                model.Add(all_have_one == 1)
-            else:
-                logger.info(f"  NOT enforcing all_have_one == 1 for week {key} (not enough shifts)")
+            logger.info(
+                f"  Weekday distribution active for week {key}: prevents 2nd weekday shift until all eligible have 1"
+            )
 
     return model
 
