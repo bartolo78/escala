@@ -548,14 +548,15 @@ class ShiftSchedulerApp:
 
         self.progress.stop()
         self.progress.grid_remove()
-        self.status_var.set("Schedule generated")
 
         if result.success:
+            self.status_var.set("Schedule generated")
             logger.info(f"Schedule generated successfully with {len(result.assignments)} assignments")
             all_holidays = self.scheduler.get_holidays(year, month)
             self.update_schedule_display(result.schedule, all_holidays)
             self.generate_report()
         else:
+            self.status_var.set("Schedule failed")
             logger.warning(f"Schedule generation failed: {result.error_message}")
             error_msg = result.error_message or "No feasible schedule found"
             
