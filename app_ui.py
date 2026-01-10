@@ -346,7 +346,7 @@ class ShiftSchedulerApp:
         style.configure("TFrame", padding=10)
 
     def setup_data(self):
-        # Solver mode: lexicographic (staged) optimization is the default.
+        # Solver mode: weighted sum optimization is the default.
         self.lexicographic_var = tk.BooleanVar(value=self.scheduler.lexicographic_mode)
         
         # UI state variables (workers/history/etc. are now managed by scheduler service)

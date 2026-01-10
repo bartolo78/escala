@@ -136,7 +136,7 @@ class SchedulerService:
         self._equity_weights: dict[str, float] = EQUITY_WEIGHTS.copy()
         self._dow_equity_weight: float = DOW_EQUITY_WEIGHT
         self._thresholds: dict[str, int] = self.DEFAULT_THRESHOLDS.copy()
-        self._lexicographic: bool = True
+        self._lexicographic: bool = False
         # Equity credits per worker: {worker_name: {stat: credit_value}}
         # Used to compensate for extended absences (medical leave, parental leave, etc.)
         # Positive credits reduce a worker's apparent "debt" from missing shifts

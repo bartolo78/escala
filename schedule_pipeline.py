@@ -67,7 +67,7 @@ def solve_and_extract_results(
             
             # First stage gets most of the time budget to find feasibility
             if idx == 0:
-                per_stage = max(180.0, remaining * 0.8)
+                per_stage = max(220.0, remaining * 0.9)
             else:
                 per_stage = max(1.0, remaining / stages_left)
             
@@ -79,9 +79,8 @@ def solve_and_extract_results(
             stage_solver = cp_model.CpSolver()
             stage_solver.parameters.max_time_in_seconds = per_stage
             stage_solver.parameters.log_search_progress = False
-            # Use parallel search for optimization stages (after first feasible solution)
-            if idx > 0:
-                stage_solver.parameters.num_search_workers = 8
+            # Use parallel search for all stages
+            stage_solver.parameters.num_search_workers = 8
 
             model.Minimize(obj_var)
             stage_status = stage_solver.Solve(model)
