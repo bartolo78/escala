@@ -13,9 +13,27 @@ class Tooltip:
         self.widget.bind("<Leave>", self.hide_tooltip)
 
     def show_tooltip(self, event):
-        x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 25
+        # Handle different widget types
+        if hasattr(self.widget, 'bbox') and 'Listbox' in str(type(self.widget)):
+            # For listboxes, use event coordinates
+            x = event.x + self.widget.winfo_rootx() + 25
+            y = event.y + self.widget.winfo_rooty() + 25
+        else:
+            # For other widgets (like text widgets), use bbox with "insert"
+            try:
+                bbox = self.widget.bbox("insert")
+                if bbox:
+                    x, y, _, _ = bbox
+                    x += self.widget.winfo_rootx() + 25
+                    y += self.widget.winfo_rooty() + 25
+                else:
+                    # Fallback to event coordinates
+                    x = event.x + self.widget.winfo_rootx() + 25
+                    y = event.y + self.widget.winfo_rooty() + 25
+            except:
+                # Fallback to event coordinates for widgets that don't support bbox
+                x = event.x + self.widget.winfo_rootx() + 25
+                y = event.y + self.widget.winfo_rooty() + 25
 
         self.tooltip_window = tk.Toplevel(self.widget)
         self.tooltip_window.wm_overrideredirect(True)
