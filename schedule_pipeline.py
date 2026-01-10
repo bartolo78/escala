@@ -58,8 +58,9 @@ def solve_and_extract_results(
         # PHASE 1: Find ANY feasible solution first (no objective)
         # This is much faster than optimizing from scratch
         phase1_solver = cp_model.CpSolver()
-        phase1_solver.parameters.max_time_in_seconds = min(15.0, SOLVER_TIMEOUT_SECONDS * 0.25)
+        phase1_solver.parameters.max_time_in_seconds = min(60.0, SOLVER_TIMEOUT_SECONDS * 0.3)
         phase1_solver.parameters.log_search_progress = False
+        phase1_solver.parameters.num_search_workers = 8  # Parallelize the search
         
         phase1_status = phase1_solver.Solve(model)
         if phase1_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -93,6 +94,7 @@ def solve_and_extract_results(
                 stage_solver = cp_model.CpSolver()
                 stage_solver.parameters.max_time_in_seconds = per_stage
                 stage_solver.parameters.log_search_progress = False
+                stage_solver.parameters.num_search_workers = 8  # Parallelize the search
 
                 model.Minimize(obj_var)
                 stage_status = stage_solver.Solve(model)
