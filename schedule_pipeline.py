@@ -56,11 +56,18 @@ def solve_and_extract_results(
         best_status = None
 
         # PHASE 1: Find ANY feasible solution first (no objective)
-        # This is much faster than optimizing from scratch
+        # Use a generous time budget since some constrained problems (e.g., with
+        # cross-week history constraints) can take a long time to find initial feasibility.
+        # We use 80% of total budget for Phase 1 to ensure we don't give up too early.
+        # NOTE: We do NOT use multi-threaded search here because parallel workers
+        # can sometimes conclude INFEASIBLE faster than a single-threaded search
+        # can find a solution (due to different search strategies).
+        phase1_timeout = max(180.0, SOLVER_TIMEOUT_SECONDS * 0.8)
         phase1_solver = cp_model.CpSolver()
-        phase1_solver.parameters.max_time_in_seconds = min(60.0, SOLVER_TIMEOUT_SECONDS * 0.3)
+        phase1_solver.parameters.max_time_in_seconds = phase1_timeout
         phase1_solver.parameters.log_search_progress = False
-        phase1_solver.parameters.num_search_workers = 8  # Parallelize the search
+        # Single-threaded search to match non-lexicographic mode behavior
+        # This prevents false INFEASIBLE conclusions in tightly constrained problems
         
         phase1_status = phase1_solver.Solve(model)
         if phase1_status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -69,7 +76,7 @@ def solve_and_extract_results(
                 cp_model.MODEL_INVALID: "MODEL_INVALID",
                 cp_model.UNKNOWN: "UNKNOWN/TIMEOUT",
             }.get(phase1_status, f"STATUS_{phase1_status}")
-            logger.error(f"Phase 1 (feasibility) failed with status {status_name}")
+            logger.error(f"Phase 1 (feasibility) failed with status {status_name} after {phase1_solver.WallTime():.1f}s")
             solver = None
             status = None
         else:
