@@ -335,7 +335,61 @@ class TestingTab(ttk.Frame):
         Tooltip(generate_batch_btn, "Generate schedules for the next 12 months in batch mode")
 
     def load_vacations(self):
-        self.app.import_vacations()
+        """Load workers vacations/unavailable days from CSV file."""
+        try:
+            # Show format information dialog
+            format_info = (
+                "The file should be a CSV (Comma-Separated Values) file with worker name and vacation date.\n\n"
+                "• First column: Worker name (must match existing worker)\n"
+                "• Second column: Vacation date in YYYY-MM-DD format\n"
+                "• Additional columns are ignored\n"
+                "• Empty rows are skipped\n"
+                "• Duplicate vacation dates will not be added"
+            )
+            example = "John Smith,2026-07-15\nMaria Garcia,2026-08-01\nMaria Garcia,2026-08-02\nAhmed Hassan,2026-12-24"
+            
+            # Create a simple confirmation dialog instead of the complex format dialog
+            result = messagebox.askyesno(
+                "Import Vacations", 
+                "Import vacation dates from CSV file?\n\n" + format_info
+            )
+            
+            if not result:
+                return
+            
+            # Open file dialog
+            file_path = filedialog.askopenfilename(
+                filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+                title="Select Vacation CSV File"
+            )
+            
+            if not file_path:
+                return
+            
+            # Load the vacations
+            logger.info(f"Loading vacations from {file_path}")
+            with open(file_path, 'r', newline='') as csvfile:
+                reader = csv.reader(csvfile)
+                added_count = 0
+                for row_num, row in enumerate(reader, 1):
+                    if len(row) >= 2:
+                        worker_name = row[0].strip()
+                        vacation_date = row[1].strip()
+                        if worker_name and vacation_date:
+                            if self.app.scheduler.add_unavailable(worker_name, vacation_date):
+                                added_count += 1
+                                logger.debug(f"Added vacation for {worker_name} on {vacation_date}")
+                            else:
+                                logger.warning(f"Failed to add vacation for {worker_name} on {vacation_date} (row {row_num})")
+            
+            # Update UI
+            self.app.update_worker_stats()
+            self.app.status_var.set(f"Vacations loaded: {added_count} vacation days added")
+            messagebox.showinfo("Vacations Loaded", f"Successfully loaded {added_count} vacation days from {file_path}")
+            
+        except Exception as e:
+            logger.error(f"Error loading vacations: {e}")
+            messagebox.showerror("Error", f"Failed to load vacations: {str(e)}")
 
     def generate_batch_schedules(self):
         """Generate schedules for the next 12 months in batch mode."""
