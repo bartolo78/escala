@@ -393,8 +393,8 @@ class TestingTab(ttk.Frame):
             successful = 0
             failed = 0
             
-            # Initialize stats collection for all workers
-            worker_stats = {worker.name: self._initialize_worker_stats() for worker in self.app.scheduler.workers}
+            # Initialize collections for all assignments
+            all_assignments = []
             
             for i in range(total_months):
                 # Calculate current month/year
@@ -413,8 +413,9 @@ class TestingTab(ttk.Frame):
                     successful += 1
                     logger.info(f"Successfully generated schedule for {month_name_str} {year}")
                     
-                    # Collect stats from this month's schedule
-                    self._collect_month_stats(worker_stats, result.assignments, year, month)
+                    # Collect assignments from this month's schedule
+                    month_assignments = self._collect_month_assignments(result.assignments, year, month)
+                    all_assignments.extend(month_assignments)
                 else:
                     failed += 1
                     logger.warning(f"Failed to generate schedule for {month_name_str} {year}: {result.error_message}")
@@ -423,8 +424,8 @@ class TestingTab(ttk.Frame):
                 import time
                 time.sleep(0.1)
             
-            # Generate stats file
-            self._generate_stats_file(worker_stats)
+            # Generate assignments file and calculate stats
+            self._generate_assignments_file(all_assignments)
             
             # Final update
             self.app.root.after(0, lambda: self._finish_batch_generation(successful, failed))
@@ -433,39 +434,86 @@ class TestingTab(ttk.Frame):
             logger.error(f"Error in batch generation: {e}")
             self.app.root.after(0, lambda: self._finish_batch_generation(0, 12))
 
-    def _initialize_worker_stats(self):
-        """Initialize stats dictionary for a worker."""
-        # Use EQUITY_STATS but replace 'monday_day' and 'weekday_not_mon_day' with 'weekday_m1' and 'weekday_m2'
-        stats = {}
-        replaced_weekday = False
-        for stat in EQUITY_STATS:
-            if stat in ['monday_day', 'weekday_not_mon_day']:
-                if not replaced_weekday:
-                    stats['weekday_m1'] = 0
-                    stats['weekday_m2'] = 0
-                    replaced_weekday = True
-            else:
-                stats[stat] = 0
-        return stats
-
-    def _collect_month_stats(self, worker_stats, assignments, year, month):
-        """Collect stats from assignments for the given month."""
-        # Get holidays for this month
-        holidays = set(self.app.scheduler.get_holidays(year, month))
+    def _collect_month_assignments(self, assignments, year, month):
+        """Collect all assignments for the given month in a standardized format."""
+        month_assignments = []
         
-        # Process each assignment
+        for assignment in assignments:
+            month_assignments.append({
+                'worker': assignment['worker'],
+                'date': assignment['date'],
+                'shift': assignment['shift'],
+                'duration': assignment.get('dur', 0),
+                'year': year,
+                'month': month
+            })
+        
+        return month_assignments
+
+    def _generate_assignments_file(self, all_assignments):
+        """Generate CSV file with all shift assignments and calculate stats from it."""
+        assignments_file = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Save Batch Assignments File"
+        )
+        
+        if not assignments_file:
+            return
+
+        try:
+            # Write assignments to CSV
+            with open(assignments_file, 'w', newline='') as csvfile:
+                fieldnames = ['worker', 'date', 'shift', 'duration', 'year', 'month']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                
+                for assignment in all_assignments:
+                    writer.writerow(assignment)
+            
+            # Calculate stats from assignments
+            worker_stats = self._calculate_stats_from_assignments(all_assignments)
+            
+            # Generate stats file
+            stats_file = assignments_file.replace('.csv', '_stats.csv')
+            self._generate_stats_file_from_data(worker_stats, stats_file)
+            
+            messagebox.showinfo("Success", 
+                              f"Batch assignments saved to: {assignments_file}\n\n"
+                              f"Worker stats saved to: {stats_file}")
+            
+        except Exception as e:
+            logger.error(f"Error generating assignments file: {e}")
+            messagebox.showerror("Error", f"Failed to create assignments file: {str(e)}")
+
+    def _calculate_stats_from_assignments(self, assignments):
+        """Calculate worker stats from the assignments data."""
+        # Initialize stats for all workers
+        worker_stats = {worker.name: self._initialize_worker_stats() for worker in self.app.scheduler.workers}
+        
+        # Get holidays for all months in the assignments
+        holiday_cache = {}
+        
         for assignment in assignments:
             worker_name = assignment['worker']
             shift_date = date.fromisoformat(assignment['date'])
             shift_type = assignment['shift']
+            year = assignment['year']
+            month = assignment['month']
             
             if worker_name not in worker_stats:
                 continue
-                
+            
+            # Get holidays for this month (cache them)
+            month_key = (year, month)
+            if month_key not in holiday_cache:
+                holiday_cache[month_key] = set(self.app.scheduler.get_holidays(year, month))
+            holidays = holiday_cache[month_key]
+            
+            # Calculate stats using the same logic
             weekday = shift_date.weekday()
             is_holiday = shift_date.day in holidays
             is_weekday = weekday < 5
-            is_weekend_hol = weekday >= 5 or is_holiday
             is_night = shift_type == 'N'
             is_m1 = shift_type == 'M1'
             is_m2 = shift_type == 'M2'
@@ -490,30 +538,18 @@ class TestingTab(ttk.Frame):
                 worker_stats[worker_name]['fri_night'] += 1
             elif is_weekday and weekday != 4 and is_night and not is_holiday:  # Weekday (not Friday) N
                 worker_stats[worker_name]['weekday_not_fri_n'] += 1
-            elif weekday == 0 and is_day and not is_holiday:  # Monday M1 or M2
+            elif is_weekday and is_day and not is_holiday:  # Weekday (Mon-Fri) M1 or M2
                 if is_m1:
                     worker_stats[worker_name]['weekday_m1'] += 1
                 elif is_m2:
                     worker_stats[worker_name]['weekday_m2'] += 1
-            elif is_weekday and weekday != 0 and is_day and not is_holiday:  # Weekday (Tue-Fri) M1 or M2
-                if is_m1:
-                    worker_stats[worker_name]['weekday_m1'] += 1
-                elif is_m2:
-                    worker_stats[worker_name]['weekday_m2'] += 1
-
-    def _generate_stats_file(self, worker_stats):
-        """Generate CSV file with worker stats."""
-        file_path = filedialog.asksaveasfilename(
-            defaultextension=".csv",
-            filetypes=[("CSV files", "*.csv")],
-            title="Save Worker Stats File"
-        )
         
-        if not file_path:
-            return
+        return worker_stats
 
+    def _generate_stats_file_from_data(self, worker_stats, stats_file):
+        """Generate stats CSV file from worker stats data."""
         try:
-            # Get the stat columns (same as EQUITY_STATS but with monday_day and weekday_not_mon_day replaced by weekday_m1 and weekday_m2)
+            # Get the stat columns
             stat_columns = [
                 'sun_holiday_m2',
                 'sat_n', 
@@ -524,11 +560,11 @@ class TestingTab(ttk.Frame):
                 'weekday_n',
                 'fri_night',
                 'weekday_not_fri_n',
-                'weekday_m1',  # Replaces monday_day and weekday_not_mon_day
+                'weekday_m1',
                 'weekday_m2'
             ]
             
-            with open(file_path, 'w', newline='') as csvfile:
+            with open(stats_file, 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 
                 # Write header
@@ -541,11 +577,32 @@ class TestingTab(ttk.Frame):
                         row.append(worker_stats[worker_name][stat])
                     writer.writerow(row)
             
-            logger.info(f"Worker stats file saved to: {file_path}")
+            logger.info(f"Worker stats file saved to: {stats_file}")
             
         except Exception as e:
             logger.error(f"Error generating stats file: {e}")
-            messagebox.showerror("Error", f"Failed to create stats file: {str(e)}")
+            raise
+
+    def _initialize_worker_stats(self):
+        """Initialize stats dictionary for a worker."""
+        # Use the same stat columns as in the output
+        stats = {}
+        stat_columns = [
+            'sun_holiday_m2',
+            'sat_n', 
+            'sat_m2',
+            'sun_holiday_n',
+            'sun_holiday_m1',
+            'sat_m1',
+            'weekday_n',
+            'fri_night',
+            'weekday_not_fri_n',
+            'weekday_m1',
+            'weekday_m2'
+        ]
+        for stat in stat_columns:
+            stats[stat] = 0
+        return stats
 
     def _setup_batch_progress(self):
         """Set up the progress bar for batch generation."""
@@ -569,13 +626,13 @@ class TestingTab(ttk.Frame):
             self.app.status_var.set(f"Batch generation completed: {successful} schedules generated successfully")
             messagebox.showinfo("Batch Generation Complete", 
                               f"Successfully generated {successful} schedules for the next 12 months.\n\n"
-                              "A worker stats file has been generated with equity statistics.")
+                              "Assignments and worker stats files have been generated.")
         else:
             self.app.status_var.set(f"Batch generation completed: {successful} successful, {failed} failed")
             messagebox.showwarning("Batch Generation Complete", 
                                  f"Generated {successful} schedules successfully, but {failed} failed.\n\n"
                                  "Check the logs for details on failed months.\n\n"
-                                 "A worker stats file has been generated for successful months.")
+                                 "Assignments and worker stats files have been generated for successful months.")
 
     def generate_vacations_file(self):
         """Generate a sample CSV file with vacation dates for the next 12 months following specific rules."""
