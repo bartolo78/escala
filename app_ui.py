@@ -385,12 +385,6 @@ class TestingTab(ttk.Frame):
             logger.error(f"Error calculating stats from file: {e}")
             messagebox.showerror("Error", f"Failed to calculate stats: {str(e)}")
 
-        # Button to calculate stats from saved schedule file
-        calculate_stats_btn = ttk.Button(self, text="Calculate Stats from Schedule File",
-                                        command=self.calculate_stats_from_file)
-        calculate_stats_btn.pack(pady=10)
-        Tooltip(calculate_stats_btn, "Calculate worker statistics from a saved assignments CSV file")
-
     def load_vacations(self):
         """Load workers vacations/unavailable days from CSV file."""
         try:
