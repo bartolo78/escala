@@ -393,6 +393,9 @@ class TestingTab(ttk.Frame):
             successful = 0
             failed = 0
             
+            # Initialize stats collection for all workers
+            worker_stats = {worker.name: self._initialize_worker_stats() for worker in self.app.scheduler.workers}
+            
             for i in range(total_months):
                 # Calculate current month/year
                 year = start_year + (start_month + i - 1) // 12
@@ -409,6 +412,9 @@ class TestingTab(ttk.Frame):
                 if result.success:
                     successful += 1
                     logger.info(f"Successfully generated schedule for {month_name_str} {year}")
+                    
+                    # Collect stats from this month's schedule
+                    self._collect_month_stats(worker_stats, result.assignments, year, month)
                 else:
                     failed += 1
                     logger.warning(f"Failed to generate schedule for {month_name_str} {year}: {result.error_message}")
@@ -417,12 +423,129 @@ class TestingTab(ttk.Frame):
                 import time
                 time.sleep(0.1)
             
+            # Generate stats file
+            self._generate_stats_file(worker_stats)
+            
             # Final update
             self.app.root.after(0, lambda: self._finish_batch_generation(successful, failed))
             
         except Exception as e:
             logger.error(f"Error in batch generation: {e}")
             self.app.root.after(0, lambda: self._finish_batch_generation(0, 12))
+
+    def _initialize_worker_stats(self):
+        """Initialize stats dictionary for a worker."""
+        # Use EQUITY_STATS but replace 'monday_day' and 'weekday_not_mon_day' with 'weekday_m1' and 'weekday_m2'
+        stats = {}
+        replaced_weekday = False
+        for stat in EQUITY_STATS:
+            if stat in ['monday_day', 'weekday_not_mon_day']:
+                if not replaced_weekday:
+                    stats['weekday_m1'] = 0
+                    stats['weekday_m2'] = 0
+                    replaced_weekday = True
+            else:
+                stats[stat] = 0
+        return stats
+
+    def _collect_month_stats(self, worker_stats, assignments, year, month):
+        """Collect stats from assignments for the given month."""
+        # Get holidays for this month
+        holidays = set(self.app.scheduler.get_holidays(year, month))
+        
+        # Process each assignment
+        for assignment in assignments:
+            worker_name = assignment['worker']
+            shift_date = date.fromisoformat(assignment['date'])
+            shift_type = assignment['shift']
+            
+            if worker_name not in worker_stats:
+                continue
+                
+            weekday = shift_date.weekday()
+            is_holiday = shift_date.day in holidays
+            is_weekday = weekday < 5
+            is_weekend_hol = weekday >= 5 or is_holiday
+            is_night = shift_type == 'N'
+            is_m1 = shift_type == 'M1'
+            is_m2 = shift_type == 'M2'
+            is_day = is_m1 or is_m2
+            
+            # Update stats based on EQUITY_STATS categories
+            if weekday == 5 and is_night:  # Saturday N
+                worker_stats[worker_name]['sat_n'] += 1
+            elif is_m2 and (weekday == 6 or is_holiday):  # Sunday or Holiday M2
+                worker_stats[worker_name]['sun_holiday_m2'] += 1
+            elif is_m1 and (weekday == 6 or is_holiday):  # Sunday or Holiday M1
+                worker_stats[worker_name]['sun_holiday_m1'] += 1
+            elif is_night and (weekday == 6 or (is_holiday and weekday < 5)):  # Sunday or Holiday N
+                worker_stats[worker_name]['sun_holiday_n'] += 1
+            elif weekday == 5 and is_m2 and not is_holiday:  # Saturday M2 (non-holiday)
+                worker_stats[worker_name]['sat_m2'] += 1
+            elif weekday == 5 and is_m1 and not is_holiday:  # Saturday M1 (non-holiday)
+                worker_stats[worker_name]['sat_m1'] += 1
+            elif is_weekday and is_night and not is_holiday:  # Weekday N
+                worker_stats[worker_name]['weekday_n'] += 1
+            elif weekday == 4 and is_night and not is_holiday:  # Friday N
+                worker_stats[worker_name]['fri_night'] += 1
+            elif is_weekday and weekday != 4 and is_night and not is_holiday:  # Weekday (not Friday) N
+                worker_stats[worker_name]['weekday_not_fri_n'] += 1
+            elif weekday == 0 and is_day and not is_holiday:  # Monday M1 or M2
+                if is_m1:
+                    worker_stats[worker_name]['weekday_m1'] += 1
+                elif is_m2:
+                    worker_stats[worker_name]['weekday_m2'] += 1
+            elif is_weekday and weekday != 0 and is_day and not is_holiday:  # Weekday (Tue-Fri) M1 or M2
+                if is_m1:
+                    worker_stats[worker_name]['weekday_m1'] += 1
+                elif is_m2:
+                    worker_stats[worker_name]['weekday_m2'] += 1
+
+    def _generate_stats_file(self, worker_stats):
+        """Generate CSV file with worker stats."""
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Save Worker Stats File"
+        )
+        
+        if not file_path:
+            return
+
+        try:
+            # Get the stat columns (same as EQUITY_STATS but with monday_day and weekday_not_mon_day replaced by weekday_m1 and weekday_m2)
+            stat_columns = [
+                'sun_holiday_m2',
+                'sat_n', 
+                'sat_m2',
+                'sun_holiday_n',
+                'sun_holiday_m1',
+                'sat_m1',
+                'weekday_n',
+                'fri_night',
+                'weekday_not_fri_n',
+                'weekday_m1',  # Replaces monday_day and weekday_not_mon_day
+                'weekday_m2'
+            ]
+            
+            with open(file_path, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                
+                # Write header
+                writer.writerow(['Worker'] + stat_columns)
+                
+                # Write data for each worker
+                for worker_name in sorted(worker_stats.keys()):
+                    row = [worker_name]
+                    for stat in stat_columns:
+                        row.append(worker_stats[worker_name][stat])
+                    writer.writerow(row)
+            
+            logger.info(f"Worker stats file saved to: {file_path}")
+            
+        except Exception as e:
+            logger.error(f"Error generating stats file: {e}")
+            messagebox.showerror("Error", f"Failed to create stats file: {str(e)}")
 
     def _setup_batch_progress(self):
         """Set up the progress bar for batch generation."""
@@ -445,12 +568,14 @@ class TestingTab(ttk.Frame):
         if failed == 0:
             self.app.status_var.set(f"Batch generation completed: {successful} schedules generated successfully")
             messagebox.showinfo("Batch Generation Complete", 
-                              f"Successfully generated {successful} schedules for the next 12 months.")
+                              f"Successfully generated {successful} schedules for the next 12 months.\n\n"
+                              "A worker stats file has been generated with equity statistics.")
         else:
             self.app.status_var.set(f"Batch generation completed: {successful} successful, {failed} failed")
             messagebox.showwarning("Batch Generation Complete", 
                                  f"Generated {successful} schedules successfully, but {failed} failed.\n\n"
-                                 "Check the logs for details on failed months.")
+                                 "Check the logs for details on failed months.\n\n"
+                                 "A worker stats file has been generated for successful months.")
 
     def generate_vacations_file(self):
         """Generate a sample CSV file with vacation dates for the next 12 months following specific rules."""
