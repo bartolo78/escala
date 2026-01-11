@@ -10,6 +10,7 @@ import json  # For potential saves
 import yaml
 import os
 import random
+import threading
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
@@ -327,8 +328,129 @@ class TestingTab(ttk.Frame):
         generate_vacations_btn.pack(pady=10)
         Tooltip(generate_vacations_btn, "Create a CSV file with sample vacation dates for the next 12 months")
 
+        # Button to generate batch schedules
+        generate_batch_btn = ttk.Button(self, text="Generate Batch Schedules (12 Months)",
+                                       command=self.generate_batch_schedules)
+        generate_batch_btn.pack(pady=10)
+        Tooltip(generate_batch_btn, "Generate schedules for the next 12 months in batch mode")
+
     def load_vacations(self):
         self.app.import_vacations()
+
+    def generate_batch_schedules(self):
+        """Generate schedules for the next 12 months in batch mode."""
+        if not self.app.scheduler.workers:
+            messagebox.showerror("Error", "No workers found. Please add workers first.")
+            return
+
+        # Check if any schedules already exist in the next 12 months
+        current_month = list(month_name).index(self.app.month_var.get())
+        current_year = self.app.year_var.get()
+        
+        existing_schedules = []
+        for i in range(12):
+            year = current_year + (current_month + i - 1) // 12
+            month = ((current_month + i - 1) % 12) + 1
+            if self.app.scheduler.has_schedule_for_month(year, month):
+                existing_schedules.append(f"{month_name[month]} {year}")
+        
+        if existing_schedules:
+            result = messagebox.askyesno(
+                "Schedules Already Exist",
+                f"The following months already have schedules:\n\n{', '.join(existing_schedules)}\n\n"
+                "Generating new schedules will overwrite the existing ones.\n\n"
+                "Do you want to continue?"
+            )
+            if not result:
+                return
+
+        # Show warning about long process
+        warning_result = messagebox.askyesno(
+            "Batch Schedule Generation",
+            "This will generate schedules for the next 12 months.\n\n"
+            "This process may take several minutes to complete.\n\n"
+            "Do you want to continue?"
+        )
+        
+        if not warning_result:
+            return
+
+        # Start batch generation in a separate thread
+        self.batch_thread = threading.Thread(
+            target=self._run_batch_generation,
+            args=(current_year, current_month)
+        )
+        self.batch_thread.daemon = True
+        self.batch_thread.start()
+
+    def _run_batch_generation(self, start_year, start_month):
+        """Run batch schedule generation in background thread."""
+        try:
+            # Update UI to show progress
+            self.app.root.after(0, lambda: self._setup_batch_progress())
+            
+            total_months = 12
+            successful = 0
+            failed = 0
+            
+            for i in range(total_months):
+                # Calculate current month/year
+                year = start_year + (start_month + i - 1) // 12
+                month = ((start_month + i - 1) % 12) + 1
+                
+                # Update progress on UI thread
+                month_name_str = month_name[month]
+                self.app.root.after(0, lambda m=month_name_str, y=year, c=i+1, t=total_months: 
+                                  self._update_batch_progress(m, y, c, t))
+                
+                # Generate schedule for this month
+                result = self.app.scheduler.generate(year, month)
+                
+                if result.success:
+                    successful += 1
+                    logger.info(f"Successfully generated schedule for {month_name_str} {year}")
+                else:
+                    failed += 1
+                    logger.warning(f"Failed to generate schedule for {month_name_str} {year}: {result.error_message}")
+                
+                # Small delay to keep UI responsive
+                import time
+                time.sleep(0.1)
+            
+            # Final update
+            self.app.root.after(0, lambda: self._finish_batch_generation(successful, failed))
+            
+        except Exception as e:
+            logger.error(f"Error in batch generation: {e}")
+            self.app.root.after(0, lambda: self._finish_batch_generation(0, 12))
+
+    def _setup_batch_progress(self):
+        """Set up the progress bar for batch generation."""
+        self.app.progress.config(mode="determinate", maximum=12)
+        self.app.progress.grid()
+        self.app.progress["value"] = 0
+        self.app.status_var.set("Starting batch schedule generation...")
+
+    def _update_batch_progress(self, month_name, year, current, total):
+        """Update progress display for current month."""
+        self.app.progress["value"] = current
+        self.app.status_var.set(f"Generating schedule for {month_name} {year} ({current}/{total})")
+
+    def _finish_batch_generation(self, successful, failed):
+        """Clean up after batch generation completes."""
+        self.app.progress.config(mode="indeterminate")  # Reset to indeterminate
+        self.app.progress.stop()
+        self.app.progress.grid_remove()
+        
+        if failed == 0:
+            self.app.status_var.set(f"Batch generation completed: {successful} schedules generated successfully")
+            messagebox.showinfo("Batch Generation Complete", 
+                              f"Successfully generated {successful} schedules for the next 12 months.")
+        else:
+            self.app.status_var.set(f"Batch generation completed: {successful} successful, {failed} failed")
+            messagebox.showwarning("Batch Generation Complete", 
+                                 f"Generated {successful} schedules successfully, but {failed} failed.\n\n"
+                                 "Check the logs for details on failed months.")
 
     def generate_vacations_file(self):
         """Generate a sample CSV file with vacation dates for the next 12 months following specific rules."""
