@@ -9,6 +9,7 @@ import csv
 import json  # For potential saves
 import yaml
 import os
+import random
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
@@ -302,6 +303,228 @@ class SettingsTab(ttk.Frame):
     def update_lexicographic(self):
         self.app.scheduler.lexicographic_mode = bool(self.app.lexicographic_var.get())
 
+class TestingTab(ttk.Frame):
+    def __init__(self, parent, app):
+        super().__init__(parent, padding="10")
+        self.app = app
+        self.build_ui()
+
+    def build_ui(self):
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        ttk.Label(self, text="Testing Tools", font=self.app.heading_font).pack(pady=10)
+
+        # Button to load vacations/unavailable days
+        load_vacations_btn = ttk.Button(self, text="Load Workers Vacations/Unavailable Days",
+                                        command=self.load_vacations)
+        load_vacations_btn.pack(pady=10)
+        Tooltip(load_vacations_btn, "Import a CSV file with worker names and their unavailable dates")
+
+        # Button to generate vacations file
+        generate_vacations_btn = ttk.Button(self, text="Generate Sample Vacations File",
+                                           command=self.generate_vacations_file)
+        generate_vacations_btn.pack(pady=10)
+        Tooltip(generate_vacations_btn, "Create a CSV file with sample vacation dates for the next 12 months")
+
+    def load_vacations(self):
+        self.app.import_vacations()
+
+    def generate_vacations_file(self):
+        """Generate a sample CSV file with vacation dates for the next 12 months following specific rules."""
+        workers = self.app.scheduler.workers
+        if not workers:
+            messagebox.showerror("Error", "No workers found. Please add workers first.")
+            return
+
+        total_workers = len(workers)
+        min_available = 8  # At least 8 workers available every day
+        max_unavailable = total_workers - min_available
+
+        # Get current month/year
+        current_month = list(month_name).index(self.app.month_var.get())
+        current_year = self.app.year_var.get()
+
+        # Ask for save location
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Save Sample Vacations File"
+        )
+        
+        if not file_path:
+            return
+
+        try:
+            # Generate vacation dates following the rules
+            vacations = self._generate_structured_vacations(current_year, current_month, workers, max_unavailable)
+            
+            # Sort vacations by date
+            vacations.sort(key=lambda x: x[1])
+            
+            # Write to CSV
+            with open(file_path, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                for worker_name, vacation_date in vacations:
+                    writer.writerow([worker_name, vacation_date])
+            
+            messagebox.showinfo("Success", f"Sample vacations file created with {len(vacations)} vacation days.\n\nFile saved to: {file_path}")
+            
+        except Exception as e:
+            logger.error(f"Error generating vacations file: {e}")
+            messagebox.showerror("Error", f"Failed to create vacations file: {str(e)}")
+
+    def _generate_structured_vacations(self, start_year, start_month, workers, max_unavailable_per_day):
+        """Generate vacation dates following the specified rules."""
+        vacations = []
+        
+        # Calculate date range (next 12 months)
+        start_date = date(start_year, start_month, 1)
+        end_date = start_date + timedelta(days=365)
+        
+        # Define summer period: June 15 - September 7
+        summer_start = date(start_year, 6, 15)
+        summer_end = date(start_year, 9, 7)
+        
+        # Adjust summer period if it falls outside our range
+        summer_start = max(summer_start, start_date)
+        summer_end = min(summer_end, end_date)
+        
+        # For each worker, assign vacations
+        for worker in workers:
+            worker_vacations = []
+            
+            # Rule 1: Each worker gets 10 consecutive days in summer period
+            summer_block = self._assign_summer_vacation_block(summer_start, summer_end)
+            worker_vacations.extend(summer_block)
+            
+            # Rule 2: Each worker gets another 10 consecutive days outside summer
+            remaining_block = self._assign_remaining_vacation_block(start_date, end_date, summer_start, summer_end, worker_vacations)
+            worker_vacations.extend(remaining_block)
+            
+            # Rule 3: Distribute remaining 2 vacation days
+            remaining_days = self._distribute_remaining_vacation_days(start_date, end_date, worker_vacations, 2)
+            worker_vacations.extend(remaining_days)
+            
+            # Add to overall vacations list
+            for vacation_date in worker_vacations:
+                vacations.append((worker.name, vacation_date.isoformat()))
+        
+        # Rule 4: Ensure availability constraints (max unavailable per day)
+        vacations = self._adjust_for_availability(vacations, start_date, end_date, max_unavailable_per_day, workers)
+        
+        return vacations
+
+    def _assign_summer_vacation_block(self, summer_start, summer_end):
+        """Assign a 10-day consecutive block within the summer period."""
+        # Calculate the actual available days in summer
+        summer_days = (summer_end - summer_start).days + 1
+        
+        if summer_days < 10:
+            # If summer period is shorter than 10 days, use all available days
+            return [summer_start + timedelta(days=i) for i in range(summer_days)]
+        
+        # Calculate possible start dates for 10-day blocks
+        days_available = summer_days - 10
+        start_offset = random.randint(0, days_available)
+        block_start = summer_start + timedelta(days=start_offset)
+        
+        return [block_start + timedelta(days=i) for i in range(10)]
+
+    def _assign_remaining_vacation_block(self, start_date, end_date, summer_start, summer_end, existing_vacations):
+        """Assign another 10-day consecutive block outside the summer period."""
+        existing_set = set(existing_vacations)
+        
+        # Find available 10-day blocks outside summer
+        available_blocks = []
+        
+        # Check before summer
+        if start_date < summer_start:
+            check_date = start_date
+            while check_date <= summer_start - timedelta(days=10):
+                block = [check_date + timedelta(days=i) for i in range(10)]
+                if not any(d in existing_set for d in block):
+                    available_blocks.append(block)
+                check_date += timedelta(days=1)
+        
+        # Check after summer
+        if summer_end < end_date:
+            check_date = summer_end + timedelta(days=1)
+            end_check = end_date - timedelta(days=9)
+            while check_date <= end_check:
+                block = [check_date + timedelta(days=i) for i in range(10)]
+                if not any(d in existing_set for d in block):
+                    available_blocks.append(block)
+                check_date += timedelta(days=1)
+        
+        if available_blocks:
+            # Choose a random available block
+            chosen_block = random.choice(available_blocks)
+            return chosen_block
+        else:
+            # Fallback: find any 10 consecutive days that don't conflict
+            # This might overlap with summer but we'll handle conflicts later
+            all_dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
+            available_dates = [d for d in all_dates if d not in existing_set]
+            
+            if len(available_dates) >= 10:
+                # Find 10 consecutive available dates
+                for i in range(len(available_dates) - 9):
+                    if (available_dates[i+9] - available_dates[i]).days == 9:
+                        return available_dates[i:i+10]
+            
+            # Last resort: just take the first 10 available dates
+            return available_dates[:10]
+
+    def _distribute_remaining_vacation_days(self, start_date, end_date, existing_vacations, num_days):
+        """Distribute remaining vacation days randomly, avoiding existing vacations."""
+        existing_set = set(existing_vacations)
+        
+        # Get all available dates
+        total_days = (end_date - start_date).days + 1
+        all_dates = [start_date + timedelta(days=i) for i in range(total_days)]
+        available_dates = [d for d in all_dates if d not in existing_set]
+        
+        if len(available_dates) < num_days:
+            # If not enough available dates, use what we have
+            return available_dates
+        
+        # Randomly select dates
+        selected = random.sample(available_dates, num_days)
+        return selected
+
+    def _adjust_for_availability(self, vacations, start_date, end_date, max_unavailable_per_day, workers):
+        """Adjust vacations to ensure no more than max_unavailable_per_day workers are unavailable on any day."""
+        # Group vacations by date
+        date_worker_map = {}
+        for worker_name, date_str in vacations:
+            vacation_date = date.fromisoformat(date_str)
+            if vacation_date not in date_worker_map:
+                date_worker_map[vacation_date] = []
+            date_worker_map[vacation_date].append(worker_name)
+        
+        # Check each day and remove excess vacations if needed
+        adjusted_vacations = []
+        total_days = (end_date - start_date).days + 1
+        
+        for day_offset in range(total_days):
+            current_date = start_date + timedelta(days=day_offset)
+            unavailable_workers = date_worker_map.get(current_date, [])
+            
+            if len(unavailable_workers) > max_unavailable_per_day:
+                # Too many unavailable - randomly remove some
+                to_remove = len(unavailable_workers) - max_unavailable_per_day
+                workers_to_keep = random.sample(unavailable_workers, len(unavailable_workers) - to_remove)
+                
+                # Update the map
+                date_worker_map[current_date] = workers_to_keep
+            
+            # Add remaining vacations for this day
+            for worker_name in date_worker_map.get(current_date, []):
+                adjusted_vacations.append((worker_name, current_date.isoformat()))
+        
+        return adjusted_vacations
+
 class ShiftSchedulerApp:
     def __init__(self, root):
         self.root = root
@@ -508,6 +731,7 @@ class ShiftSchedulerApp:
         self.notebook.add(WorkerTab(self.notebook, self), text="Workers")
         self.notebook.add(ReportsTab(self.notebook, self), text="Reports")
         self.notebook.add(SettingsTab(self.notebook, self), text="Settings")
+        self.notebook.add(TestingTab(self.notebook, self), text="Testing")
 
     def generate_schedule_wrapper(self):
         try:
