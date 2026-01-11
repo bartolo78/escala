@@ -334,6 +334,63 @@ class TestingTab(ttk.Frame):
         generate_batch_btn.pack(pady=10)
         Tooltip(generate_batch_btn, "Generate schedules for the next 12 months in batch mode")
 
+        # Button to calculate stats from saved schedule file
+        calculate_stats_btn = ttk.Button(self, text="Calculate Stats from Schedule File",
+                                        command=self.calculate_stats_from_file)
+        calculate_stats_btn.pack(pady=10)
+        Tooltip(calculate_stats_btn, "Calculate worker statistics from a saved assignments CSV file")
+
+    def calculate_stats_from_file(self):
+        """Calculate worker stats from a saved assignments CSV file."""
+        # Select the assignments file
+        assignments_file = filedialog.askopenfilename(
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+            title="Select Assignments CSV File"
+        )
+        
+        if not assignments_file:
+            return
+        
+        try:
+            # Read assignments from CSV
+            assignments = []
+            with open(assignments_file, 'r', newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    assignments.append({
+                        'worker': row['worker'],
+                        'date': row['date'],
+                        'shift': row['shift'],
+                        'duration': int(row.get('duration', 0)),
+                        'year': int(row['year']),
+                        'month': int(row['month'])
+                    })
+            
+            if not assignments:
+                messagebox.showwarning("No Data", "The selected file contains no assignment data.")
+                return
+            
+            # Calculate stats from assignments
+            worker_stats = self._calculate_stats_from_assignments(assignments)
+            
+            # Save stats file
+            stats_file = assignments_file.replace('.csv', '_stats.csv')
+            self._generate_stats_file_from_data(worker_stats, stats_file)
+            
+            messagebox.showinfo("Stats Calculated", 
+                              f"Statistics calculated from {len(assignments)} assignments.\n\n"
+                              f"Stats saved to: {stats_file}")
+            
+        except Exception as e:
+            logger.error(f"Error calculating stats from file: {e}")
+            messagebox.showerror("Error", f"Failed to calculate stats: {str(e)}")
+
+        # Button to calculate stats from saved schedule file
+        calculate_stats_btn = ttk.Button(self, text="Calculate Stats from Schedule File",
+                                        command=self.calculate_stats_from_file)
+        calculate_stats_btn.pack(pady=10)
+        Tooltip(calculate_stats_btn, "Calculate worker statistics from a saved assignments CSV file")
+
     def load_vacations(self):
         """Load workers vacations/unavailable days from CSV file."""
         try:
