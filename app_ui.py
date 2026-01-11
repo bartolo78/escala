@@ -316,17 +316,18 @@ class TestingTab(ttk.Frame):
 
         ttk.Label(self, text="Testing Tools", font=self.app.heading_font).pack(pady=10)
 
-        # Button to load vacations/unavailable days
-        load_vacations_btn = ttk.Button(self, text="Load Workers Vacations/Unavailable Days",
-                                        command=self.load_vacations)
-        load_vacations_btn.pack(pady=10)
-        Tooltip(load_vacations_btn, "Import a CSV file with worker names and their unavailable dates")
-
         # Button to generate vacations file
         generate_vacations_btn = ttk.Button(self, text="Generate Sample Vacations File",
                                            command=self.generate_vacations_file)
         generate_vacations_btn.pack(pady=10)
         Tooltip(generate_vacations_btn, "Create a CSV file with sample vacation dates for the next 12 months")
+
+
+        # Button to load vacations/unavailable days
+        load_vacations_btn = ttk.Button(self, text="Load Workers Vacations/Unavailable Days",
+                                        command=self.load_vacations)
+        load_vacations_btn.pack(pady=10)
+        Tooltip(load_vacations_btn, "Import a CSV file with worker names and their unavailable dates")
 
         # Button to generate batch schedules
         generate_batch_btn = ttk.Button(self, text="Generate Batch Schedules (12 Months)",
