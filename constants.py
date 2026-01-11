@@ -58,16 +58,16 @@ EQUITY_STATS = [
 # - Decreasing a weight: Allows more flexibility in assignments, potentially improving overall feasibility or other objectives, but may lead to unfair distributions.
 EQUITY_WEIGHTS = {
     # Weights ordered by EQUITY_STATS priority (highest priority = highest weight)
-    'sun_holiday_m2': 10000.0,   # Priority 1: Sunday or Holiday M2
-    'sat_n': 9500.0,             # Priority 2: Saturday N
-    'sat_m2': 9200.0,            # Priority 3: Saturday M2
-    'sun_holiday_n': 8300.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
-    'sun_holiday_m1': 7600.0,    # Priority 5: Sunday or Holiday M1
-    'sat_m1': 6800.0,            # Priority 6: Saturday M1
-    'weekday_n': 1500.0,         # Priority 7: Weekday N (all Mon-Fri nights combined)
-    'fri_night': 1000.0,         # Priority 8: Friday N
-    'weekday_not_fri_n': 700.0,  # Priority 9: Weekday (not Friday) N
-    'monday_day': 300.0,         # Priority 10: Monday M1 or M2
+    'sun_holiday_m2': 8000.0,   # Priority 1: Sunday or Holiday M2
+    'sat_n': 7600.0,             # Priority 2: Saturday N
+    'sat_m2': 7400.0,            # Priority 3: Saturday M2
+    'sun_holiday_n': 6600.0,     # Priority 4: Sunday or Holiday N (Sat holidays excluded)
+    'sun_holiday_m1': 6000.0,    # Priority 5: Sunday or Holiday M1
+    'sat_m1': 5400.0,            # Priority 6: Saturday M1
+    'weekday_n': 1200.0,         # Priority 7: Weekday N (all Mon-Fri nights combined)
+    'fri_night': 800.0,         # Priority 8: Friday N
+    'weekday_not_fri_n': 560.0,  # Priority 9: Weekday (not Friday) N
+    'monday_day': 250.0,         # Priority 10: Monday M1 or M2
     'weekday_not_mon_day': 50.0, # Priority 11: Weekday (not Monday) M1 or M2
 }
 
@@ -88,7 +88,7 @@ MONTHLY_SHIFT_BALANCE_WEIGHT = 5000.0
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
 OBJECTIVE_WEIGHT_LOAD = 1
 
-OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0001, 100, 500, 500]
+OBJECTIVE_FLEX_WEIGHTS = [8000, 8000, 4000, 800, 10, 1, 0.1, 0.01, 0.001, 0.0001, 100, 500, 500]
 # Flexible rule weights in order of importance (higher index = lower priority):
 # [0]: Saturday Preference - prioritize weekday (Mon-Fri) as first shift, else Saturday M1/M2 over Sunday/N.
 # [1]: Three-Day Weekend Worker Minimization - minimize unique workers during 3-day weekends.
@@ -103,8 +103,8 @@ OBJECTIVE_FLEX_WEIGHTS = [10000, 10000, 5000, 1000, 10, 1, 0.1, 0.01, 0.001, 0.0
 # Solver and constraint parameters
 SOLVER_TIMEOUT_SECONDS = 240.0  # Maximum time; early stopping may end sooner
 SOLVER_MIN_TIME_SECONDS = 20.0  # Minimum time before early stopping kicks in
-SOLVER_NO_IMPROVEMENT_SECONDS = 10.0  # Stop if no improvement for this duration
-SOLVER_IMPROVEMENT_THRESHOLD = 0.005  # Minimum relative improvement to reset timer (0.5%)
+SOLVER_NO_IMPROVEMENT_SECONDS = 15.0  # Stop if no improvement for this duration
+SOLVER_IMPROVEMENT_THRESHOLD = 0.004  # Minimum relative improvement to reset timer (0.5%)
 MIN_REST_HOURS = 24  # Minimum hours between shift ends/starts
 CONSECUTIVE_SHIFT_PENALTY_RANGE = (24, 48)  # Penalize shifts with rest in [min, max) hours
 MAX_STAT_VALUE = 10000  # Upper bound for stat variables in model
