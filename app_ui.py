@@ -643,12 +643,12 @@ class TestingTab(ttk.Frame):
                 worker_stats[worker_name]['sat_m2'] += 1
             elif weekday == 5 and is_m1 and not is_holiday:  # Saturday M1 (non-holiday)
                 worker_stats[worker_name]['sat_m1'] += 1
-            elif is_weekday and is_night and not is_holiday:  # Weekday N
+            elif is_weekday and is_night and not is_holiday:  # Weekday N (includes Friday and non-Friday)
                 worker_stats[worker_name]['weekday_n'] += 1
-            elif weekday == 4 and is_night and not is_holiday:  # Friday N
-                worker_stats[worker_name]['fri_night'] += 1
-            elif is_weekday and weekday != 4 and is_night and not is_holiday:  # Weekday (not Friday) N
-                worker_stats[worker_name]['weekday_not_fri_n'] += 1
+                if weekday == 4:  # Friday N
+                    worker_stats[worker_name]['fri_night'] += 1
+                else:  # Weekday (not Friday) N
+                    worker_stats[worker_name]['weekday_not_fri_n'] += 1
             elif is_weekday and is_day and not is_holiday:  # Weekday (Mon-Fri) M1 or M2
                 if is_m1:
                     worker_stats[worker_name]['weekday_m1'] += 1
