@@ -185,6 +185,90 @@ scheduler.clear_worker_equity_credits("Sofia")  # Clear all manual credits for w
 **Configuration Persistence:**
 Manual equity credit overrides are saved in `config.yaml` under the `equity_credits` key and persist across sessions. Automatic credits are computed fresh each time based on current unavailability data.
 
+## Worker Shift Preference Reduction
+
+**Use Case:** Some workers should receive fewer undesirable shifts than others over the year (e.g., due to personal circumstances, seniority agreements, or part-time arrangements). For example, one worker might be limited to ~3 `sun_holiday_m2` shifts per year while others get ~6.
+
+### Method 1: Percentage-Based Allocation (Recommended)
+
+The simplest approach uses **allocation percentages** to specify what fraction of a shift type a worker should receive relative to others. This is configured in the UI or via API.
+
+**How It Works:**
+- `100%` = normal/full share (default)
+- `50%` = half the shifts others get
+- `0%` = exempt from this shift type entirely
+
+The system automatically converts percentages to equity credits based on historical averages when generating schedules.
+
+**UI Configuration:**
+1. Go to the **Workers** tab
+2. Select a worker from the list
+3. In the **Shift Allocation %** panel on the right, adjust the percentages for each shift type
+4. Changes are saved automatically
+
+**API Configuration:**
+```python
+# Sofia gets 50% of Sunday/Holiday M2 shifts
+scheduler.set_shift_allocation_pct("Sofia", "sun_holiday_m2", 50)
+
+# Teresa is exempt from weekday nights
+scheduler.set_shift_allocation_pct("Teresa", "weekday_n", 0)
+
+# Carlos gets 75% of Saturday nights
+scheduler.set_shift_allocation_pct("Carlos", "sat_n", 75)
+```
+
+**Configuration in config.yaml:**
+```yaml
+shift_reduction_pct:
+  Sofia:
+    sun_holiday_m2: 50   # 50% = half the normal share
+    sat_n: 75            # 75% of Saturday nights
+  Teresa:
+    weekday_n: 0         # Exempt from weekday nights
+```
+
+### Method 2: Direct Equity Credits (Advanced)
+
+For more precise control, you can set exact credit values. Credits add to a worker's apparent past shift count, making them appear "ahead" in equity balancing.
+
+**Example:**
+If workers typically receive ~6 `sun_holiday_m2` shifts per year, and you want Sofia to receive only ~3:
+```python
+# Give Sofia 3 credits - she'll appear to have 3 more than actual
+scheduler.set_worker_equity_credit("Sofia", "sun_holiday_m2", 3)
+```
+
+**Configuration in config.yaml:**
+```yaml
+equity_credits:
+  Sofia:
+    sun_holiday_m2: 3    # Sofia gets ~3 fewer sun_holiday_m2 per year
+    sat_n: 2             # Sofia gets ~2 fewer Saturday nights per year
+```
+
+### Available Shift Types
+
+Both methods support these shift categories:
+- `sun_holiday_m2` - Sunday or Holiday M2 (highest equity priority)
+- `sat_n` - Saturday Night
+- `sat_m2` - Saturday M2
+- `sun_holiday_n` - Sunday or Holiday Night
+- `sun_holiday_m1` - Sunday or Holiday M1
+- `sat_m1` - Saturday M1
+- `weekday_n` - All weekday nights (Mon-Fri)
+- `fri_night` - Friday Night
+- `weekday_not_fri_n` - Weekday (not Friday) Night
+- `monday_day` - Monday M1 or M2
+- `weekday_not_mon_day` - Weekday (not Monday) M1 or M2
+
+### Important Notes
+
+- Both methods provide **soft** preference reduction, not hard caps
+- In rare cases with limited availability, a reduced-allocation worker may still receive assignments
+- Percentages and credits are **additive** - both can be used together
+- Clear allocations at year-end if starting fresh: `scheduler.clear_shift_allocation_pcts("Sofia")`
+
 
 **Data Schema Recommendations:**
 - Worker: { id, name, weekly_load: 12|18, can_night: bool, unavailable_dates: Set[YYYY-MM-DD] }

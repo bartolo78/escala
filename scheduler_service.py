@@ -141,6 +141,9 @@ class SchedulerService:
         # Used to compensate for extended absences (medical leave, parental leave, etc.)
         # Positive credits reduce a worker's apparent "debt" from missing shifts
         self._equity_credits: dict[str, dict[str, int]] = {}
+        # Shift reduction percentages per worker: {worker_name: {stat: percentage}}
+        # 100 = normal share, 50 = half the shifts, 0 = exempt from this shift type
+        self._shift_reduction_pct: dict[str, dict[str, int]] = {}
 
         # Cached stats from last schedule generation
         self._current_stats: Optional[dict] = None
@@ -180,6 +183,10 @@ class SchedulerService:
             # Load equity credits for workers with extended absences
             if config and 'equity_credits' in config:
                 self._equity_credits = config['equity_credits']
+
+            # Load shift reduction percentages
+            if config and 'shift_reduction_pct' in config:
+                self._shift_reduction_pct = config['shift_reduction_pct']
 
             self._init_availability_dicts()
             logger.info(f"Configuration loaded from {self._config_path}")
@@ -237,6 +244,10 @@ class SchedulerService:
         # Only save equity_credits if there are any
         if self._equity_credits:
             config['equity_credits'] = self._equity_credits
+
+        # Save shift reduction percentages if any
+        if self._shift_reduction_pct:
+            config['shift_reduction_pct'] = self._shift_reduction_pct
 
         try:
             with open(self._config_path, 'w', encoding='utf-8') as f:
@@ -587,6 +598,155 @@ class SchedulerService:
         """Clear all equity credits for all workers."""
         self._equity_credits.clear()
 
+    def set_shift_reduction(self, worker_name: str, stat: str, reduction: int) -> None:
+        """Reduce a worker's share of a specific shift type.
+        
+        This is a convenience wrapper around set_worker_equity_credit() that
+        makes the intent clearer. Use this when a worker should receive fewer
+        of certain undesirable shifts than average (e.g., due to seniority,
+        personal circumstances, or part-time arrangements).
+        
+        Example: If workers typically get ~6 sun_holiday_m2 shifts/year and
+        you want Sofia to get only ~3:
+            scheduler.set_shift_reduction("Sofia", "sun_holiday_m2", 3)
+        
+        Args:
+            worker_name: Name of the worker
+            stat: The equity stat to reduce (e.g., 'sat_n', 'sun_holiday_m2')
+            reduction: How many fewer shifts this worker should receive vs average
+        """
+        self.set_worker_equity_credit(worker_name, stat, reduction)
+
+    def get_shift_reductions(self, worker_name: str) -> dict[str, int]:
+        """Get all shift reductions configured for a worker.
+        
+        Args:
+            worker_name: Name of the worker
+            
+        Returns:
+            Dict mapping stat -> reduction amount (empty if none configured)
+        """
+        return self.get_worker_equity_credits(worker_name)
+
+    # =========================================================================
+    # Shift Reduction Percentages (per-worker allocation adjustments)
+    # =========================================================================
+
+    def set_shift_allocation_pct(self, worker_name: str, stat: str, percentage: int) -> None:
+        """Set a worker's allocation percentage for a specific shift type.
+        
+        Use this to configure how many shifts of a type a worker should receive
+        relative to others. This is percentage-based, making it intuitive:
+        - 100 = normal/full share (default)
+        - 50 = half the shifts others get
+        - 0 = exempt from this shift type entirely
+        
+        The system converts this to equity credits automatically based on 
+        historical averages when generating schedules.
+        
+        Example: Sofia should get half the Sunday/Holiday M2 shifts:
+            scheduler.set_shift_allocation_pct("Sofia", "sun_holiday_m2", 50)
+        
+        Args:
+            worker_name: Name of the worker
+            stat: The equity stat (e.g., 'sat_n', 'sun_holiday_m2')
+            percentage: Allocation percentage (0-100, where 100 is normal share)
+        """
+        if percentage < 0 or percentage > 100:
+            raise ValueError("Percentage must be between 0 and 100")
+        
+        if worker_name not in self._shift_reduction_pct:
+            self._shift_reduction_pct[worker_name] = {}
+        
+        if percentage == 100:
+            # Remove 100% entries to keep config clean (100% is the default)
+            self._shift_reduction_pct[worker_name].pop(stat, None)
+            if not self._shift_reduction_pct[worker_name]:
+                del self._shift_reduction_pct[worker_name]
+        else:
+            self._shift_reduction_pct[worker_name][stat] = percentage
+
+    def get_shift_allocation_pct(self, worker_name: str, stat: str) -> int:
+        """Get a worker's allocation percentage for a specific shift type.
+        
+        Args:
+            worker_name: Name of the worker
+            stat: The equity stat
+            
+        Returns:
+            Allocation percentage (100 if not configured = normal share)
+        """
+        return self._shift_reduction_pct.get(worker_name, {}).get(stat, 100)
+
+    def get_all_shift_allocation_pcts(self, worker_name: str) -> dict[str, int]:
+        """Get all configured allocation percentages for a worker.
+        
+        Args:
+            worker_name: Name of the worker
+            
+        Returns:
+            Dict mapping stat -> percentage (only non-100% values included)
+        """
+        return self._shift_reduction_pct.get(worker_name, {}).copy()
+
+    def clear_shift_allocation_pcts(self, worker_name: str) -> None:
+        """Clear all allocation percentage overrides for a worker.
+        
+        Args:
+            worker_name: Name of the worker
+        """
+        self._shift_reduction_pct.pop(worker_name, None)
+
+    def compute_credits_from_percentages(self, year: int, month: int) -> dict[str, dict[str, int]]:
+        """Compute equity credits based on allocation percentages and history.
+        
+        This converts percentage-based allocations to concrete credit values
+        based on how many shifts of each type have been assigned historically.
+        
+        For example, if workers average 6 sun_holiday_m2 shifts/year and Sofia
+        has 50% allocation, she should appear to have 3 extra credits so the
+        optimizer gives her fewer going forward.
+        
+        Args:
+            year: Current scheduling year
+            month: Current scheduling month
+            
+        Returns:
+            Dict mapping worker_name -> {stat: credit_value}
+        """
+        if not self._shift_reduction_pct:
+            return {}
+        
+        # Compute average stats across all workers from history
+        workers_dict = [w.to_dict() for w in self._workers]
+        past_stats = _compute_past_stats(self._history, workers_dict)
+        
+        # Calculate average for each stat across workers
+        stat_averages = {}
+        for stat in EQUITY_STATS:
+            total = sum(past_stats[w['name']][stat] for w in workers_dict)
+            stat_averages[stat] = total / len(workers_dict) if workers_dict else 0
+        
+        # Convert percentages to credits
+        credits = {}
+        for worker_name, pcts in self._shift_reduction_pct.items():
+            worker_credits = {}
+            for stat, pct in pcts.items():
+                if stat not in stat_averages:
+                    continue
+                avg = stat_averages[stat]
+                # Credit = how much "extra" this worker should appear to have
+                # If 50% allocation and avg is 6, they should appear to have 3 more
+                # so the optimizer assigns them ~3 instead of ~6
+                reduction_factor = (100 - pct) / 100.0
+                credit = round(avg * reduction_factor)
+                if credit > 0:
+                    worker_credits[stat] = credit
+            if worker_credits:
+                credits[worker_name] = worker_credits
+        
+        return credits
+
     # =========================================================================
     # Schedule Generation
     # =========================================================================
@@ -606,6 +766,19 @@ class SchedulerService:
 
         logger.info(f"Generating schedule for {month}/{year} with {len(self._workers)} workers")
 
+        # Merge manual equity credits with percentage-based credits
+        merged_credits = dict(self._equity_credits)  # Start with manual credits
+        pct_credits = self.compute_credits_from_percentages(year, month)
+        for worker_name, credits in pct_credits.items():
+            if worker_name not in merged_credits:
+                merged_credits[worker_name] = {}
+            for stat, credit in credits.items():
+                # Add percentage-based credits to manual credits
+                merged_credits[worker_name][stat] = merged_credits[worker_name].get(stat, 0) + credit
+        
+        if pct_credits:
+            logger.info(f"Applied percentage-based credits: {pct_credits}")
+
         try:
             schedule, weekly, assignments, stats, current_stats = generate_schedule(
                 year, month,
@@ -617,7 +790,7 @@ class SchedulerService:
                 equity_weights=self._equity_weights,
                 dow_equity_weight=self._dow_equity_weight,
                 lexicographic=self._lexicographic,
-                equity_credits=self._equity_credits,
+                equity_credits=merged_credits,
             )
 
             # Cache stats for later use

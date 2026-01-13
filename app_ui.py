@@ -70,6 +70,7 @@ class WorkerTab(ttk.Frame):
     def __init__(self, parent, app):
         super().__init__(parent, padding="10")
         self.app = app
+        self.allocation_spinboxes = {}  # Store spinbox references for updates
         self.build_ui()
 
     def build_ui(self):
@@ -77,6 +78,7 @@ class WorkerTab(ttk.Frame):
         self.columnconfigure(1, weight=1)  # Listbox column
         self.columnconfigure(2, weight=1)  # Unavailable shifts column
         self.columnconfigure(3, weight=1)  # Required shifts column
+        self.columnconfigure(4, weight=1)  # Shift allocation column
         self.rowconfigure(0, weight=0)     # Main controls row
         self.rowconfigure(1, weight=0)     # Buttons row
 
@@ -134,9 +136,77 @@ class WorkerTab(ttk.Frame):
         remove_req_btn.grid(row=1, column=1, padx=10, pady=5)
         Tooltip(remove_req_btn, "Remove the selected required shift")
 
+        # Shift Allocation Percentages frame
+        allocation_frame = ttk.LabelFrame(self, text="Shift Allocation %", padding="5")
+        allocation_frame.grid(row=0, column=4, rowspan=2, pady=10, padx=5, sticky="nsew")
+        self.allocation_frame = allocation_frame
+        
+        # Create a canvas with scrollbar for the allocation controls
+        alloc_canvas = tk.Canvas(allocation_frame, highlightthickness=0, width=200)
+        alloc_scrollbar = ttk.Scrollbar(allocation_frame, orient="vertical", command=alloc_canvas.yview)
+        alloc_scrollable = ttk.Frame(alloc_canvas)
+        
+        alloc_canvas.configure(yscrollcommand=alloc_scrollbar.set)
+        alloc_scrollbar.pack(side="right", fill="y")
+        alloc_canvas.pack(side="left", fill="both", expand=True)
+        alloc_canvas.create_window((0, 0), window=alloc_scrollable, anchor="nw")
+        
+        # Define the most commonly adjusted stats for the UI (premium shifts)
+        self.ui_allocation_stats = [
+            ('sun_holiday_m2', 'Sun/Holiday M2'),
+            ('sat_n', 'Saturday Night'),
+            ('sat_m2', 'Saturday M2'),
+            ('sun_holiday_n', 'Sun/Holiday Night'),
+            ('sun_holiday_m1', 'Sun/Holiday M1'),
+            ('sat_m1', 'Saturday M1'),
+            ('weekday_n', 'Weekday Night'),
+            ('fri_night', 'Friday Night'),
+        ]
+        
+        # Header
+        ttk.Label(alloc_scrollable, text="100% = normal share", font=('TkDefaultFont', 8, 'italic')).grid(
+            row=0, column=0, columnspan=2, pady=(0, 5), sticky="w"
+        )
+        
+        # Create spinboxes for each stat
+        for idx, (stat, label) in enumerate(self.ui_allocation_stats, start=1):
+            ttk.Label(alloc_scrollable, text=label, width=15, anchor="w").grid(row=idx, column=0, padx=2, pady=1, sticky="w")
+            var = tk.IntVar(value=100)
+            spinbox = ttk.Spinbox(
+                alloc_scrollable, from_=0, to=100, width=5, textvariable=var,
+                command=lambda s=stat, v=var: self._on_allocation_change(s, v)
+            )
+            spinbox.grid(row=idx, column=1, padx=2, pady=1)
+            spinbox.bind('<Return>', lambda e, s=stat, v=var: self._on_allocation_change(s, v))
+            spinbox.bind('<FocusOut>', lambda e, s=stat, v=var: self._on_allocation_change(s, v))
+            self.allocation_spinboxes[stat] = var
+            Tooltip(spinbox, f"Percentage of {label} shifts (0-100, 100=normal share)")
+        
+        # Update scroll region when contents change
+        alloc_scrollable.bind("<Configure>", lambda e: alloc_canvas.configure(scrollregion=alloc_canvas.bbox("all")))
+        
         self.columnconfigure(1, weight=1)
         self.columnconfigure(3, weight=1)
+        self.columnconfigure(4, weight=1)
         self.rowconfigure(1, weight=0)
+
+    def _on_allocation_change(self, stat: str, var: tk.IntVar):
+        """Handle allocation percentage change for a stat."""
+        selection = self.app.worker_listbox.curselection()
+        if not selection:
+            return
+        worker_name = self.app.worker_listbox.get(selection[0])
+        try:
+            pct = var.get()
+            self.app.scheduler.set_shift_allocation_pct(worker_name, stat, pct)
+        except (ValueError, tk.TclError):
+            pass  # Ignore invalid values
+
+    def update_allocation_display(self, worker_name: str):
+        """Update the allocation spinboxes for the selected worker."""
+        for stat, var in self.allocation_spinboxes.items():
+            pct = self.app.scheduler.get_shift_allocation_pct(worker_name, stat)
+            var.set(pct)
 
 
 class ScheduleTab(ttk.Frame):
@@ -1316,6 +1386,11 @@ class ShiftSchedulerApp:
         self.required_list.delete(0, tk.END)
         for item in self.scheduler.get_required(worker):
             self.required_list.insert(tk.END, item)
+        
+        # Update shift allocation percentages display
+        worker_tab = self.notebook.nametowidget(self.notebook.tabs()[0])
+        if hasattr(worker_tab, 'update_allocation_display'):
+            worker_tab.update_allocation_display(worker)
 
     def generate_report(self):
         self.reports_tree.delete(*self.reports_tree.get_children())
