@@ -256,6 +256,12 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
         if is_weekday(s) and not is_monday(s) and is_day_shift(s) and not is_holiday(s)
     ]
     
+    # Priority 12: Weekday M2 (Mon-Fri M2 shifts, non-holiday) - for allocation control
+    weekday_m2_indices = [
+        s for s in range(num_shifts)
+        if is_weekday(s) and is_m2(s) and not is_holiday(s)
+    ]
+    
     # Day-of-week indices for DOW equity (unchanged)
     dow_indices = {d: [s for s in range(num_shifts) if shifts[s]["day"].weekday() == d] for d in range(7)}
 
@@ -271,5 +277,6 @@ def define_stat_indices(shifts: list[dict], num_shifts: int, holiday_set: set[da
         "weekday_not_fri_n": weekday_not_fri_n_indices,
         "monday_day": monday_day_indices,
         "weekday_not_mon_day": weekday_not_mon_day_indices,
+        "weekday_m2": weekday_m2_indices,
         "dow": dow_indices,
     }

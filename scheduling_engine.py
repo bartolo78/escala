@@ -222,6 +222,7 @@ def _compute_past_stats(history, workers):
       9) Weekday (not Friday) N
       10) Monday M1 or M2
       11) Weekday (not Monday) M1 or M2
+      12) Weekday M2 (Mon-Fri, non-holiday) - for allocation control
     """
     past_stats = {w['name']: {
         'sat_n': 0,
@@ -235,6 +236,7 @@ def _compute_past_stats(history, workers):
         'weekday_not_fri_n': 0,
         'monday_day': 0,
         'weekday_not_mon_day': 0,
+        'weekday_m2': 0,
         'dow': [0] * 7
     } for w in workers}
     hv = HistoryView(history)
@@ -317,6 +319,11 @@ def _compute_past_stats(history, workers):
         # Priority 11: Weekday (not Monday) M1 or M2 (Tue-Fri day shifts, non-holiday)
         elif is_weekday and not is_monday and is_day_shift and not is_holiday:
             past_stats[worker_name]['weekday_not_mon_day'] += 1
+        
+        # Priority 12: Weekday M2 (Mon-Fri M2, non-holiday) - tracked separately for allocation control
+        # Note: This is tracked independently, not else-if, since it overlaps with monday_day/weekday_not_mon_day
+        if is_weekday and is_m2 and not is_holiday:
+            past_stats[worker_name]['weekday_m2'] += 1
     
     return past_stats
 

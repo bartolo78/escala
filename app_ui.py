@@ -161,6 +161,7 @@ class WorkerTab(ttk.Frame):
             ('sat_m1', 'Saturday M1'),
             ('weekday_n', 'Weekday Night'),
             ('fri_night', 'Friday Night'),
+            ('weekday_m2', 'Weekday M2'),
         ]
         
         # Header

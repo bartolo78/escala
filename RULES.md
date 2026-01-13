@@ -129,9 +129,10 @@ These rules should be satisfied as much as possible, in the order listed, but ma
       - Holiday on a weekday (Mon–Fri): counts in the "Sunday or Holiday" category for equity purposes.
    - *Clarification:* Equity metrics are computed over the entire year-to-date, incorporating historical assignments from previous months.
 
-9. **M2 Priority:**
-   - Prioritize M2 shifts over M1 shifts for workers with a standard weekly load of 18 hours to minimize overtime over the long term (one year of scheduling).
-   - *Clarification:* Prefer assigning M2 over M1 to workers with an 18-hour weekly load when both are feasible. This does not prohibit assigning M2 to 12-hour workers, especially when needed to satisfy critical rules.
+9. **Weekday M2 Allocation:**
+   - Weekday M2 shifts (Monday-Friday, excluding holidays) are tracked as a separate equity stat (`weekday_m2`).
+   - This allows per-worker allocation control via the percentage-based system. Workers with 18-hour weekly loads who should receive more M2 shifts can have their `weekday_m2` allocation set higher than others.
+   - *Example:* Set 18-hour workers to 100% allocation and 12-hour workers to 50% allocation for `weekday_m2`.
 
 10. **Monthly Shift Balance:**
    - Prevent extreme imbalances in total shift counts within a single scheduled month, even when long-term category equity would otherwise cause it.
@@ -261,6 +262,7 @@ Both methods support these shift categories:
 - `weekday_not_fri_n` - Weekday (not Friday) Night
 - `monday_day` - Monday M1 or M2
 - `weekday_not_mon_day` - Weekday (not Monday) M1 or M2
+- `weekday_m2` - Weekday M2 (Mon-Fri, non-holiday) - useful for controlling M2 distribution among workers
 
 ### Important Notes
 

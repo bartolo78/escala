@@ -47,6 +47,7 @@ EQUITY_STATS = [
     'weekday_not_fri_n',        # Priority 9: Weekday (not Friday) N
     'monday_day',               # Priority 10: Monday M1 or M2
     'weekday_not_mon_day',      # Priority 11: Weekday (not Monday) M1 or M2
+    'weekday_m2',               # Priority 12: Weekday M2 (Mon-Fri, non-holiday) - for allocation control
 ]
 
 # Weights for equity objectives in the optimization model.
@@ -69,6 +70,7 @@ EQUITY_WEIGHTS = {
     'weekday_not_fri_n': 560.0,  # Priority 9: Weekday (not Friday) N
     'monday_day': 250.0,         # Priority 10: Monday M1 or M2
     'weekday_not_mon_day': 50.0, # Priority 11: Weekday (not Monday) M1 or M2
+    'weekday_m2': 40.0,          # Priority 12: Weekday M2 (low weight, mainly for allocation control)
 }
 
 # Weight for day-of-week equity (balances shifts per specific weekday across workers).
@@ -88,13 +90,13 @@ MONTHLY_SHIFT_BALANCE_WEIGHT = 5000.0
 # Higher value prioritizes meeting exact weekly loads; lower allows more variance if needed for other constraints.
 OBJECTIVE_WEIGHT_LOAD = 1
 
-OBJECTIVE_FLEX_WEIGHTS = [8000, 8000, 4000, 800, 10, 1, 0.1, 0.01, 0.001, 0.0001, 100, 500, 500]
+OBJECTIVE_FLEX_WEIGHTS = [8000, 8000, 4000, 800, 0, 1, 0.1, 0.01, 0.001, 0.0001, 100, 500, 500]
 # Flexible rule weights in order of importance (higher index = lower priority):
 # [0]: Saturday Preference - prioritize weekday (Mon-Fri) as first shift, else Saturday M1/M2 over Sunday/N.
 # [1]: Three-Day Weekend Worker Minimization - minimize unique workers during 3-day weekends.
 # [2]: Weekend Shift Limits - penalizes workers having both Saturday and Sunday shifts in non-3-day weeks.
 # [3]: Consecutive Weekend Avoidance - penalizes consecutive weekends worked.
-# [4]: M2 Priority - penalizes M1 shifts for 18-hour workers (prefers longer shifts).
+# [4]: (Disabled) Was M2 Priority - now handled via weekday_m2 equity stat with percentage allocation.
 # [5-9]: Unused in current code (placeholders for future objectives).
 # [10]: Consecutive Shifts 48h - penalizes shifts with rest periods between 24-48 hours.
 # [11]: Night Shift Min Interval - penalizes night shifts within 48h of each other.
