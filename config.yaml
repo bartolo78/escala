@@ -1,114 +1,90 @@
-# Shift Scheduler Configuration
-# Edit this file to customize workers and settings
-
-# Application settings
 settings:
   solver_timeout_seconds: 30
   past_report_weeks: 52
-
-# Worker definitions
-# Each worker must have: name, can_night, weekly_load
-# Optional: id, color
 workers:
-  - name: "Tome"
-    id: "ID001"
-    color: "#ff0000"
-    can_night: true
-    weekly_load: 12
-
-  - name: "Rosa"
-    id: "ID002"
-    color: "#ff5400"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Lucas"
-    id: "ID003"
-    color: "#ffaa00"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Bartolo"
-    id: "ID004"
-    color: "#ffff00"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Gilberto"
-    id: "ID005"
-    color: "#aaff00"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Pego"
-    id: "ID006"
-    color: "#ff0055"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Celeste"
-    id: "ID007"
-    color: "#00ff55"
-    can_night: true
-    weekly_load: 12
-
-  - name: "Sofia"
-    id: "ID008"
-    color: "#00ffa9"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Lucilia"
-    id: "ID009"
-    color: "#00ffff"
-    can_night: true
-    weekly_load: 12
-
-  - name: "Teresa"
-    id: "ID010"
-    color: "#00a9ff"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Fernando"
-    id: "ID011"
-    color: "#0054ff"
-    can_night: false
-    weekly_load: 12
-
-  - name: "Rosario"
-    id: "ID012"
-    color: "#0000ff"
-    can_night: true
-    weekly_load: 12
-
-  - name: "Nuno"
-    id: "ID013"
-    color: "#5400ff"
-    can_night: true
-    weekly_load: 18
-
-  - name: "Filomena"
-    id: "ID014"
-    color: "#aa00ff"
-    can_night: false
-    weekly_load: 12
-
-  - name: "Angela"
-    id: "ID015"
-    color: "#ff00ff"
-    can_night: true
-    weekly_load: 18
-
-# Fairness thresholds for imbalance alerts (per RULES.md priority order)
+- name: Tome
+  id: ID001
+  color: '#ff0000'
+  can_night: true
+  weekly_load: 12
+- name: Rosa
+  id: ID002
+  color: '#ff5400'
+  can_night: true
+  weekly_load: 18
+- name: Lucas
+  id: ID003
+  color: '#ffaa00'
+  can_night: true
+  weekly_load: 18
+- name: Bartolo
+  id: ID004
+  color: '#ffff00'
+  can_night: true
+  weekly_load: 18
+- name: Gilberto
+  id: ID005
+  color: '#aaff00'
+  can_night: true
+  weekly_load: 18
+- name: Pego
+  id: ID006
+  color: '#ff0055'
+  can_night: true
+  weekly_load: 18
+- name: Celeste
+  id: ID007
+  color: '#00ff55'
+  can_night: true
+  weekly_load: 12
+- name: Sofia
+  id: ID008
+  color: '#00ffa9'
+  can_night: true
+  weekly_load: 18
+- name: Lucilia
+  id: ID009
+  color: '#00ffff'
+  can_night: true
+  weekly_load: 12
+- name: Teresa
+  id: ID010
+  color: '#00a9ff'
+  can_night: true
+  weekly_load: 18
+- name: Fernando
+  id: ID011
+  color: '#0054ff'
+  can_night: false
+  weekly_load: 12
+- name: Rosario
+  id: ID012
+  color: '#0000ff'
+  can_night: true
+  weekly_load: 12
+- name: Nuno
+  id: ID013
+  color: '#5400ff'
+  can_night: true
+  weekly_load: 18
+- name: Filomena
+  id: ID014
+  color: '#aa00ff'
+  can_night: false
+  weekly_load: 12
+- name: Angela
+  id: ID015
+  color: '#ff00ff'
+  can_night: true
+  weekly_load: 18
 thresholds:
-  sat_n: 2                    # Priority 1: Saturday Night
-  sun_holiday_m2: 2           # Priority 2: Sunday or Holiday M2
-  sun_holiday_m1: 2           # Priority 3: Sunday or Holiday M1
-  sun_holiday_n: 2            # Priority 4: Sunday or Holiday N
-  sat_m2: 2                   # Priority 5: Saturday M2
-  sat_m1: 2                   # Priority 6: Saturday M1
-  fri_night: 1                # Priority 7: Friday N
-  weekday_not_fri_n: 2        # Priority 8: Weekday (not Friday) N
-  monday_day: 2               # Priority 9: Monday M1 or M2
-  weekday_not_mon_day: 3      # Priority 10: Weekday (not Monday) M1 or M2
+  sun_holiday_m2: 2
+  sat_n: 2
+  sat_m2: 2
+  sun_holiday_n: 2
+  sun_holiday_m1: 2
+  sat_m1: 2
+  fri_night: 1
+  weekday_not_fri_n: 2
+  monday_day: 2
+  weekday_not_mon_day: 3
