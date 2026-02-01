@@ -200,6 +200,8 @@ class WorkerTab(ttk.Frame):
         try:
             pct = var.get()
             self.app.scheduler.set_shift_allocation_pct(worker_name, stat, pct)
+            # Save config to persist the allocation change
+            self.app.scheduler.save_config()
         except (ValueError, tk.TclError):
             pass  # Ignore invalid values
 
@@ -1389,7 +1391,7 @@ class ShiftSchedulerApp:
             self.required_list.insert(tk.END, item)
         
         # Update shift allocation percentages display
-        worker_tab = self.notebook.nametowidget(self.notebook.tabs()[0])
+        worker_tab = self.notebook.nametowidget(self.notebook.tabs()[1])
         if hasattr(worker_tab, 'update_allocation_display'):
             worker_tab.update_allocation_display(worker)
 
